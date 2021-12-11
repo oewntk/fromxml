@@ -77,7 +77,7 @@
                     <systemProperties>
                         <property>
                             <name>SOURCE</name>
-                            <value>${env.EWNHOME}/src/xml</value>
+                            <value>${env.OEWNXML}</value>
                         </property>
                         <property>
                             <name>SOURCE2</name>
