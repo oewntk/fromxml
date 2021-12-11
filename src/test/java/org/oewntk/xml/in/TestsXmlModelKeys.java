@@ -46,15 +46,27 @@ public class TestsXmlModelKeys
 	}
 
 	@Test
-	public void testEarth()
+	public void testEarthMulti()
 	{
-		LibTestModelKeys.testEarth(model, ps);
+		LibTestModelKeys.testEarthMulti(model, ps);
 	}
 
 	@Test
-	public void testBaroque()
+	public void testEarthMono()
 	{
-		LibTestModelKeys.testBaroque(model, ps);
+		LibTestModelKeys.testEarthMono(model, ps);
+	}
+
+	@Test
+	public void testBaroqueMulti()
+	{
+		LibTestModelKeys.testBaroqueMulti(model, ps);
+	}
+
+	@Test
+	public void testBaroqueMono()
+	{
+		LibTestModelKeys.testBaroqueMono(model, ps);
 	}
 
 	@Test
@@ -88,8 +100,20 @@ public class TestsXmlModelKeys
 	}
 
 	@Test
-	public void testCritical()
+	public void testCriticalDeep()
 	{
-		LibTestModelKeys.testCritical(model, ps);
+		LibTestModelKeys.testCriticalDeep(model, ps);
+	}
+
+	@Test
+	public void testCriticalPos()
+	{
+		LibTestModelKeys.testCriticalPos(model, ps);
+	}
+
+	@Test
+	public void testCriticalPWN()
+	{
+		LibTestModelKeys.testCriticalPWN(model, ps);
 	}
 }
