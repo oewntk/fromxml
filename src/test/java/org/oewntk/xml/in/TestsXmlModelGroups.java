@@ -8,7 +8,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.oewntk.model.LibTestModelGroups;
 import org.oewntk.model.Model;
-import org.oewntk.xml.in.Factory;
 import org.xml.sax.SAXException;
 
 import java.io.File;
@@ -36,12 +35,12 @@ public class TestsXmlModelGroups
 	private static Model model;
 
 	@BeforeClass
-	public static void init() throws IOException, XPathExpressionException, ParserConfigurationException, SAXException
+	public static void init()
 	{
 		File inDir = new File(source);
 		File inDir2 = new File(source2);
 
-		model = Factory.makeModel(inDir, inDir2);
+		model = new Factory(inDir, inDir2).get();
 		System.err.println(model.info());
 		System.err.println(model.counts());
 	}

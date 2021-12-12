@@ -8,7 +8,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.oewntk.model.LibTestModel;
 import org.oewntk.model.Model;
-import org.oewntk.xml.in.Factory;
 import org.xml.sax.SAXException;
 
 import java.io.File;
@@ -46,7 +45,7 @@ public class TestsXmlModel
 		File inDir = new File(source);
 		File inDir2 = new File(source2);
 
-		model = Factory.makeModel(inDir, inDir2);
+		model = new Factory(inDir, inDir2).get();
 		System.err.println(model.info());
 		System.err.println(model.counts());
 	}

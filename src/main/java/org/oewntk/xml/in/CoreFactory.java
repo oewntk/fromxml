@@ -33,56 +33,27 @@ public class CoreFactory implements Supplier<CoreModel>
 	{
 		try
 		{
-			CoreModel model = parser.parseCoreModel();
-			return model.setSource(parser.getFile());
+			return parser //
+					.parseCoreModel() //
+					.generateInverseRelations() //
+					.setSource(parser.getFile());
 		}
 		catch (XPathExpressionException e)
 		{
-			System.err.println(e.getMessage());
+			e.printStackTrace();
 			return null;
 		}
 	}
 
 	static public CoreModel makeCoreModel(String[] args) throws IOException, ParserConfigurationException, SAXException
 	{
-		// Timing
-		final long startTime = System.currentTimeMillis();
-
-		// Heap
-		boolean traceHeap = true;
-		String traceHeapEnv = System.getenv("TRACEHEAP");
-		if (traceHeapEnv != null)
-		{
-			traceHeap = Boolean.parseBoolean(traceHeapEnv);
-		}
-		if (traceHeap)
-		{
-			System.err.println(Memory.heapInfo("before maps,", Memory.Unit.M));
-		}
-
-		// Args
 		File inDir = new File(args[0]);
-
-		// Make
-		CoreModel model = new CoreFactory(inDir).get();
-
-		// Heap
-		if (traceHeap)
-		{
-			System.gc();
-			System.err.println(Memory.heapInfo("after maps,", Memory.Unit.M));
-		}
-
-		// Timing
-		final long endTime = System.currentTimeMillis();
-		System.err.println("[Time] " + (endTime - startTime) / 1000 + "s");
-
-		return model;
+		return new CoreFactory(inDir).get();
 	}
 
 	static public void main(String[] args) throws IOException, ParserConfigurationException, SAXException, XPathExpressionException
 	{
 		CoreModel model = makeCoreModel(args);
-		System.err.printf("model %s\n%s\n%s%n", model.getSource(), model.info(), model.counts());
+		System.out.printf("model %s\n%s\n%s%n", model.getSource(), model.info(), model.counts());
 	}
 }

@@ -17,84 +17,53 @@ import javax.xml.xpath.XPathExpressionException;
 
 public class Factory implements Supplier<Model>
 {
-	static public Model makeModel(File file, File inDir2) throws IOException, ParserConfigurationException, SAXException
+	private final File file;
+
+	private final File inDir2;
+
+	public Factory(final File file, final File inDir2)
 	{
-		Parser parser = new Parser(file);
-		CoreModel coreModel = new CoreFactory(parser).get();
-		if (coreModel == null)
-		{
-			return null;
-		}
-
-		try
-		{
-			Map<String, VerbFrame> verbFramesById = parser.parseVerbFrames();
-			System.err.println("[Model] verb frames");
-
-			Map<Integer, VerbTemplate> verbTemplatesById = new VerbTemplateParser(new File(inDir2, "verbTemplates.xml")).parse();
-			Map<String, int[]> senseToVerbTemplates = new SenseToVerbTemplatesParser(new File(inDir2, "senseToVerbTemplates.xml")).parse();
-			System.err.println("[Model] verb templates");
-
-			// tag counts
-			Map<String, TagCount> senseToTagCounts = new SenseToTagCountsParser(new File(inDir2, "senseToTagCounts.xml")).parse();
-			System.err.println("[Model] tag counts");
-
-			return new Model(coreModel, verbFramesById, verbTemplatesById, senseToVerbTemplates, senseToTagCounts).setSources(inDir2, inDir2);
-		}
-		catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException e)
-		{
-			System.err.println(e.getMessage());
-			return null;
-		}
-	}
-
-	static public Model makeModel(String[] args) throws IOException, ParserConfigurationException, SAXException
-	{
-		// Timing
-		final long startTime = System.currentTimeMillis();
-
-		// Heap
-		boolean traceHeap = true;
-		String traceHeapEnv = System.getenv("TRACEHEAP");
-		if (traceHeapEnv != null)
-		{
-			traceHeap = Boolean.parseBoolean(traceHeapEnv);
-		}
-		if (traceHeap)
-		{
-			System.err.println(Memory.heapInfo("before maps,", Memory.Unit.M));
-		}
-
-		// Args
-		File inDir = new File(args[0]);
-		File inDir2 = new File(args[1]);
-
-		// Make
-		Model model = makeModel(inDir, inDir2);
-
-		// Heap
-		if (traceHeap)
-		{
-			System.gc();
-			System.err.println(Memory.heapInfo("after maps,", Memory.Unit.M));
-		}
-
-		// Timing
-		final long endTime = System.currentTimeMillis();
-		System.err.println("[Time] " + (endTime - startTime) / 1000 + "s");
-
-		return model;
-	}
-
-	static public void main(String[] args) throws IOException, ParserConfigurationException, SAXException, XPathExpressionException
-	{
-		Model model = makeModel(args);
-		System.err.printf("model %s\n%s\n%s%n", model.getSource(), model.info(), model.counts());
+		this.file = file;
+		this.inDir2 = inDir2;
 	}
 
 	@Override
 	public Model get()
 	{
-		return null;
+		try
+		{
+			Parser parser = new Parser(file);
+			CoreModel coreModel = new CoreFactory(parser).get();
+			if (coreModel == null)
+			{
+				return null;
+			}
+			Map<String, VerbFrame> verbFramesById = parser.parseVerbFrames();
+			Map<Integer, VerbTemplate> verbTemplatesById = new VerbTemplateParser(new File(inDir2, "verbTemplates.xml")).parse();
+			Map<String, int[]> senseToVerbTemplates = new SenseToVerbTemplatesParser(new File(inDir2, "senseToVerbTemplates.xml")).parse();
+
+			// tag counts
+			Map<String, TagCount> senseToTagCounts = new SenseToTagCountsParser(new File(inDir2, "senseToTagCounts.xml")).parse();
+
+			return new Model(coreModel, verbFramesById, verbTemplatesById, senseToVerbTemplates, senseToTagCounts).setSources(inDir2, inDir2);
+		}
+		catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	static public Model makeModel(String[] args)
+	{
+		File inDir = new File(args[0]);
+		File inDir2 = new File(args[1]);
+		return new Factory(inDir, inDir2).get();
+	}
+
+	static public void main(String[] args) throws IOException, ParserConfigurationException, SAXException, XPathExpressionException
+	{
+		Model model = makeModel(args);
+		System.out.printf("model %s\n%s\n%s%n", model.getSource(), model.info(), model.counts());
 	}
 }
