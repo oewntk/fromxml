@@ -12,7 +12,6 @@ import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.*;
 import java.util.stream.Stream;
@@ -48,6 +47,11 @@ public class Parser
 	private final Document doc;
 
 	/**
+	 * File
+	 */
+	private final File file;
+
+	/**
 	 * Result lexes buy CS lemma
 	 */
 	private final Map<String, List<Lex>> lexesByLemma = new HashMap<>();
@@ -72,7 +76,18 @@ public class Parser
 	 */
 	public Parser(final File file) throws IOException, SAXException, ParserConfigurationException
 	{
+		this.file = file;
 		this.doc = XmlUtils.getDocument(file, false);
+	}
+
+	/**
+	 * Document file
+	 *
+	 * @return document file
+	 */
+	public File getFile()
+	{
+		return this.file;
 	}
 
 	public CoreModel parseCoreModel() throws XPathExpressionException
@@ -135,6 +150,7 @@ public class Parser
 	 */
 	private void makeTagCounts()
 	{
+		//TODO
 	}
 
 	/**
