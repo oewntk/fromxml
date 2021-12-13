@@ -9,15 +9,10 @@ import org.junit.Test;
 import org.oewntk.model.LibTestModelQueries;
 import org.oewntk.model.Model;
 import org.oewntk.xml.in.Factory;
-import org.xml.sax.SAXException;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
 
 public class TestsXmlModelQueries
 {
