@@ -102,17 +102,17 @@ public class Parser
 	 */
 	private void makeLexes() throws XPathExpressionException
 	{
-		XmlUtils.streamOf(XmlUtils.getXPathNodeList(LEX_XPATH, doc)) //
-				.forEach(lexElement -> {
+		Stream<Element> stream = XmlUtils.streamOf(XmlUtils.getXPathNodeList(LEX_XPATH, doc));
+		assert stream != null;
+		stream.forEach(lexElement -> {
 
-					//String id = lexElement.getAttribute(XmlNames.ID_ATTR);
-					Lex lex = getLex(lexElement);
-					Sense[] senses = getSenses(lexElement, lex);
-					lex.setSenses(senses);
+			Lex lex = getLex(lexElement);
+			Sense[] senses = getSenses(lexElement, lex);
+			lex.setSenses(senses);
 
-					lexesByLemma.computeIfAbsent(lex.getLemma(), l -> new ArrayList<>()).add(lex);
-					Arrays.stream(senses).forEach(s -> sensesById.put(s.getSensekey(), s));
-				});
+			lexesByLemma.computeIfAbsent(lex.getLemma(), l -> new ArrayList<>()).add(lex);
+			Arrays.stream(senses).forEach(s -> sensesById.put(s.getSensekey(), s));
+		});
 	}
 
 	/**
@@ -120,13 +120,14 @@ public class Parser
 	 */
 	private void makeSynsets() throws XPathExpressionException
 	{
-		XmlUtils.streamOf(XmlUtils.getXPathNodeList(SYNSET_XPATH, doc)) //
-				.forEach(synsetElement -> {
+		Stream<Element> stream = XmlUtils.streamOf(XmlUtils.getXPathNodeList(SYNSET_XPATH, doc));
+		assert stream != null;
+		stream.forEach(synsetElement -> {
 
-					String id = synsetElement.getAttribute(XmlNames.ID_ATTR);
-					Synset synset = getSynset(synsetElement);
-					synsetsById.put(id, synset);
-				});
+			String id = synsetElement.getAttribute(XmlNames.ID_ATTR);
+			Synset synset = getSynset(synsetElement);
+			synsetsById.put(id, synset);
+		});
 	}
 
 	/**
@@ -134,15 +135,16 @@ public class Parser
 	 */
 	public Map<String, VerbFrame> parseVerbFrames() throws XPathExpressionException
 	{
-		return XmlUtils.streamOf(XmlUtils.getXPathNodeList(VERBFRAMES_XPATH, doc)) //
-				.collect(toMap( //
-						verbFrameElement -> verbFrameElement.getAttribute(XmlNames.ID_ATTR), //
-						verbFrameElement -> {
+		Stream<Element> stream = XmlUtils.streamOf(XmlUtils.getXPathNodeList(VERBFRAMES_XPATH, doc));
+		assert stream != null;
+		return stream.collect(toMap( //
+				verbFrameElement -> verbFrameElement.getAttribute(XmlNames.ID_ATTR), //
+				verbFrameElement -> {
 
-							String id = verbFrameElement.getAttribute(XmlNames.ID_ATTR);
-							String frame = verbFrameElement.getAttribute(XmlNames.VERBFRAME_ATTR);
-							return new VerbFrame(id, frame);
-						}));
+					String id = verbFrameElement.getAttribute(XmlNames.ID_ATTR);
+					String frame = verbFrameElement.getAttribute(XmlNames.VERBFRAME_ATTR);
+					return new VerbFrame(id, frame);
+				}));
 	}
 
 	/**

@@ -2,7 +2,6 @@ package org.oewntk.xml.in;
 
 import java.util.Arrays;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.w3c.dom.Element;
 
@@ -91,9 +90,9 @@ public class XmlExtractor
 		return Arrays.stream(templateIds).mapToObj(Integer::toString).collect(joining(" "));
 	}
 
-	static private String PREFIX = "oewn-";
+	static private final String PREFIX = "oewn-";
 
-	static private int PREFIX_LENGTH = PREFIX.length();
+	static private final int PREFIX_LENGTH = PREFIX.length();
 
 	static String toSensekey(String id)
 	{

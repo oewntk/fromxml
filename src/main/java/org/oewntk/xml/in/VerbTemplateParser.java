@@ -6,11 +6,13 @@ package org.oewntk.xml.in;
 
 import org.oewntk.model.VerbTemplate;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
@@ -48,18 +50,20 @@ public class VerbTemplateParser
 
 	public Map<Integer, VerbTemplate> parse() throws XPathExpressionException
 	{
-		return XmlUtils.streamOf(XmlUtils.getXPathNodeList(VERBTEMPLATES_XPATH, doc)) //
-				.collect(toMap( //
-						verbTemplateElement -> {
-							String idAttr = verbTemplateElement.getAttribute(XmlNames.ID_ATTR);
-							return Integer.parseInt(idAttr);
-						}, //
-						verbTemplateElement -> {
+		Stream<Element> stream = XmlUtils.streamOf(XmlUtils.getXPathNodeList(VERBTEMPLATES_XPATH, doc));
+		assert stream != null;
+		return stream.collect(toMap( //
 
-							String idAttr = verbTemplateElement.getAttribute(XmlNames.ID_ATTR);
-							int id = Integer.parseInt(idAttr);
-							String template = verbTemplateElement.getTextContent();
-							return new VerbTemplate(id, template);
-						}));
+				verbTemplateElement -> {
+					String idAttr = verbTemplateElement.getAttribute(XmlNames.ID_ATTR);
+					return Integer.parseInt(idAttr);
+				}, //
+				verbTemplateElement -> {
+
+					String idAttr = verbTemplateElement.getAttribute(XmlNames.ID_ATTR);
+					int id = Integer.parseInt(idAttr);
+					String template = verbTemplateElement.getTextContent();
+					return new VerbTemplate(id, template);
+				}));
 	}
 }

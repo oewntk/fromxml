@@ -16,7 +16,7 @@ public class Coder
 {
 	private static boolean POINTER_COMPAT = false;
 
-	private static boolean VERBFRAME_COMPAT = false;
+	private static final boolean VERBFRAME_COMPAT = false;
 
 	private Coder()
 	{

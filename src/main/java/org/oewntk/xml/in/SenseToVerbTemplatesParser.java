@@ -5,12 +5,14 @@
 package org.oewntk.xml.in;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
@@ -50,16 +52,17 @@ public class SenseToVerbTemplatesParser
 
 	public Map<String, int[]> parse() throws XPathExpressionException
 	{
-		return XmlUtils.streamOf(XmlUtils.getXPathNodeList(SENSES_VERBTEMPLATES_XPATH, doc)) //
-				.collect(toMap( //
-						senseVerbTemplateElement -> senseVerbTemplateElement.getAttribute(SENSEKEY_ATTR), //
-						senseVerbTemplateElement -> {
+		Stream<Element> stream = XmlUtils.streamOf(XmlUtils.getXPathNodeList(SENSES_VERBTEMPLATES_XPATH, doc));
+		assert stream != null;
+		return stream.collect(toMap( //
+				senseVerbTemplateElement -> senseVerbTemplateElement.getAttribute(SENSEKEY_ATTR), //
+				senseVerbTemplateElement -> {
 
-							String idAttr = senseVerbTemplateElement.getAttribute(VERBTEMPLATES_ATTR);
-							String[] idAttrs = idAttr.split(",");
-							return Arrays.stream(idAttrs) //
-									.mapToInt(Integer::parseInt) //
-									.toArray();
-						}));
+					String idAttr = senseVerbTemplateElement.getAttribute(VERBTEMPLATES_ATTR);
+					String[] idAttrs = idAttr.split(",");
+					return Arrays.stream(idAttrs) //
+							.mapToInt(Integer::parseInt) //
+							.toArray();
+				}));
 	}
 }

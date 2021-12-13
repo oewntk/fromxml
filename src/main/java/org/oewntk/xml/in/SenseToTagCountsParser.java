@@ -6,11 +6,13 @@ package org.oewntk.xml.in;
 
 import org.oewntk.model.TagCount;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
@@ -51,14 +53,16 @@ public class SenseToTagCountsParser
 
 	public Map<String, TagCount> parse() throws XPathExpressionException
 	{
-		return XmlUtils.streamOf(XmlUtils.getXPathNodeList(SENSES_TAGCOUNTS_XPATH, doc)) //
-				.collect(toMap( //
-						senseTagCountElement -> senseTagCountElement.getAttribute(SENSEKEY_ATTR), //
-						senseTagCountElement -> {
+		Stream<Element> stream = XmlUtils.streamOf(XmlUtils.getXPathNodeList(SENSES_TAGCOUNTS_XPATH, doc));
+		assert stream != null;
+		return stream.collect(toMap( //
 
-							String senseNumAttr = senseTagCountElement.getAttribute(SENSENUM_ATTR);
-							String tagCntAttr = senseTagCountElement.getAttribute(TAGCOUNT_ATTR);
-							return new TagCount(Integer.parseInt(senseNumAttr), Integer.parseInt(tagCntAttr));
-						}));
+				senseTagCountElement -> senseTagCountElement.getAttribute(SENSEKEY_ATTR), //
+				senseTagCountElement -> {
+
+					String senseNumAttr = senseTagCountElement.getAttribute(SENSENUM_ATTR);
+					String tagCntAttr = senseTagCountElement.getAttribute(TAGCOUNT_ATTR);
+					return new TagCount(Integer.parseInt(senseNumAttr), Integer.parseInt(tagCntAttr));
+				}));
 	}
 }

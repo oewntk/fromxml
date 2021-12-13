@@ -74,7 +74,7 @@ class XmlUtils
 	 * @param tag     child tag
 	 * @return first child element having 'tag' tag
 	 */
-	static Element getFirstChildElement(Element element, String tag)
+	static Element getFirstChildElement(Element element, @SuppressWarnings("SameParameterValue") String tag)
 	{
 		NodeList nodeList = element.getElementsByTagName(tag);
 		if (nodeList.getLength() >= 1)
@@ -94,7 +94,7 @@ class XmlUtils
 	 * @return first child element having 'tag' tag or null if there is none
 	 */
 	// @Nullable
-	static Element getFirstOptionalChildElement(Element element, String tag)
+	static Element getFirstOptionalChildElement(Element element, @SuppressWarnings("SameParameterValue") String tag)
 	{
 		NodeList nodeList = element.getElementsByTagName(tag);
 		if (nodeList.getLength() >= 1)
@@ -136,7 +136,7 @@ class XmlUtils
 	/**
 	 * Get element stream
 	 *
-	 * @param nodeList nodelist
+	 * @param nodeList node list
 	 * @return element iterable
 	 */
 	static Stream<Element> streamOf(final NodeList nodeList)
