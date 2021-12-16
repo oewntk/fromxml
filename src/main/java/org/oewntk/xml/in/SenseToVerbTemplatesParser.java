@@ -10,14 +10,16 @@ import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Arrays;
-import java.util.Map;
+import java.util.Collection;
+import java.util.Map.Entry;
 import java.util.stream.Stream;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
-import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toList;
 
 public class SenseToVerbTemplatesParser
 {
@@ -50,19 +52,20 @@ public class SenseToVerbTemplatesParser
 		this.doc = XmlUtils.getDocument(file, false);
 	}
 
-	public Map<String, int[]> parse() throws XPathExpressionException
+	public Collection<Entry<String, int[]>> parse() throws XPathExpressionException
 	{
 		Stream<Element> stream = XmlUtils.streamOf(XmlUtils.getXPathNodeList(SENSES_VERBTEMPLATES_XPATH, doc));
 		assert stream != null;
-		return stream.collect(toMap( //
-				senseVerbTemplateElement -> senseVerbTemplateElement.getAttribute(SENSEKEY_ATTR), //
-				senseVerbTemplateElement -> {
+		return stream //
+				.map(senseVerbTemplateElement -> { //
 
-					String idAttr = senseVerbTemplateElement.getAttribute(VERBTEMPLATES_ATTR);
-					String[] idAttrs = idAttr.split(",");
-					return Arrays.stream(idAttrs) //
+					var sensekey = senseVerbTemplateElement.getAttribute(SENSEKEY_ATTR);
+					var idAttrs = senseVerbTemplateElement.getAttribute(VERBTEMPLATES_ATTR).split(",");
+					var ids = Arrays.stream(idAttrs) //
 							.mapToInt(Integer::parseInt) //
 							.toArray();
-				}));
+					return new SimpleEntry<>(sensekey, ids);
+				}) //
+				.collect(toList());
 	}
 }

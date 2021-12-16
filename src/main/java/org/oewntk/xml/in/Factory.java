@@ -9,7 +9,9 @@ import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.function.Supplier;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -38,14 +40,14 @@ public class Factory implements Supplier<Model>
 			{
 				return null;
 			}
-			Map<String, VerbFrame> verbFramesById = parser.parseVerbFrames();
-			Map<Integer, VerbTemplate> verbTemplatesById = new VerbTemplateParser(new File(inDir2, "verbTemplates.xml")).parse();
-			Map<String, int[]> senseToVerbTemplates = new SenseToVerbTemplatesParser(new File(inDir2, "senseToVerbTemplates.xml")).parse();
+			Collection<VerbFrame> verbFrames = parser.parseVerbFrames();
+			Collection<VerbTemplate> verbTemplates = new VerbTemplateParser(new File(inDir2, "verbTemplates.xml")).parse();
+			Collection<Entry<String, int[]>> senseToVerbTemplates = new SenseToVerbTemplatesParser(new File(inDir2, "senseToVerbTemplates.xml")).parse();
 
 			// tag counts
-			Map<String, TagCount> senseToTagCounts = new SenseToTagCountsParser(new File(inDir2, "senseToTagCounts.xml")).parse();
+			Collection<Entry<String, TagCount>> senseToTagCounts = new SenseToTagCountsParser(new File(inDir2, "senseToTagCounts.xml")).parse();
 
-			return new Model(coreModel, verbFramesById, verbTemplatesById, senseToVerbTemplates, senseToTagCounts).setSources(inDir2, inDir2);
+			return new Model(coreModel, verbFrames, verbTemplates, senseToVerbTemplates, senseToTagCounts).setSources(inDir2, inDir2);
 		}
 		catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException e)
 		{

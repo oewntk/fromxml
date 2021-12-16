@@ -52,19 +52,19 @@ public class Parser
 	private final File file;
 
 	/**
-	 * Result lexes buy CS lemma
+	 * Result lexes
 	 */
-	private final Map<String, List<Lex>> lexesByLemma = new HashMap<>();
+	private final Collection<Lex> lexes = new ArrayList<>();
 
 	/**
-	 * Result senses by sensekey
+	 * Result senses
 	 */
-	private final Map<String, Sense> sensesById = new HashMap<>();
+	private final Collection<Sense> senses = new ArrayList<>();
 
 	/**
-	 * Result synsets by id
+	 * Result synsets
 	 */
-	private final Map<String, Synset> synsetsById = new HashMap<>();
+	private final Collection<Synset> synsets = new ArrayList<>();
 
 	/**
 	 * Constructor
@@ -94,7 +94,7 @@ public class Parser
 	{
 		makeSynsets();
 		makeLexes();
-		return new CoreModel(lexesByLemma, sensesById, synsetsById);
+		return new CoreModel(lexes, senses, synsets);
 	}
 
 	/**
@@ -107,11 +107,11 @@ public class Parser
 		stream.forEach(lexElement -> {
 
 			Lex lex = getLex(lexElement);
-			Sense[] senses = getSenses(lexElement, lex);
-			lex.setSenses(senses);
+			Sense[] lexSenses = getSenses(lexElement, lex);
+			lex.setSenses(lexSenses);
 
-			lexesByLemma.computeIfAbsent(lex.getLemma(), l -> new ArrayList<>()).add(lex);
-			Arrays.stream(senses).forEach(s -> sensesById.put(s.getSensekey(), s));
+			lexes.add(lex);
+			senses.addAll(Arrays.asList(lexSenses));
 		});
 	}
 
@@ -124,27 +124,26 @@ public class Parser
 		assert stream != null;
 		stream.forEach(synsetElement -> {
 
-			String id = synsetElement.getAttribute(XmlNames.ID_ATTR);
 			Synset synset = getSynset(synsetElement);
-			synsetsById.put(id, synset);
+			synsets.add(synset);
 		});
 	}
 
 	/**
 	 * Make verb frames
 	 */
-	public Map<String, VerbFrame> parseVerbFrames() throws XPathExpressionException
+	public Collection<VerbFrame> parseVerbFrames() throws XPathExpressionException
 	{
 		Stream<Element> stream = XmlUtils.streamOf(XmlUtils.getXPathNodeList(VERBFRAMES_XPATH, doc));
 		assert stream != null;
-		return stream.collect(toMap( //
-				verbFrameElement -> verbFrameElement.getAttribute(XmlNames.ID_ATTR), //
-				verbFrameElement -> {
+		return stream //
+				.map(verbFrameElement -> {
 
 					String id = verbFrameElement.getAttribute(XmlNames.ID_ATTR);
 					String frame = verbFrameElement.getAttribute(XmlNames.VERBFRAME_ATTR);
 					return new VerbFrame(id, frame);
-				}));
+				}) //
+				.collect(toList());
 	}
 
 	/**
@@ -201,7 +200,7 @@ public class Parser
 					.map(e -> new SimpleEntry<>(e.getAttribute(XmlNames.RELTYPE_ATTR), e.getAttribute(XmlNames.TARGET_ATTR))).collect(groupingBy(SimpleEntry::getKey, mapping(SimpleEntry::getValue, toList())));
 		}
 
-		return new Synset(source, synsetId, type, members, definitions, examples, wikidata, relations);
+		return new Synset(synsetId, type, members, definitions, examples, wikidata, relations, source);
 	}
 
 	/**
@@ -237,7 +236,7 @@ public class Parser
 					.toArray(Pronunciation[]::new);
 		}
 
-		return new Lex(null, lemma, code).setPronunciations(pronunciations).setMorphs(morphs);
+		return new Lex(lemma, code, null).setPronunciations(pronunciations).setMorphs(morphs);
 	}
 
 	/**
@@ -254,7 +253,8 @@ public class Parser
 		final int[] i = {-1};
 		return senseStream //
 				.peek(s -> ++i[0]) //
-				.map(e -> getSense(e, lex, lex.getType(), i[0])).toArray(Sense[]::new);
+				.map(e -> getSense(e, lex, lex.getType(), i[0])) //
+				.toArray(Sense[]::new);
 	}
 
 	/**

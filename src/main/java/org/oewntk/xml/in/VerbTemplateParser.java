@@ -11,13 +11,12 @@ import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
+import java.util.Collection;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
-
-import static java.util.stream.Collectors.toMap;
 
 public class VerbTemplateParser
 {
@@ -48,22 +47,18 @@ public class VerbTemplateParser
 		this.doc = XmlUtils.getDocument(file, false);
 	}
 
-	public Map<Integer, VerbTemplate> parse() throws XPathExpressionException
+	public Collection<VerbTemplate> parse() throws XPathExpressionException
 	{
 		Stream<Element> stream = XmlUtils.streamOf(XmlUtils.getXPathNodeList(VERBTEMPLATES_XPATH, doc));
 		assert stream != null;
-		return stream.collect(toMap( //
-
-				verbTemplateElement -> {
-					String idAttr = verbTemplateElement.getAttribute(XmlNames.ID_ATTR);
-					return Integer.parseInt(idAttr);
-				}, //
-				verbTemplateElement -> {
+		return stream //
+				.map(verbTemplateElement -> {
 
 					String idAttr = verbTemplateElement.getAttribute(XmlNames.ID_ATTR);
 					int id = Integer.parseInt(idAttr);
 					String template = verbTemplateElement.getTextContent();
 					return new VerbTemplate(id, template);
-				}));
+				}) //
+				.collect(Collectors.toList());
 	}
 }
