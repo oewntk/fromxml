@@ -122,16 +122,4 @@ public class XmlExtractor
 
 		return lemma + '%' + tail;
 	}
-
-	static public void main(String[] args)
-	{
-		for (String id : new String[] { //
-				"a-ap-b-lb-c-rb-d-sl-e-cm-f-ex-g-cl-h-sp-i__1:23:45::",  //
-				"a-ap-b-lb-c-rb-d-sl-e-cm-f-ex-g-cl-h-sp-i__1:23:45::a-ap-b-lb-c-rb-d-sl-e-cm-f-ex-g-cl-h-sp-i", //
-				"oewn-a-ap-b-lb-c-rb-d-sl-e-cm-f-ex-g-cl-h-sp-i__1:23:45::a-ap-b-lb-c-rb-d-sl-e-cm-f-ex-g-cl-h-sp-i", //
-		})
-		{
-			System.out.printf("%s -> %s%n", id, toSensekey(id));
-		}
-	}
 }

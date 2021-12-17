@@ -67,6 +67,11 @@ public class Parser
 	private final Collection<Synset> synsets = new ArrayList<>();
 
 	/**
+	 * Intermediate lex id to lemma
+	 */
+	private final Map<String, Lex> lexesById = new HashMap<>();
+
+	/**
 	 * Constructor
 	 *
 	 * @param file XML file to be parsed
@@ -92,8 +97,8 @@ public class Parser
 
 	public CoreModel parseCoreModel() throws XPathExpressionException
 	{
-		makeSynsets();
 		makeLexes();
+		makeSynsets();
 		return new CoreModel(lexes, senses, synsets);
 	}
 
@@ -109,9 +114,11 @@ public class Parser
 			Lex lex = getLex(lexElement);
 			Sense[] lexSenses = getSenses(lexElement, lex);
 			lex.setSenses(lexSenses);
-
 			lexes.add(lex);
 			senses.addAll(Arrays.asList(lexSenses));
+
+			String lexId = lexElement.getAttribute(XmlNames.ID_ATTR);
+			lexesById.put(lexId, lex);
 		});
 	}
 
@@ -169,10 +176,11 @@ public class Parser
 		char type = synsetElement.getAttribute(XmlNames.POS_ATTR).charAt(0);
 
 		// members
-		String[] members = synsetElement.getAttribute(XmlNames.MEMBERS_ATTR).split("\\s+");
+		String[] memberIds = synsetElement.getAttribute(XmlNames.MEMBERS_ATTR).split("\\s+");
+		String[] members = Arrays.stream(memberIds).map(li -> lexesById.get(li).getLemma()).toArray(String[]::new);
 
 		// lexfile
-		String source = synsetElement.getAttribute(XmlNames.LEXFILE_ATTR);
+		String domain = synsetElement.getAttributeNS(XmlNames.NS_DC, XmlNames.LEXFILE_ATTR).split("\\.")[1];
 
 		// definitions
 		Stream<Element> definitionStream = XmlUtils.streamOf(synsetElement.getElementsByTagName(XmlNames.DEFINITION_TAG));
@@ -192,15 +200,15 @@ public class Parser
 		String wikidata = wikidataAttr == null ? null : wikidataAttr.getTextContent();
 
 		// synset relations
-		Map<String, List<String>> relations = null;
+		Map<String, Set<String>> relations = null;
 		Stream<Element> relationStream = XmlUtils.streamOf(synsetElement.getElementsByTagName(XmlNames.SYNSETRELATION_TAG));
 		if (relationStream != null)
 		{
 			relations = relationStream //
-					.map(e -> new SimpleEntry<>(e.getAttribute(XmlNames.RELTYPE_ATTR), e.getAttribute(XmlNames.TARGET_ATTR))).collect(groupingBy(SimpleEntry::getKey, mapping(SimpleEntry::getValue, toList())));
+					.map(e -> new SimpleEntry<>(e.getAttribute(XmlNames.RELTYPE_ATTR), e.getAttribute(XmlNames.TARGET_ATTR))).collect(groupingBy(SimpleEntry::getKey, mapping(SimpleEntry::getValue, toSet())));
 		}
 
-		return new Synset(synsetId, type, members, definitions, examples, wikidata, relations, source);
+		return new Synset(synsetId, type, domain, members, definitions, examples, wikidata, relations);
 	}
 
 	/**

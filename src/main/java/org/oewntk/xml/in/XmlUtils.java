@@ -63,7 +63,7 @@ class XmlUtils
 		DocumentBuilder builder = builderFactory.newDocumentBuilder();
 		Document doc = builder.parse(file);
 		doc.getDocumentElement().normalize();
-		System.err.println("Document " + file);
+		Tracing.psInfo.println("[Document] " + file);
 		return doc;
 	}
 

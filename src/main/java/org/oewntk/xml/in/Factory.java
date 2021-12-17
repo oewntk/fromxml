@@ -9,8 +9,8 @@ import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Supplier;
 
@@ -47,7 +47,7 @@ public class Factory implements Supplier<Model>
 			// tag counts
 			Collection<Entry<String, TagCount>> senseToTagCounts = new SenseToTagCountsParser(new File(inDir2, "senseToTagCounts.xml")).parse();
 
-			return new Model(coreModel, verbFrames, verbTemplates, senseToVerbTemplates, senseToTagCounts).setSources(inDir2, inDir2);
+			return new Model(coreModel, verbFrames, verbTemplates, senseToVerbTemplates, senseToTagCounts).setSources(file, inDir2);
 		}
 		catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException e)
 		{
@@ -66,6 +66,6 @@ public class Factory implements Supplier<Model>
 	static public void main(String[] args) throws IOException, ParserConfigurationException, SAXException, XPathExpressionException
 	{
 		Model model = makeModel(args);
-		System.out.printf("model %s\n%s\n%s%n", model.getSource(), model.info(), model.counts());
+		Tracing.psInfo.printf("[Model] %s\n%s\n%s%n", Arrays.toString(model.getSources()), model.info(), model.counts());
 	}
 }

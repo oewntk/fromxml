@@ -1,6 +1,7 @@
 /target/
-/xml/
-/xml
+
+/xml*/
+/xml*
 **/_*/
 **/_*
 #**/*.xml
