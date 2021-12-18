@@ -7,102 +7,89 @@ package org.oewntk.xml.in;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.oewntk.model.LibTestModelLexGroups;
-import org.oewntk.model.Model;
+import org.xml.sax.SAXException;
 
-import java.io.File;
-import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 public class TestsXmlModelLexGroups
 {
-	private static final String source = System.getProperty("SOURCE");
-
-	private static final String source2 = System.getProperty("SOURCE2");
-
-	private static final PrintStream ps = !System.getProperties().containsKey("SILENT") ? Tracing.psInfo : Tracing.psNull;
-
-	private static Model model;
-
 	@BeforeClass
-	public static void init()
+	public static void init() throws IOException, ParserConfigurationException, SAXException
 	{
-		File inDir = new File(source);
-		File inDir2 = new File(source2);
-
-		model = new Factory(inDir, inDir2).get();
-		System.err.println(model.info());
-		System.err.println(model.counts());
+		TestsXmlCommon.init();
 	}
 
 	@Test
 	public void testCIMultipleAll()
 	{
-		LibTestModelLexGroups.testCIMultipleAll(model, ps);
+		LibTestModelLexGroups.testCIMultipleAll(TestsXmlCommon.model, TestsXmlCommon.ps);
 	}
 
 	@Test
 	public void testCILemmas()
 	{
-		LibTestModelLexGroups.testCILemmas(model, "battle of verdun", ps);
+		LibTestModelLexGroups.testCILemmas(TestsXmlCommon.model, "battle of verdun", TestsXmlCommon.ps);
 	}
 
 	@Test
 	public void testCICounts()
 	{
-		LibTestModelLexGroups.testCICounts(model, "battle of verdun", ps);
+		LibTestModelLexGroups.testCICounts(TestsXmlCommon.model, "battle of verdun", TestsXmlCommon.ps);
 	}
 
 	@Test
 	public void testCICountsFromMap()
 	{
-		LibTestModelLexGroups.testCICountsFromMap(model, "battle of verdun", ps);
+		LibTestModelLexGroups.testCICountsFromMap(TestsXmlCommon.model, "battle of verdun", TestsXmlCommon.ps);
 	}
 
 	@Test
 	public void testCIHypermapWest()
 	{
-		LibTestModelLexGroups.testCIHypermap(model, "west", ps);
+		LibTestModelLexGroups.testCIHypermap(TestsXmlCommon.model, "west", TestsXmlCommon.ps);
 	}
 
 	@Test
 	public void testCIHypermapBaroque()
 	{
-		LibTestModelLexGroups.testCIHypermap(model, "baroque", ps);
+		LibTestModelLexGroups.testCIHypermap(TestsXmlCommon.model, "baroque", TestsXmlCommon.ps);
 	}
 
 	@Test
 	public void testCIAi()
 	{
-		LibTestModelLexGroups.testCILexesFor(model, "ai", ps);
+		LibTestModelLexGroups.testCILexesFor(TestsXmlCommon.model, "ai", TestsXmlCommon.ps);
 	}
 
 	@Test
 	public void testCIBaroque()
 	{
-		LibTestModelLexGroups.testCILexesFor(model, "baroque", ps);
+		LibTestModelLexGroups.testCILexesFor(TestsXmlCommon.model, "baroque", TestsXmlCommon.ps);
 	}
 
 	@Test
 	public void testCIWest3()
 	{
-		LibTestModelLexGroups.testCILexesFor3(model, "West", ps);
+		LibTestModelLexGroups.testCILexesFor3(TestsXmlCommon.model, "West", TestsXmlCommon.ps);
 	}
 
 	@Test
 	public void testCIBaroque3()
 	{
-		LibTestModelLexGroups.testCILexesFor3(model, "Baroque", ps);
+		LibTestModelLexGroups.testCILexesFor3(TestsXmlCommon.model, "Baroque", TestsXmlCommon.ps);
 	}
 
 	@Test
 	public void testCIAi3()
 	{
-		LibTestModelLexGroups.testCILexesFor3(model, "Ai", ps);
+		LibTestModelLexGroups.testCILexesFor3(TestsXmlCommon.model, "Ai", TestsXmlCommon.ps);
 	}
 
 	@Test
 	public void testCIAbsolute3()
 	{
-		LibTestModelLexGroups.testCILexesFor3(model, "Absolute", ps);
+		LibTestModelLexGroups.testCILexesFor3(TestsXmlCommon.model, "Absolute", TestsXmlCommon.ps);
 	}
 }
