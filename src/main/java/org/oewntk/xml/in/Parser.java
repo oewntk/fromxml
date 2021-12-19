@@ -305,6 +305,6 @@ public class Parser
 		// adj position
 		String adjPosition = adjPositionAttr.isEmpty() ? null : adjPositionAttr;
 
-		return new Sense(sensekey, lex, type, n, synsetId, verbFrames, adjPosition, relations);
+		return new Sense(sensekey, lex, type, n, synsetId, null, verbFrames, adjPosition, relations);
 	}
 }
