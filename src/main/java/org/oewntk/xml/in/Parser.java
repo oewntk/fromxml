@@ -244,7 +244,7 @@ public class Parser
 					.toArray(Pronunciation[]::new);
 		}
 
-		return new Lex(lemma, code, null).setPronunciations(pronunciations).setMorphs(morphs);
+		return new Lex(lemma, code, null).setPronunciations(pronunciations).setForms(morphs);
 	}
 
 	/**
