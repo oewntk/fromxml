@@ -51,7 +51,7 @@ public class Factory implements Supplier<Model>
 		}
 		catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace(Tracing.psErr);
 			return null;
 		}
 	}

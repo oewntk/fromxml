@@ -40,7 +40,7 @@ public class CoreFactory implements Supplier<CoreModel>
 		}
 		catch (XPathExpressionException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace(Tracing.psErr);
 			return null;
 		}
 	}
