@@ -154,14 +154,6 @@ public class Parser
 	}
 
 	/**
-	 * Make tag counts
-	 */
-	private void makeTagCounts()
-	{
-		//TODO
-	}
-
-	/**
 	 * Build synset
 	 *
 	 * @param synsetElement synset element
