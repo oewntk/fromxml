@@ -6,7 +6,7 @@ package org.oewntk.xml.in;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.oewntk.model.Lex;
+import org.oewntk.model.Key;
 import org.oewntk.model.LibTestModel;
 import org.xml.sax.SAXException;
 
@@ -30,13 +30,13 @@ public class TestsXmlModelWords
 	@Test
 	public void testScanLexesForTestWords()
 	{
-		LibTestModel.testScanLexesForTestWords(TestsXmlCommon.model, LibTestModel::makeIndexMap, testWords, peekTestWords, TestsXmlCommon.ps);
+		LibTestModel.testScanLexesForTestWords(TestsXmlCommon.model, Key.OEWN::of, LibTestModel::makeIndexMap, testWords, peekTestWords, TestsXmlCommon.ps);
 	}
 
 	@Test
 	public void testScanLexesForTestWordsSorted()
 	{
-		LibTestModel.testScanLexesForTestWords(TestsXmlCommon.model, LibTestModel::makeSortedIndexMapByKeyOEWN, testWords, peekTestWords, TestsXmlCommon.ps);
+		LibTestModel.testScanLexesForTestWords(TestsXmlCommon.model, Key.OEWN::of, LibTestModel::makeSortedIndexMap, testWords, peekTestWords, TestsXmlCommon.ps);
 	}
 
 	@Test
