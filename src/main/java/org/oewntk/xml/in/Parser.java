@@ -138,6 +138,9 @@ public class Parser
 
 	/**
 	 * Make verb frames
+	 *
+	 * @return verb frames
+	 * @throws XPathExpressionException XPath expression exception
 	 */
 	public Collection<VerbFrame> parseVerbFrames() throws XPathExpressionException
 	{
