@@ -63,7 +63,7 @@ public class Factory implements Supplier<Model>
 		return new Factory(inDir, inDir2).get();
 	}
 
-	static public void main(String[] args) throws IOException, ParserConfigurationException, SAXException, XPathExpressionException
+	static public void main(String[] args)
 	{
 		Model model = makeModel(args);
 		Tracing.psInfo.printf("[Model] %s%n%s%n%s%n%n", Arrays.toString(model.getSources()), model.info(), model.counts());

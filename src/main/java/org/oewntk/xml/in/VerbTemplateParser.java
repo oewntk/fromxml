@@ -20,14 +20,14 @@ import javax.xml.xpath.XPathExpressionException;
 
 public class VerbTemplateParser
 {
-	protected static final String VERBTEMPLATES_TAG = "VerbTemplates";
-	protected static final String VERBTEMPLATE_TAG = "VerbTemplate";
+	protected static final String VERB_TEMPLATES_TAG = "VerbTemplates";
+	protected static final String VERB_TEMPLATE_TAG = "VerbTemplate";
 
 	/**
 	 * XPath for verb template elements
 	 */
 	private static final String VERBTEMPLATES_XPATH = String.format("/%s/%s", //
-			VERBTEMPLATES_TAG, VERBTEMPLATE_TAG);
+			VERB_TEMPLATES_TAG, VERB_TEMPLATE_TAG);
 
 	/**
 	 * W3C document

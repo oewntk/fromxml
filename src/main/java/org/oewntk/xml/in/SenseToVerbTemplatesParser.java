@@ -23,16 +23,16 @@ import static java.util.stream.Collectors.toList;
 
 public class SenseToVerbTemplatesParser
 {
-	private static final String SENSES_VERBTEMPLATES_TAG = "maps";
-	private static final String SENSE_VERBTEMPLATE_TAG = "map";
+	private static final String SENSES_VERB_TEMPLATES_TAG = "maps";
+	private static final String SENSE_VERB_TEMPLATE_TAG = "map";
 	private static final String SENSEKEY_ATTR = "sk";
-	private static final String VERBTEMPLATES_ATTR = "templates";
+	private static final String VERB_TEMPLATES_ATTR = "templates";
 
 	/**
 	 * XPath for sense to verb template elements
 	 */
 	private static final String SENSES_VERBTEMPLATES_XPATH = String.format("/%s/%s", //
-			SENSES_VERBTEMPLATES_TAG, SENSE_VERBTEMPLATE_TAG);
+			SENSES_VERB_TEMPLATES_TAG, SENSE_VERB_TEMPLATE_TAG);
 
 	/**
 	 * W3C document
@@ -60,7 +60,7 @@ public class SenseToVerbTemplatesParser
 				.map(senseVerbTemplateElement -> { //
 
 					var sensekey = senseVerbTemplateElement.getAttribute(SENSEKEY_ATTR);
-					var idAttrs = senseVerbTemplateElement.getAttribute(VERBTEMPLATES_ATTR).split(",");
+					var idAttrs = senseVerbTemplateElement.getAttribute(VERB_TEMPLATES_ATTR).split(",");
 					var ids = Arrays.stream(idAttrs) //
 							.mapToInt(Integer::parseInt) //
 							.toArray();
