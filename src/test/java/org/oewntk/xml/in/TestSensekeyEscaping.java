@@ -6,10 +6,14 @@ package org.oewntk.xml.in;
 
 import org.junit.Test;
 
+import java.io.PrintStream;
+
 import static org.junit.Assert.assertEquals;
 
 public class TestSensekeyEscaping
 {
+	static final PrintStream ps = !System.getProperties().containsKey("SILENT") ? Tracing.psInfo : Tracing.psNull;
+
 	private static final String[] tested = { //
 			"a-ap-b-lb-c-rb-d-sl-e-cm-f-ex-g-cl-h-sp-i__1:23:45::", //
 			"a-ap-b-lb-c-rb-d-sl-e-cm-f-ex-g-cl-h-sp-i__1:23:45::a-ap-b-lb-c-rb-d-sl-e-cm-f-ex-g-cl-h-sp-i", //
@@ -29,7 +33,7 @@ public class TestSensekeyEscaping
 		{
 			String sk = XmlExtractor.toSensekey(id);
 			assertEquals(sk, expected[i++]);
-			Tracing.psInfo.printf("%s -> %s%n", id, sk);
+			ps.printf("%s -> %s%n", id, sk);
 		}
 	}
 }
