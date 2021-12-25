@@ -30,13 +30,13 @@ public class TestsXmlModelWords
 	@Test
 	public void testScanLexesForTestWords()
 	{
-		LibTestModel.testScanLexesForTestWords(TestsXmlCommon.model, Key.OEWN::of, LibTestModel::makeIndexMap, testWords, peekTestWords, TestsXmlCommon.ps);
+		LibTestModel.testScanLexesForTestWords(TestsXmlCommon.model, Key.W_P_A::of_t, LibTestModel::makeIndexMap, testWords, peekTestWords, TestsXmlCommon.ps);
 	}
 
 	@Test
 	public void testScanLexesForTestWordsSorted()
 	{
-		LibTestModel.testScanLexesForTestWords(TestsXmlCommon.model, Key.OEWN::of, LibTestModel::makeSortedIndexMap, testWords, peekTestWords, TestsXmlCommon.ps);
+		LibTestModel.testScanLexesForTestWords(TestsXmlCommon.model, Key.W_P_A::of_t, LibTestModel::makeSortedIndexMap, testWords, peekTestWords, TestsXmlCommon.ps);
 	}
 
 	@Test
