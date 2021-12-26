@@ -32,7 +32,7 @@ public class TestSensekeyEscaping
 		for (String id : tested)
 		{
 			String sk = XmlExtractor.toSensekey(id);
-			assertEquals(sk, expected[i++]);
+			assertEquals(expected[i++], sk);
 			ps.printf("%s -> %s%n", id, sk);
 		}
 	}
