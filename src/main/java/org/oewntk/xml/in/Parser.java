@@ -285,13 +285,12 @@ public class Parser
 		int n = nAttr.isEmpty() ? index : Integer.parseInt(nAttr);
 
 		// relations
-		// synset relations
-		Map<String, List<String>> relations = null;
+		Map<String, Set<String>> relations = null;
 		Stream<Element> relationStream = XmlUtils.streamOf(senseElement.getElementsByTagName(XmlNames.SENSERELATION_TAG));
 		if (relationStream != null)
 		{
 			relations = relationStream //
-					.map(e -> new SimpleEntry<>(e.getAttribute(XmlNames.RELTYPE_ATTR), XmlExtractor.toSensekey(e.getAttribute(XmlNames.TARGET_ATTR)))).collect(groupingBy(SimpleEntry::getKey, mapping(SimpleEntry::getValue, toList())));
+					.map(e -> new SimpleEntry<>(e.getAttribute(XmlNames.RELTYPE_ATTR), XmlExtractor.toSensekey(e.getAttribute(XmlNames.TARGET_ATTR)))).collect(groupingBy(SimpleEntry::getKey, mapping(SimpleEntry::getValue, toSet())));
 		}
 
 		// verb frames
