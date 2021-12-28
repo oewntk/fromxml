@@ -54,6 +54,6 @@ public class CoreFactory implements Supplier<CoreModel>
 	static public void main(String[] args) throws IOException, ParserConfigurationException, SAXException
 	{
 		CoreModel model = makeCoreModel(args);
-		Tracing.psInfo.printf("[CoreModel] %s\n%s\n%s%n", model.getSource(), model.info(), model.counts());
+		Tracing.psInfo.printf("[CoreModel] %s%n%s%n%s%n", model.getSource(), model.info(), model.counts());
 	}
 }
