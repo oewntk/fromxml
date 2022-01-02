@@ -9,7 +9,7 @@
 
 This reads a model from XML files.
 
-Project [fromxml](https://github.com/x-englishwordnet/fromxml)
+Project [fromxml](https://github.com/oewntk/fromxml)
 
 ## Dataflow
 
@@ -17,6 +17,6 @@ Project [fromxml](https://github.com/x-englishwordnet/fromxml)
 
 ## Maven Central
 
-		<groupId>io.github.x-englishwordnet</groupId>
+		<groupId>io.github.oewntk</groupId>
 		<artifactId>fromxml</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
