@@ -17,12 +17,21 @@ import java.util.function.Supplier;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
+/**
+ * Model factory
+ */
 public class Factory implements Supplier<Model>
 {
 	private final File file;
 
 	private final File inDir2;
 
+	/**
+	 * Constructor
+	 *
+	 * @param file   file
+	 * @param inDir2 dir where extra YAML files
+	 */
 	public Factory(final File file, final File inDir2)
 	{
 		this.file = file;
@@ -56,6 +65,12 @@ public class Factory implements Supplier<Model>
 		}
 	}
 
+	/**
+	 * Make model
+	 *
+	 * @param args cmd-line args
+	 * @return model
+	 */
 	static public Model makeModel(String[] args)
 	{
 		File inDir = new File(args[0]);
@@ -63,6 +78,11 @@ public class Factory implements Supplier<Model>
 		return new Factory(inDir, inDir2).get();
 	}
 
+	/**
+	 * Make core model
+	 *
+	 * @param args cmd-line args
+	 */
 	static public void main(String[] args)
 	{
 		Model model = makeModel(args);

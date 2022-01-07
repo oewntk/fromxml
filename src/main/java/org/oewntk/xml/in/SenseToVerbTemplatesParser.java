@@ -21,11 +21,17 @@ import javax.xml.xpath.XPathExpressionException;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Sense-to-verb_template parser
+ */
 public class SenseToVerbTemplatesParser
 {
 	private static final String SENSES_VERB_TEMPLATES_TAG = "maps";
+
 	private static final String SENSE_VERB_TEMPLATE_TAG = "map";
+
 	private static final String SENSEKEY_ATTR = "sk";
+
 	private static final String VERB_TEMPLATES_ATTR = "templates";
 
 	/**
@@ -52,6 +58,12 @@ public class SenseToVerbTemplatesParser
 		this.doc = XmlUtils.getDocument(file, false);
 	}
 
+	/**
+	 * Parse
+	 *
+	 * @return collection of sensekey-verb_template_ids
+	 * @throws XPathExpressionException xpath expression exception
+	 */
 	public Collection<Entry<String, int[]>> parse() throws XPathExpressionException
 	{
 		Stream<Element> stream = XmlUtils.streamOf(XmlUtils.getXPathNodeList(SENSES_VERBTEMPLATES_XPATH, doc));

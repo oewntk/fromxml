@@ -1,9 +1,9 @@
 package org.oewntk.xml.in;
 
+import org.w3c.dom.Element;
+
 import java.util.Arrays;
 import java.util.Map;
-
-import org.w3c.dom.Element;
 
 import static java.util.stream.Collectors.joining;
 
@@ -18,14 +18,24 @@ public class XmlExtractor
 	{
 	}
 
-	static String getSensekey(Element senseElement)
+	/**
+	 * Get sensekey from element
+	 *
+	 * @param senseElement sense element
+	 * @return sensekey
+	 */
+	static String getSensekey(final Element senseElement)
 	{
 		String id = senseElement.getAttribute(XmlNames.ID_ATTR);
 		return toSensekey(id);
-
-		// return senseElement.getAttribute(XmlNames.SENSEKEY_ATTR);
 	}
 
+	/**
+	 * Get lexid from element
+	 *
+	 * @param senseElement sense element
+	 * @return lexid
+	 */
 	static int getLexid(Element senseElement)
 	{
 		String id = senseElement.getAttribute(XmlNames.ID_ATTR);
@@ -34,21 +44,38 @@ public class XmlExtractor
 		b += 2 + 5;
 		String lexid = sk.substring(b, b + 2);
 		return Integer.parseInt(lexid);
-
-		// return Integer.parseInt(senseElement.getAttribute(XmlNames.LEXID_ATTR));
 	}
 
-	static String getAdjPosition(Element senseElement)
+	/**
+	 * Get adj position from element
+	 *
+	 * @param senseElement sense element
+	 * @return adj position
+	 */
+	static String getAdjPosition(final Element senseElement)
 	{
 		return senseElement.getAttribute(XmlNames.ADJPOSITION_ATTR);
 	}
 
-	static String getVerbFrames(Element senseElement)
+	/**
+	 * Get verb frames from element
+	 *
+	 * @param senseElement sense element
+	 * @return verb frame list of numeric ids
+	 */
+	static String getVerbFrames(final Element senseElement)
 	{
 		return senseElement.getAttribute(XmlNames.VERBFRAMES_ATTR);
 	}
 
-	static int getOrder(Element senseElement, Map<String, Element> synsetsById)
+	/**
+	 * Get rank of sense in synset
+	 *
+	 * @param senseElement sense element
+	 * @param synsetsById  synsets mapped by id, for resolution
+	 * @return rank of this sense in synset
+	 */
+	static int getRank(final Element senseElement, final Map<String, Element> synsetsById)
 	{
 		Element lexElement = XmlUtils.getParentElement(senseElement);
 		String lexId = lexElement.getAttribute(XmlNames.ID_ATTR);
@@ -68,10 +95,17 @@ public class XmlExtractor
 		throw new RuntimeException("[E] member attr not found " + lexId);
 	}
 
-	static int getTagCount(Element senseElement, Map<String, Integer> map)
+	/**
+	 * Get tag count of sense
+	 *
+	 * @param senseElement        sense element
+	 * @param tagCountsBySensekey tag counts mapped by sensekey
+	 * @return tag count
+	 */
+	static int getTagCount(Element senseElement, Map<String, Integer> tagCountsBySensekey)
 	{
 		String sensekey = XmlExtractor.getSensekey(senseElement);
-		Integer tagCount = map.get(sensekey);
+		Integer tagCount = tagCountsBySensekey.get(sensekey);
 		if (tagCount == null)
 		{
 			return 0;
@@ -79,10 +113,17 @@ public class XmlExtractor
 		return tagCount;
 	}
 
-	static String getVerbTemplates(Element senseElement, Map<String, int[]> map)
+	/**
+	 * Get verb templates for this sense
+	 *
+	 * @param senseElement          sense element
+	 * @param templateIdsBySensekey template ids by sensekey
+	 * @return verb template list string
+	 */
+	static String getVerbTemplates(Element senseElement, Map<String, int[]> templateIdsBySensekey)
 	{
 		String sensekey = XmlExtractor.getSensekey(senseElement);
-		int[] templateIds = map.get(sensekey);
+		int[] templateIds = templateIdsBySensekey.get(sensekey);
 		if (templateIds == null)
 		{
 			return "";
@@ -94,6 +135,12 @@ public class XmlExtractor
 
 	static private final int PREFIX_LENGTH = PREFIX.length();
 
+	/**
+	 * Convert id to sensekey by unescaping some character sequences
+	 *
+	 * @param id XML id
+	 * @return sensekey
+	 */
 	static String toSensekey(String id)
 	{
 		String sk = id.startsWith(PREFIX) ? id.substring(PREFIX_LENGTH) : id;

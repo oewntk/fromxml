@@ -18,9 +18,13 @@ import java.util.stream.Stream;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
+/**
+ * Verb template parser
+ */
 public class VerbTemplateParser
 {
 	protected static final String VERB_TEMPLATES_TAG = "VerbTemplates";
+
 	protected static final String VERB_TEMPLATE_TAG = "VerbTemplate";
 
 	/**
@@ -47,6 +51,12 @@ public class VerbTemplateParser
 		this.doc = XmlUtils.getDocument(file, false);
 	}
 
+	/**
+	 * Parse
+	 *
+	 * @return collection of verb templates
+	 * @throws XPathExpressionException xpath expression exception
+	 */
 	public Collection<VerbTemplate> parse() throws XPathExpressionException
 	{
 		Stream<Element> stream = XmlUtils.streamOf(XmlUtils.getXPathNodeList(VERBTEMPLATES_XPATH, doc));

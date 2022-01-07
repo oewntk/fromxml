@@ -14,15 +14,31 @@ import java.util.function.Supplier;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
+/**
+ * Core model factory
+ */
 public class CoreFactory implements Supplier<CoreModel>
 {
 	private final Parser parser;
 
+	/**
+	 * Constructor
+	 *
+	 * @param file XML merged file
+	 * @throws IOException                  io exception
+	 * @throws ParserConfigurationException parser configuration exception
+	 * @throws SAXException                 SAX exception
+	 */
 	public CoreFactory(final File file) throws IOException, ParserConfigurationException, SAXException
 	{
 		this(new Parser(file));
 	}
 
+	/**
+	 * Constructor
+	 *
+	 * @param parser parser
+	 */
 	public CoreFactory(final Parser parser)
 	{
 		this.parser = parser;
@@ -45,12 +61,29 @@ public class CoreFactory implements Supplier<CoreModel>
 		}
 	}
 
+	/**
+	 * Make core model
+	 *
+	 * @param args cmd-line args
+	 * @return core model
+	 * @throws IOException                  io exception
+	 * @throws ParserConfigurationException parser configuration exception
+	 * @throws SAXException                 SAX exception
+	 */
 	static public CoreModel makeCoreModel(String[] args) throws IOException, ParserConfigurationException, SAXException
 	{
 		File inDir = new File(args[0]);
 		return new CoreFactory(inDir).get();
 	}
 
+	/**
+	 * Main
+	 *
+	 * @param args cmd-line args
+	 * @throws IOException                  io exception
+	 * @throws ParserConfigurationException parser configuration exception
+	 * @throws SAXException                 SAX exception
+	 */
 	static public void main(String[] args) throws IOException, ParserConfigurationException, SAXException
 	{
 		CoreModel model = makeCoreModel(args);

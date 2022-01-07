@@ -21,12 +21,19 @@ import javax.xml.xpath.XPathExpressionException;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Sense-to-tag_count parser
+ */
 public class SenseToTagCountsParser
 {
 	private static final String SENSES_TAGCOUNTS_TAG = "maps";
+
 	private static final String SENSE_TAGCOUNT_TAG = "map";
+
 	private static final String SENSEKEY_ATTR = "sk";
+
 	private static final String TAGCOUNT_ATTR = "tagcount";
+
 	private static final String SENSENUM_ATTR = "sensenum";
 
 	/**
@@ -53,6 +60,12 @@ public class SenseToTagCountsParser
 		this.doc = XmlUtils.getDocument(file, false);
 	}
 
+	/**
+	 * Parse
+	 *
+	 * @return collection of sensekey-tag_count pairs
+	 * @throws XPathExpressionException xpath expression exception
+	 */
 	public Collection<Entry<String, TagCount>> parse() throws XPathExpressionException
 	{
 		Stream<Element> stream = XmlUtils.streamOf(XmlUtils.getXPathNodeList(SENSES_TAGCOUNTS_XPATH, doc));

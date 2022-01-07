@@ -21,6 +21,9 @@ import javax.xml.xpath.XPathExpressionException;
 
 import static java.util.stream.Collectors.*;
 
+/**
+ * XML parser
+ */
 public class Parser
 {
 	/**
