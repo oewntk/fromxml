@@ -64,7 +64,7 @@ public class CoreFactory implements Supplier<CoreModel>
 	/**
 	 * Make core model
 	 *
-	 * @param args cmd-line args
+	 * @param args command-line arguments
 	 * @return core model
 	 * @throws IOException                  io exception
 	 * @throws ParserConfigurationException parser configuration exception
@@ -79,7 +79,7 @@ public class CoreFactory implements Supplier<CoreModel>
 	/**
 	 * Main
 	 *
-	 * @param args cmd-line args
+	 * @param args command-line arguments
 	 * @throws IOException                  io exception
 	 * @throws ParserConfigurationException parser configuration exception
 	 * @throws SAXException                 SAX exception
