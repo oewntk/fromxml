@@ -19,4 +19,4 @@ Project [fromxml](https://github.com/oewntk/fromxml)
 
 		<groupId>io.github.oewntk</groupId>
 		<artifactId>fromxml</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0</version>
