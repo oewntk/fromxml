@@ -154,6 +154,7 @@ public class XmlExtractor
 				.replace("-cm-", ",") //
 				.replace("-ex-", "!") //
 				.replace("-cl-", ":") //
+				.replace("-pl-", "+") //
 				.replace("-sp-", "_");
 
 		String tail = sk.substring(b + 2) //
@@ -165,6 +166,7 @@ public class XmlExtractor
 				.replace("-cm-", ",") //
 				.replace("-ex-", "!") //
 				.replace("-cl-", ":") //
+				.replace("-pl-", "+") //
 				.replace("-sp-", "_");
 
 		return lemma + '%' + tail;
