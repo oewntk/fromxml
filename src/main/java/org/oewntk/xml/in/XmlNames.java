@@ -66,7 +66,7 @@ public class XmlNames
 
 	static final String RELTYPE_ATTR = "relType";
 
-	static final String LEXFILE_ATTR = "subject";
+	static final String LEXFILE_ATTR = "lexfile";
 
 	static final String ADJPOSITION_ATTR = "adjposition";
 

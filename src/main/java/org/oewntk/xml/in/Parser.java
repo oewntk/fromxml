@@ -178,7 +178,8 @@ public class Parser
 		String[] members = Arrays.stream(memberIds).map(li -> lexesById.get(li).getLemma()).toArray(String[]::new);
 
 		// lexfile
-		String domain = synsetElement.getAttributeNS(XmlNames.NS_DC, XmlNames.LEXFILE_ATTR).split("\\.")[1];
+		// String domain = synsetElement.getAttributeNS(XmlNames.NS_DC, XmlNames.LEXFILE_ATTR).split("\\.")[1];
+		String domain = synsetElement.getAttribute(XmlNames.LEXFILE_ATTR).split("\\.")[1];
 
 		// definitions
 		Stream<Element> definitionStream = XmlUtils.streamOf(synsetElement.getElementsByTagName(XmlNames.DEFINITION_TAG));
