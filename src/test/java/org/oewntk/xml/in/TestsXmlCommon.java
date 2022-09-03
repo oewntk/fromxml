@@ -36,7 +36,7 @@ public class TestsXmlCommon
 			Tracing.psInfo.printf("source=%s%n", file.getAbsolutePath());
 			if (!file.exists())
 			{
-				Tracing.psErr.println("Define YAML source dir that exists");
+				Tracing.psErr.println("Define XML source dir that exists");
 				Assert.fail();
 			}
 

@@ -77,13 +77,13 @@ public class TestsXmlModelKeys
 		assertEquals(2, r[2]);
 		assertEquals(2, r[3]);
 		assertEquals(1, r[4]);
-		assertEquals(2, r[5]);
-		assertEquals(3, r[6]);
-		assertEquals(3, r[7]);
+		assertEquals(1, r[5]);
+		assertEquals(2, r[6]);
+		assertEquals(2, r[7]);
 		assertEquals(0, r[8]);
-		assertEquals(1, r[9]);
-		assertEquals(1, r[10]);
-		assertEquals(1, r[11]);
+		assertEquals(0, r[9]);
+		assertEquals(0, r[10]);
+		assertEquals(0, r[11]);
 		assertEquals(0, r[12]);
 		assertEquals(0, r[13]);
 		assertEquals(0, r[14]);
@@ -104,9 +104,9 @@ public class TestsXmlModelKeys
 		assertEquals(1, r[6]);
 		assertEquals(1, r[7]);
 		assertEquals(0, r[8]);
-		assertEquals(1, r[9]);
-		assertEquals(1, r[10]);
-		assertEquals(1, r[11]);
+		assertEquals(0, r[9]);
+		assertEquals(0, r[10]);
+		assertEquals(0, r[11]);
 		assertEquals(0, r[12]);
 		assertEquals(0, r[13]);
 		assertEquals(0, r[14]);
@@ -119,8 +119,8 @@ public class TestsXmlModelKeys
 	{
 		int[] r = LibTestModelKeys.testCriticalMulti(TestsXmlCommon.model, TestsXmlCommon.ps);
 		assertEquals(1, r[0]);
-		assertEquals(2, r[1]);
-		assertEquals(1, r[2]);
+		assertEquals(1, r[1]);
+		assertEquals(0, r[2]);
 		assertEquals(0, r[3]);
 		assertEquals(4, r.length);
 	}
@@ -131,7 +131,7 @@ public class TestsXmlModelKeys
 		int[] r = LibTestModelKeys.testCriticalMono(TestsXmlCommon.model, TestsXmlCommon.ps);
 		assertEquals(1, r[0]);
 		assertEquals(1, r[1]);
-		assertEquals(1, r[2]);
+		assertEquals(0, r[2]);
 		assertEquals(0, r[3]);
 		assertEquals(4, r.length);
 	}
