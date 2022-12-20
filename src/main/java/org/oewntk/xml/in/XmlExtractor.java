@@ -137,6 +137,15 @@ public class XmlExtractor
 
 	/**
 	 * Convert id to sensekey by unescaping some character sequences
+	 * -ap- apostrophe in "L'Enfant"
+	 * -sl- slash in "I/O device"
+	 * -cm- comma in "Prince William, duke of Cumberland"
+	 * -ex- exclamation mark in "Yahoo!"
+	 * -cl- colon on "Capital: critique of political economy"
+	 * -pl- plus sign in "LGBT+"
+	 * -sp- space in "accustomed to"
+	 * -lb- left bracket
+	 * -rb- right bracket
 	 *
 	 * @param id XML id
 	 * @return sensekey
