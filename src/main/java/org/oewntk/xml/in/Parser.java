@@ -175,7 +175,7 @@ public class Parser
 
 		// members
 		String[] memberIds = synsetElement.getAttribute(XmlNames.MEMBERS_ATTR).split("\\s+");
-		String[] members = Arrays.stream(memberIds).map(li -> lexesById.get(li).getLemma()).toArray(String[]::new);
+		String[] members = Arrays.stream(memberIds).map(li -> lexesById.get(li).lemma).toArray(String[]::new);
 
 		// lexfile
 		// String domain = synsetElement.getAttributeNS(XmlNames.NS_DC, XmlNames.LEXFILE_ATTR).split("\\.")[1];
@@ -260,7 +260,7 @@ public class Parser
 		final int[] i = {-1};
 		return senseStream //
 				.peek(s -> ++i[0]) //
-				.map(e -> getSense(e, lex, lex.getType(), i[0])) //
+				.map(e -> getSense(e, lex, lex.type, i[0])) //
 				.toArray(Sense[]::new);
 	}
 
