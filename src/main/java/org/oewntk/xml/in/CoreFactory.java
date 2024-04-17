@@ -52,7 +52,7 @@ public class CoreFactory implements Supplier<CoreModel>
 			return parser //
 					.parseCoreModel() //
 					.generateInverseRelations() //
-					.setSource(parser.getFile());
+					.setModelSource(parser.getFile());
 		}
 		catch (XPathExpressionException e)
 		{
