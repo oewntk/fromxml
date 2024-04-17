@@ -24,7 +24,7 @@ public class XmlExtractor
 	 * @param senseElement sense element
 	 * @return sensekey
 	 */
-	static String getSensekey(final Element senseElement)
+	static String getSenseKey(final Element senseElement)
 	{
 		String id = senseElement.getAttribute(XmlNames.ID_ATTR);
 		return toSensekey(id);
@@ -104,7 +104,7 @@ public class XmlExtractor
 	 */
 	static int getTagCount(Element senseElement, Map<String, Integer> tagCountsBySensekey)
 	{
-		String sensekey = XmlExtractor.getSensekey(senseElement);
+		String sensekey = XmlExtractor.getSenseKey(senseElement);
 		Integer tagCount = tagCountsBySensekey.get(sensekey);
 		if (tagCount == null)
 		{
@@ -122,7 +122,7 @@ public class XmlExtractor
 	 */
 	static String getVerbTemplates(Element senseElement, Map<String, int[]> templateIdsBySensekey)
 	{
-		String sensekey = XmlExtractor.getSensekey(senseElement);
+		String sensekey = XmlExtractor.getSenseKey(senseElement);
 		int[] templateIds = templateIdsBySensekey.get(sensekey);
 		if (templateIds == null)
 		{
