@@ -4,6 +4,7 @@
 
 package org.oewntk.xml.in;
 
+import kotlin.Pair;
 import org.oewntk.model.*;
 import org.xml.sax.SAXException;
 
@@ -51,7 +52,7 @@ public class Factory implements Supplier<Model>
 			}
 			Collection<VerbFrame> verbFrames = parser.parseVerbFrames();
 			Collection<VerbTemplate> verbTemplates = new VerbTemplateParser(new File(inDir2, "verbTemplates.xml")).parse();
-			Collection<Entry<String, int[]>> senseToVerbTemplates = new SenseToVerbTemplatesParser(new File(inDir2, "senseToVerbTemplates.xml")).parse();
+			Collection<Pair<String, Integer[]>> senseToVerbTemplates = new SenseToVerbTemplatesParser(new File(inDir2, "senseToVerbTemplates.xml")).parse();
 
 			// tag counts
 			Collection<Entry<String, TagCount>> senseToTagCounts = new SenseToTagCountsParser(new File(inDir2, "senseToTagCounts.xml")).parse();
