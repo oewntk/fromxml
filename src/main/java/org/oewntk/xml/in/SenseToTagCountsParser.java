@@ -4,6 +4,7 @@
 
 package org.oewntk.xml.in;
 
+import kotlin.Pair;
 import org.oewntk.model.TagCount;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -11,9 +12,7 @@ import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.Collection;
-import java.util.Map.Entry;
 import java.util.stream.Stream;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -66,7 +65,7 @@ public class SenseToTagCountsParser
 	 * @return collection of sensekey-tag_count pairs
 	 * @throws XPathExpressionException xpath expression exception
 	 */
-	public Collection<Entry<String, TagCount>> parse() throws XPathExpressionException
+	public Collection<Pair<String, TagCount>> parse() throws XPathExpressionException
 	{
 		Stream<Element> stream = XmlUtils.streamOf(XmlUtils.getXPathNodeList(SENSES_TAGCOUNTS_XPATH, doc));
 		assert stream != null;
@@ -78,7 +77,7 @@ public class SenseToTagCountsParser
 					var senseNumAttr = senseTagCountElement.getAttribute(SENSENUM_ATTR);
 					var tagCntAttr = senseTagCountElement.getAttribute(TAGCOUNT_ATTR);
 					var tagCount = new TagCount(Integer.parseInt(senseNumAttr), Integer.parseInt(tagCntAttr));
-					return new SimpleEntry<>(sensekey, tagCount);
+					return new Pair<>(sensekey, tagCount);
 				}) //
 				.collect(toList());
 	}

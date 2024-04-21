@@ -55,7 +55,7 @@ public class Factory implements Supplier<Model>
 			Collection<Pair<String, Integer[]>> senseToVerbTemplates = new SenseToVerbTemplatesParser(new File(inDir2, "senseToVerbTemplates.xml")).parse();
 
 			// tag counts
-			Collection<Entry<String, TagCount>> senseToTagCounts = new SenseToTagCountsParser(new File(inDir2, "senseToTagCounts.xml")).parse();
+			Collection<Pair<String, TagCount>> senseToTagCounts = new SenseToTagCountsParser(new File(inDir2, "senseToTagCounts.xml")).parse();
 
 			return new Model(coreModel, verbFrames, verbTemplates, senseToVerbTemplates, senseToTagCounts).setSources(file, inDir2);
 		}
