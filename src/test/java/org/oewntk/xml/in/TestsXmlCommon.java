@@ -8,11 +8,10 @@ import org.junit.Assert;
 import org.oewntk.model.CoreModel;
 import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-
-import javax.xml.parsers.ParserConfigurationException;
 
 public class TestsXmlCommon
 {

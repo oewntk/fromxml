@@ -4,20 +4,21 @@
 package org.oewntk.xml.`in`
 
 import org.w3c.dom.Document
-import org.w3c.dom.Element
 import java.io.File
-import java.util.stream.Collectors
 import javax.xml.xpath.XPathExpressionException
 
 /**
  * Sense-to-verb_template parser
+ *
+ * @param file file
  */
-class SenseToVerbTemplatesParser
-	(file: File?) {
+class SenseToVerbTemplatesParser(
+	file: File
+) {
 	/**
 	 * W3C document
 	 */
-	protected val doc: Document = XmlUtils.getDocument(file, false)
+	private val doc: Document = XmlUtils.getDocument(file, false)
 
 	/**
 	 * Parse
@@ -27,20 +28,21 @@ class SenseToVerbTemplatesParser
 	 */
 	@Throws(XPathExpressionException::class)
 	fun parse(): Collection<Pair<String, Array<Int>>> {
-		val stream = checkNotNull(XmlUtils.streamOf(XmlUtils.getXPathNodeList(SENSES_VERBTEMPLATES_XPATH, doc)))
-		return stream //
-			.map { senseVerbTemplateElement: Element ->  //
-				val sensekey = senseVerbTemplateElement.getAttribute(SENSEKEY_ATTR)
-				val idAttrs = senseVerbTemplateElement.getAttribute(VERB_TEMPLATES_ATTR).split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+		val verbTemplatesSeq = XmlUtils.sequenceOf(XmlUtils.getXPathNodeList(SENSES_VERBTEMPLATES_XPATH, doc)) !!
+		return verbTemplatesSeq //
+			.map {
+				val sensekey = it.getAttribute(SENSEKEY_ATTR)
+				val idAttrs = it.getAttribute(VERB_TEMPLATES_ATTR).split(",".toRegex()).dropLastWhile { it2 -> it2.isEmpty() }.toTypedArray()
 				val ids = idAttrs
-					.map { it.toInt() }
+					.map { it2 -> it2.toInt() }
 					.toTypedArray()
 				Pair(sensekey, ids)
 			}
-			.collect(Collectors.toList())
+			.toList()
 	}
 
 	companion object {
+
 		private const val SENSES_VERB_TEMPLATES_TAG = "maps"
 
 		private const val SENSE_VERB_TEMPLATE_TAG = "map"

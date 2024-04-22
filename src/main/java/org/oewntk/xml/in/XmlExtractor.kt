@@ -1,22 +1,15 @@
-package org.oewntk.xml.in;
+package org.oewntk.xml.`in`
 
-import org.w3c.dom.Element;
-
-import java.util.Arrays;
-import java.util.Map;
-
-import static java.util.stream.Collectors.joining;
+import org.w3c.dom.Element
+import java.util.*
+import java.util.stream.Collectors
 
 /**
  * Extract information from attributes in XML files or retrieve it
  *
  * @author Bernard Bou
  */
-public class XmlExtractor
-{
-	private XmlExtractor()
-	{
-	}
+object XmlExtractor {
 
 	/**
 	 * Get sensekey from element
@@ -24,10 +17,9 @@ public class XmlExtractor
 	 * @param senseElement sense element
 	 * @return sensekey
 	 */
-	static String getSenseKey(final Element senseElement)
-	{
-		String id = senseElement.getAttribute(XmlNames.ID_ATTR);
-		return toSensekey(id);
+	private fun getSenseKey(senseElement: Element): String {
+		val id = senseElement.getAttribute(XmlNames.ID_ATTR)
+		return toSensekey(id)
 	}
 
 	/**
@@ -36,14 +28,13 @@ public class XmlExtractor
 	 * @param senseElement sense element
 	 * @return lexid
 	 */
-	static int getLexid(Element senseElement)
-	{
-		String id = senseElement.getAttribute(XmlNames.ID_ATTR);
-		String sk = id.substring("oewn-".length());
-		int b = sk.indexOf("__");
-		b += 2 + 5;
-		String lexid = sk.substring(b, b + 2);
-		return Integer.parseInt(lexid);
+	fun getLexid(senseElement: Element): Int {
+		val id = senseElement.getAttribute(XmlNames.ID_ATTR)
+		val sk = id.substring("oewn-".length)
+		var b = sk.indexOf("__")
+		b += 2 + 5
+		val lexid = sk.substring(b, b + 2)
+		return lexid.toInt()
 	}
 
 	/**
@@ -52,9 +43,8 @@ public class XmlExtractor
 	 * @param senseElement sense element
 	 * @return adj position
 	 */
-	static String getAdjPosition(final Element senseElement)
-	{
-		return senseElement.getAttribute(XmlNames.ADJPOSITION_ATTR);
+	fun getAdjPosition(senseElement: Element): String {
+		return senseElement.getAttribute(XmlNames.ADJPOSITION_ATTR)
 	}
 
 	/**
@@ -63,9 +53,8 @@ public class XmlExtractor
 	 * @param senseElement sense element
 	 * @return verb frame list of numeric ids
 	 */
-	static String getVerbFrames(final Element senseElement)
-	{
-		return senseElement.getAttribute(XmlNames.VERBFRAMES_ATTR);
+	fun getVerbFrames(senseElement: Element): String {
+		return senseElement.getAttribute(XmlNames.VERBFRAMES_ATTR)
 	}
 
 	/**
@@ -75,24 +64,19 @@ public class XmlExtractor
 	 * @param synsetsById  synsets mapped by id, for resolution
 	 * @return rank of this sense in synset
 	 */
-	static int getRank(final Element senseElement, final Map<String, Element> synsetsById)
-	{
-		Element lexElement = XmlUtils.getParentElement(senseElement);
-		String lexId = lexElement.getAttribute(XmlNames.ID_ATTR);
-		String synsetId = senseElement.getAttribute(XmlNames.SYNSET_ATTR);
-		Element synsetElement = synsetsById.get(synsetId);
-		String membersAttr = synsetElement.getAttribute(XmlNames.MEMBERS_ATTR);
-		String[] members = membersAttr.split("\\s+");
-		int i = 0;
-		for (String member : members)
-		{
-			if (lexId.equals(member))
-			{
-				return i;
+	fun getRank(senseElement: Element, synsetsById: Map<String?, Element?>): Int {
+		val lexElement = XmlUtils.getParentElement(senseElement)
+		val lexId = lexElement.getAttribute(XmlNames.ID_ATTR)
+		val synsetId = senseElement.getAttribute(XmlNames.SYNSET_ATTR)
+		val synsetElement = synsetsById[synsetId]
+		val membersAttr = synsetElement!!.getAttribute(XmlNames.MEMBERS_ATTR)
+		val members = membersAttr.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+		for ((i, member) in members.withIndex()) {
+			if (lexId == member) {
+				return i
 			}
-			i++;
 		}
-		throw new RuntimeException("[E] member attr not found " + lexId);
+		throw RuntimeException("[E] member attr not found $lexId")
 	}
 
 	/**
@@ -102,15 +86,10 @@ public class XmlExtractor
 	 * @param tagCountsBySensekey tag counts mapped by sensekey
 	 * @return tag count
 	 */
-	static int getTagCount(Element senseElement, Map<String, Integer> tagCountsBySensekey)
-	{
-		String sensekey = XmlExtractor.getSenseKey(senseElement);
-		Integer tagCount = tagCountsBySensekey.get(sensekey);
-		if (tagCount == null)
-		{
-			return 0;
-		}
-		return tagCount;
+	fun getTagCount(senseElement: Element, tagCountsBySensekey: Map<String?, Int?>): Int {
+		val sensekey = getSenseKey(senseElement)
+		val tagCount = tagCountsBySensekey[sensekey] ?: return 0
+		return tagCount
 	}
 
 	/**
@@ -120,20 +99,17 @@ public class XmlExtractor
 	 * @param templateIdsBySensekey template ids by sensekey
 	 * @return verb template list string
 	 */
-	static String getVerbTemplates(Element senseElement, Map<String, int[]> templateIdsBySensekey)
-	{
-		String sensekey = XmlExtractor.getSenseKey(senseElement);
-		int[] templateIds = templateIdsBySensekey.get(sensekey);
-		if (templateIds == null)
-		{
-			return "";
-		}
-		return Arrays.stream(templateIds).mapToObj(Integer::toString).collect(joining(" "));
+	fun getVerbTemplates(senseElement: Element, templateIdsBySensekey: Map<String?, IntArray?>): String {
+		val sensekey = getSenseKey(senseElement)
+		val templateIds = templateIdsBySensekey[sensekey] ?: return ""
+		return Arrays.stream(templateIds)
+			.mapToObj { it.toString() }
+			.collect(Collectors.joining(" "))
 	}
 
-	static private final String PREFIX = "oewn-";
+	private const val PREFIX = "oewn-"
 
-	static private final int PREFIX_LENGTH = PREFIX.length();
+	private const val PREFIX_LENGTH = PREFIX.length
 
 	/**
 	 * Convert id to sensekey by unescaping some character sequences
@@ -150,34 +126,34 @@ public class XmlExtractor
 	 * @param id XML id
 	 * @return sensekey
 	 */
-	static String toSensekey(String id)
-	{
-		String sk = id.startsWith(PREFIX) ? id.substring(PREFIX_LENGTH) : id;
-		int b = sk.indexOf("__");
+	@JvmStatic
+	fun toSensekey(id: String): String {
+		val sk = if (id.startsWith(PREFIX)) id.substring(PREFIX_LENGTH) else id
+		val b = sk.indexOf("__")
 
-		String lemma = sk.substring(0, b) //
-				.replace("-ap-", "'") //
-				.replace("-lb-", "(") //
-				.replace("-rb-", ")") //
-				.replace("-sl-", "/") //
-				.replace("-cm-", ",") //
-				.replace("-ex-", "!") //
-				.replace("-cl-", ":") //
-				.replace("-pl-", "+") //
-				.replace("-sp-", "_");
+		val lemma = sk.substring(0, b) //
+			.replace("-ap-", "'") //
+			.replace("-lb-", "(") //
+			.replace("-rb-", ")") //
+			.replace("-sl-", "/") //
+			.replace("-cm-", ",") //
+			.replace("-ex-", "!") //
+			.replace("-cl-", ":") //
+			.replace("-pl-", "+") //
+			.replace("-sp-", "_")
 
-		String tail = sk.substring(b + 2) //
-				.replace(".", ":") //
-				.replace("-ap-", "'") //
-				.replace("-lb-", "(") //
-				.replace("-rb-", ")") //
-				.replace("-sl-", "/") //
-				.replace("-cm-", ",") //
-				.replace("-ex-", "!") //
-				.replace("-cl-", ":") //
-				.replace("-pl-", "+") //
-				.replace("-sp-", "_");
+		val tail = sk.substring(b + 2) //
+			.replace(".", ":") //
+			.replace("-ap-", "'") //
+			.replace("-lb-", "(") //
+			.replace("-rb-", ")") //
+			.replace("-sl-", "/") //
+			.replace("-cm-", ",") //
+			.replace("-ex-", "!") //
+			.replace("-cl-", ":") //
+			.replace("-pl-", "+") //
+			.replace("-sp-", "_")
 
-		return lemma + '%' + tail;
+		return "$lemma%$tail"
 	}
 }

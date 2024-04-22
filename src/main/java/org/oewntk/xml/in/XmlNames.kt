@@ -1,76 +1,70 @@
-package org.oewntk.xml.in;
+package org.oewntk.xml.`in`
 
 /**
  * Tags and attributes in XML files
  *
  * @author Bernard Bou
  */
-public class XmlNames
-{
-	private XmlNames()
-	{
-	}
+object XmlNames {
 
 	/**
 	 * DC XML namespace
 	 */
-	protected static final String NS_DC = "https://globalwordnet.github.io/schemas/dc/";
+	internal const val NS_DC: String = "https://globalwordnet.github.io/schemas/dc/"
 
 	// elements
+	const val LEXICALRESOURCE_TAG: String = "LexicalResource"
 
-	static final String LEXICALRESOURCE_TAG = "LexicalResource";
+	const val LEXICON_TAG: String = "Lexicon"
 
-	static final String LEXICON_TAG = "Lexicon";
+	const val LEXICALENTRY_TAG: String = "LexicalEntry"
 
-	static final String LEXICALENTRY_TAG = "LexicalEntry";
+	const val SYNSET_TAG: String = "Synset"
 
-	static final String SYNSET_TAG = "Synset";
+	const val DEFINITION_TAG: String = "Definition"
 
-	static final String DEFINITION_TAG = "Definition";
+	const val EXAMPLE_TAG: String = "Example"
 
-	static final String EXAMPLE_TAG = "Example";
+	const val SYNSETRELATION_TAG: String = "SynsetRelation"
 
-	static final String SYNSETRELATION_TAG = "SynsetRelation";
+	const val WIKIDATA_TAG: String = "WikiData"
 
-	static final String WIKIDATA_TAG = "WikiData";
+	const val LEMMA_TAG: String = "Lemma"
 
-	static final String LEMMA_TAG = "Lemma";
+	const val SENSE_TAG: String = "Sense"
 
-	static final String SENSE_TAG = "Sense";
+	const val SENSERELATION_TAG: String = "SenseRelation"
 
-	static final String SENSERELATION_TAG = "SenseRelation";
+	const val FORM_TAG: String = "Form"
 
-	static final String FORM_TAG = "Form";
+	const val PRONUNCIATION_TAG: String = "Pronunciation"
 
-	static final String PRONUNCIATION_TAG = "Pronunciation";
-
-	static final String SYNTACTICBEHAVIOUR_TAG = "SyntacticBehaviour";
+	const val SYNTACTICBEHAVIOUR_TAG: String = "SyntacticBehaviour"
 
 	// attributes
+	const val ID_ATTR: String = "id"
 
-	static final String ID_ATTR = "id";
+	const val N_ATTR: String = "n"
 
-	static final String N_ATTR = "n";
+	const val POS_ATTR: String = "partOfSpeech"
 
-	static final String POS_ATTR = "partOfSpeech";
+	const val WRITTENFORM_ATTR: String = "writtenForm"
 
-	static final String WRITTENFORM_ATTR = "writtenForm";
+	const val VARIETY_ATTR: String = "variety"
 
-	static final String VARIETY_ATTR = "variety";
+	const val SYNSET_ATTR: String = "synset"
 
-	static final String SYNSET_ATTR = "synset";
+	const val MEMBERS_ATTR: String = "members"
 
-	static final String MEMBERS_ATTR = "members";
+	const val TARGET_ATTR: String = "target"
 
-	static final String TARGET_ATTR = "target";
+	const val RELTYPE_ATTR: String = "relType"
 
-	static final String RELTYPE_ATTR = "relType";
+	const val LEXFILE_ATTR: String = "lexfile"
 
-	static final String LEXFILE_ATTR = "lexfile";
+	const val ADJPOSITION_ATTR: String = "adjposition"
 
-	static final String ADJPOSITION_ATTR = "adjposition";
+	const val VERBFRAMES_ATTR: String = "subcat"
 
-	static final String VERBFRAMES_ATTR = "subcat";
-
-	static final String VERBFRAME_ATTR = "subcategorizationFrame";
+	const val VERBFRAME_ATTR: String = "subcategorizationFrame"
 }

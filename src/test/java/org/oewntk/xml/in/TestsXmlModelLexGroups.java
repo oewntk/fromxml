@@ -9,9 +9,8 @@ import org.junit.Test;
 import org.oewntk.model.LibTestModelLexGroups;
 import org.xml.sax.SAXException;
 
-import java.io.IOException;
-
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 
 public class TestsXmlModelLexGroups
 {

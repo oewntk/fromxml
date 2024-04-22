@@ -1,36 +1,28 @@
-package org.oewntk.xml.in;
+package org.oewntk.xml.`in`
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
+import org.w3c.dom.Document
+import org.w3c.dom.Element
+import org.w3c.dom.Node
+import org.w3c.dom.NodeList
+import org.xml.sax.SAXException
+import java.io.File
+import java.io.IOException
+import java.util.stream.IntStream
+import java.util.stream.Stream
+import javax.xml.XMLConstants
+import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.parsers.ParserConfigurationException
+import javax.xml.validation.SchemaFactory
+import javax.xml.xpath.XPathConstants
+import javax.xml.xpath.XPathExpressionException
+import javax.xml.xpath.XPathFactory
 
 /**
  * XML utilities
  *
  * @author Bernard Bou
  */
-class XmlUtils
-{
-	private XmlUtils()
-	{
-	}
+internal object XmlUtils {
 
 	/**
 	 * Build W3C Document from file
@@ -42,29 +34,29 @@ class XmlUtils
 	 * @throws ParserConfigurationException parser configuration
 	 * @throws IOException                  io
 	 */
-	static Document getDocument(File file, @SuppressWarnings("SameParameterValue") boolean withSchema) throws SAXException, ParserConfigurationException, IOException
-	{
-		DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
-		builderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-		builderFactory.setNamespaceAware(true);
+	@JvmStatic
+	@Throws(SAXException::class, ParserConfigurationException::class, IOException::class)
+	fun getDocument(file: File, withSchema: Boolean): Document {
+		val builderFactory = DocumentBuilderFactory.newInstance()
+		builderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true)
+		builderFactory.isNamespaceAware = true
 
 		// for DTD-based
-		builderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
-		builderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+		builderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false)
+		builderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
 
-		builderFactory.setValidating(withSchema);
-		if (withSchema)
-		{
-			SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-			Schema schema = sf.newSchema(new File("schema.xsd"));
-			builderFactory.setSchema(schema);
+		builderFactory.isValidating = withSchema
+		if (withSchema) {
+			val sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI)
+			val schema = sf.newSchema(File("schema.xsd"))
+			builderFactory.schema = schema
 		}
 
-		DocumentBuilder builder = builderFactory.newDocumentBuilder();
-		Document doc = builder.parse(file);
-		doc.getDocumentElement().normalize();
-		Tracing.psInfo.println("[Document] " + file);
-		return doc;
+		val builder = builderFactory.newDocumentBuilder()
+		val doc = builder.parse(file)
+		doc.documentElement.normalize()
+		Tracing.psInfo.println("[Document] $file")
+		return doc
 	}
 
 	/**
@@ -74,16 +66,15 @@ class XmlUtils
 	 * @param tag     child tag
 	 * @return first child element having 'tag' tag
 	 */
-	static Element getFirstChildElement(Element element, @SuppressWarnings("SameParameterValue") String tag)
-	{
-		NodeList nodeList = element.getElementsByTagName(tag);
-		if (nodeList.getLength() >= 1)
-		{
-			Node node = nodeList.item(0);
-			assert node.getNodeType() == Node.ELEMENT_NODE;
-			return (Element) node;
+	@JvmStatic
+	fun getFirstChildElement(element: Element, tag: String): Element {
+		val nodeList = element.getElementsByTagName(tag)
+		if (nodeList.length >= 1) {
+			val node = nodeList.item(0)
+			assert(node.nodeType == Node.ELEMENT_NODE)
+			return node as Element
 		}
-		throw new IllegalArgumentException("Element " + element.getAttribute("id") + " has no child with tag " + tag);
+		throw IllegalArgumentException("Element " + element.getAttribute("id") + " has no child with tag " + tag)
 	}
 
 	/**
@@ -94,16 +85,15 @@ class XmlUtils
 	 * @return first child element having 'tag' tag or null if there is none
 	 */
 	// @Nullable
-	static Element getFirstOptionalChildElement(Element element, @SuppressWarnings("SameParameterValue") String tag)
-	{
-		NodeList nodeList = element.getElementsByTagName(tag);
-		if (nodeList.getLength() >= 1)
-		{
-			Node node = nodeList.item(0);
-			assert node.getNodeType() == Node.ELEMENT_NODE;
-			return (Element) node;
+	@JvmStatic
+	fun getFirstOptionalChildElement(element: Element, tag: String?): Element? {
+		val nodeList = element.getElementsByTagName(tag)
+		if (nodeList.length >= 1) {
+			val node = nodeList.item(0)
+			assert(node.nodeType == Node.ELEMENT_NODE)
+			return node as Element
 		}
-		return null;
+		return null
 	}
 
 	/**
@@ -113,11 +103,10 @@ class XmlUtils
 	 * @return parent element
 	 */
 	// @Nullable
-	static Element getParentElement(Element element)
-	{
-		Node lexEntryNode = element.getParentNode();
-		assert lexEntryNode.getNodeType() == Node.ELEMENT_NODE;
-		return (Element) lexEntryNode;
+	fun getParentElement(element: Element): Element {
+		val lexEntryNode = element.parentNode
+		assert(lexEntryNode.nodeType == Node.ELEMENT_NODE)
+		return lexEntryNode as Element
 	}
 
 	/**
@@ -128,9 +117,10 @@ class XmlUtils
 	 * @return node list satisfying XPath expression
 	 * @throws XPathExpressionException xpath
 	 */
-	static NodeList getXPathNodeList(String expr, Document doc) throws XPathExpressionException
-	{
-		return (NodeList) XPathFactory.newInstance().newXPath().compile(expr).evaluate(doc, XPathConstants.NODESET);
+	@JvmStatic
+	@Throws(XPathExpressionException::class)
+	fun getXPathNodeList(expr: String, doc: Document): NodeList {
+		return XPathFactory.newInstance().newXPath().compile(expr).evaluate(doc, XPathConstants.NODESET) as NodeList
 	}
 
 	/**
@@ -139,12 +129,24 @@ class XmlUtils
 	 * @param nodeList node list
 	 * @return element iterable
 	 */
-	static Stream<Element> streamOf(final NodeList nodeList)
-	{
-		if (nodeList.getLength() == 0)
-		{
-			return null;
+	@JvmStatic
+	fun streamOf(nodeList: NodeList): Stream<Element>? {
+		if (nodeList.length == 0) {
+			return null
 		}
-		return IntStream.range(0, nodeList.getLength()).mapToObj(nodeList::item).map(n -> (Element) n);
+		return IntStream.range(0, nodeList.length)
+			.mapToObj { nodeList.item(it) }
+			.map { it as Element? }
+	}
+
+	fun sequenceOf(nodeList: NodeList): Sequence<Element>? {
+		if (nodeList.length == 0) {
+			return null
+		}
+		return (0 until nodeList.length)
+			.asSequence()
+			.map { nodeList.item(it) }
+			.filter { it is Element }
+			.map { it as Element }
 	}
 }
