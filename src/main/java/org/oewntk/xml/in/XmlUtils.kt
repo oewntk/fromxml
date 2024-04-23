@@ -7,8 +7,6 @@ import org.w3c.dom.NodeList
 import org.xml.sax.SAXException
 import java.io.File
 import java.io.IOException
-import java.util.stream.IntStream
-import java.util.stream.Stream
 import javax.xml.XMLConstants
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
@@ -124,21 +122,12 @@ internal object XmlUtils {
 	}
 
 	/**
-	 * Get element stream
+	 * Get element sequence
 	 *
 	 * @param nodeList node list
 	 * @return element iterable
 	 */
 	@JvmStatic
-	fun streamOf(nodeList: NodeList): Stream<Element>? {
-		if (nodeList.length == 0) {
-			return null
-		}
-		return IntStream.range(0, nodeList.length)
-			.mapToObj { nodeList.item(it) }
-			.map { it as Element? }
-	}
-
 	fun sequenceOf(nodeList: NodeList): Sequence<Element>? {
 		if (nodeList.length == 0) {
 			return null

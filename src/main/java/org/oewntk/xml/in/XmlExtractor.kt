@@ -1,8 +1,6 @@
 package org.oewntk.xml.`in`
 
 import org.w3c.dom.Element
-import java.util.*
-import java.util.stream.Collectors
 
 /**
  * Extract information from attributes in XML files or retrieve it
@@ -102,9 +100,8 @@ object XmlExtractor {
 	fun getVerbTemplates(senseElement: Element, templateIdsBySensekey: Map<String?, IntArray?>): String {
 		val sensekey = getSenseKey(senseElement)
 		val templateIds = templateIdsBySensekey[sensekey] ?: return ""
-		return Arrays.stream(templateIds)
-			.mapToObj { it.toString() }
-			.collect(Collectors.joining(" "))
+		return templateIds
+			.joinToString(" ")
 	}
 
 	private const val PREFIX = "oewn-"

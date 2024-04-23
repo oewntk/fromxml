@@ -9,7 +9,6 @@ import org.oewntk.xml.`in`.XmlUtils.getDocument
 import org.oewntk.xml.`in`.XmlUtils.getFirstChildElement
 import org.oewntk.xml.`in`.XmlUtils.getFirstOptionalChildElement
 import org.oewntk.xml.`in`.XmlUtils.getXPathNodeList
-import org.oewntk.xml.`in`.XmlUtils.streamOf
 import org.w3c.dom.Element
 import java.io.File
 import javax.xml.xpath.XPathExpressionException
@@ -65,8 +64,8 @@ open class Parser(
 	 */
 	@Throws(XPathExpressionException::class)
 	private fun makeLexes() {
-		val stream = checkNotNull(streamOf(getXPathNodeList(LEX_XPATH, doc)))
-		stream
+		val lexSeq = XmlUtils.sequenceOf(getXPathNodeList(LEX_XPATH, doc))!!
+		lexSeq
 			.forEach {
 				val lex = getLex(it)
 				val lexSenses = getSenses(it, lex)
@@ -83,9 +82,9 @@ open class Parser(
 	 */
 	@Throws(XPathExpressionException::class)
 	private fun makeSynsets() {
-		val stream = checkNotNull(streamOf(getXPathNodeList(SYNSET_XPATH, doc)))
-		stream.forEach { synsetElement: Element ->
-			val synset = getSynset(synsetElement)
+		val synsetSeq = XmlUtils.sequenceOf(getXPathNodeList(SYNSET_XPATH, doc))!!
+		synsetSeq.forEach {
+			val synset = getSynset(it)
 			synsets.add(synset)
 		}
 	}
@@ -131,36 +130,30 @@ open class Parser(
 		val domain = synsetElement.getAttribute(XmlNames.LEXFILE_ATTR).split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1]
 
 		// definitions
-		val definitionSeq = XmlUtils.sequenceOf(synsetElement.getElementsByTagName(XmlNames.DEFINITION_TAG))
-		val definitions = definitionSeq!!
+		val definitionSeq = XmlUtils.sequenceOf(synsetElement.getElementsByTagName(XmlNames.DEFINITION_TAG))!!
+		val definitions = definitionSeq
 			.map { it.textContent!! }
 			.toList()
 			.toTypedArray()
 
 		// examples
-		val exampleStream = XmlUtils.sequenceOf(synsetElement.getElementsByTagName(XmlNames.EXAMPLE_TAG))
-		var examples: Array<String>? = null
-		if (exampleStream != null) {
-			examples = exampleStream
-				.map { it.textContent as String }
-				.toList()
-				.toTypedArray()
-		}
+		val exampleSeq = XmlUtils.sequenceOf(synsetElement.getElementsByTagName(XmlNames.EXAMPLE_TAG))
+		val examples = exampleSeq
+			?.map { it.textContent as String }
+			?.toList()
+			?.toTypedArray()
 
 		// wikidata
 		val wikidataAttr = getFirstOptionalChildElement(synsetElement, XmlNames.WIKIDATA_TAG)
 		val wikidata = wikidataAttr?.textContent
 
 		// synset relations
-		var relations: MutableMap<String, MutableSet<String>>? = null
 		val relationSeq = XmlUtils.sequenceOf(synsetElement.getElementsByTagName(XmlNames.SYNSETRELATION_TAG))
-		if (relationSeq != null) {
-			relations = relationSeq //
-				.map { it.getAttribute(XmlNames.RELTYPE_ATTR) to it.getAttribute(XmlNames.TARGET_ATTR) }
-				.groupBy { it.first }
-				.mapValues { it.value.map { it2 -> it2.second }.toMutableSet() }
-				.toMutableMap()
-		}
+		val relations = relationSeq //
+			?.map { it.getAttribute(XmlNames.RELTYPE_ATTR) to it.getAttribute(XmlNames.TARGET_ATTR) }
+			?.groupBy { it.first }
+			?.mapValues { it.value.map { it2 -> it2.second }.toMutableSet() }
+			?.toMutableMap()
 
 		return Synset(synsetId, type, domain, members, definitions, examples, wikidata, relations)
 	}
@@ -179,23 +172,17 @@ open class Parser(
 
 		// morphs
 		val morphSeq = XmlUtils.sequenceOf(lexElement.getElementsByTagName(XmlNames.FORM_TAG))
-		var morphs: Array<String>? = null
-		if (morphSeq != null) {
-			morphs = morphSeq
-				.map { it.getAttribute(XmlNames.WRITTENFORM_ATTR) }
-				.toList()
-				.toTypedArray()
-		}
+		val morphs = morphSeq
+			?.map { it.getAttribute(XmlNames.WRITTENFORM_ATTR) }
+			?.toList()
+			?.toTypedArray()
 
 		// pronunciations
 		val pronunciationSeq = XmlUtils.sequenceOf(lexElement.getElementsByTagName(XmlNames.PRONUNCIATION_TAG))
-		var pronunciations: Array<Pronunciation>? = null
-		if (pronunciationSeq != null) {
-			pronunciations = pronunciationSeq
-				.map { Pronunciation(it.textContent, it.getAttribute(XmlNames.VARIETY_ATTR).ifEmpty { null }) }
-				.toList()
-				.toTypedArray()
-		}
+		val pronunciations = pronunciationSeq
+			?.map { Pronunciation(it.textContent, it.getAttribute(XmlNames.VARIETY_ATTR).ifEmpty { null }) }
+			?.toList()
+			?.toTypedArray()
 
 		return Lex(lemma, code, null).setPronunciations(pronunciations).setForms(morphs)
 	}
@@ -239,15 +226,12 @@ open class Parser(
 		val n = if (nAttr.isEmpty()) index else nAttr.toInt()
 
 		// relations
-		var relations: MutableMap<String, MutableSet<String>>? = null
 		val relationStream = XmlUtils.sequenceOf(senseElement.getElementsByTagName(XmlNames.SENSERELATION_TAG))
-		if (relationStream != null) {
-			relations = relationStream
-				.map { it.getAttribute(XmlNames.RELTYPE_ATTR) to toSensekey(it.getAttribute(XmlNames.TARGET_ATTR)) }
-				.groupBy { it.first }
-				.mapValues { it.value.map { it2 -> it2.second }.toMutableSet() }
-				.toMutableMap()
-		}
+		val relations = relationStream
+			?.map { it.getAttribute(XmlNames.RELTYPE_ATTR) to toSensekey(it.getAttribute(XmlNames.TARGET_ATTR)) }
+			?.groupBy { it.first }
+			?.mapValues { it.value.map { it2 -> it2.second }.toMutableSet() }
+			?.toMutableMap()
 
 		// verb frames
 		val verbFrames = if (verbFramesAttr.isEmpty()) null else verbFramesAttr.split("\\s".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
