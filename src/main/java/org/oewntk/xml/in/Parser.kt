@@ -68,8 +68,8 @@ open class Parser(
 		lexSeq
 			.forEach {
 				val lex = getLex(it)
-				val lexSenses = getSenses(it, lex)
-				lex.setSenses(lexSenses)
+				val lexSenses = getSenses(it, lex).toMutableList()
+				lex.senses = lexSenses
 				lexes.add(lex)
 				senses.addAll(lexSenses)
 				val lexId = it.getAttribute(XmlNames.ID_ATTR)
@@ -184,7 +184,10 @@ open class Parser(
 			?.toList()
 			?.toTypedArray()
 
-		return Lex(lemma, code, null).setPronunciations(pronunciations).setForms(morphs)
+		return Lex(lemma, code, null).apply {
+			this.pronunciations = pronunciations
+			this.forms = morphs
+		}
 	}
 
 	/**
@@ -194,12 +197,11 @@ open class Parser(
 	 * @param lex        lex
 	 * @return senses
 	 */
-	private fun getSenses(lexElement: Element, lex: Lex): Array<Sense> {
+	private fun getSenses(lexElement: Element, lex: Lex): List<Sense> {
 		val senseSeq = XmlUtils.sequenceOf(lexElement.getElementsByTagName(XmlNames.SENSE_TAG))!!
 		return senseSeq.withIndex() //
 			.map { getSense(it.value, lex, lex.type, it.index) }
 			.toList()
-			.toTypedArray()
 	}
 
 	/**
