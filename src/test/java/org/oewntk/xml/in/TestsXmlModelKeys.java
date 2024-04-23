@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 public class TestsXmlModelKeys
 {
 	@BeforeClass
-	public static void init() throws IOException, ParserConfigurationException, SAXException
+	public static void init()
 	{
 		TestsXmlCommon.init();
 	}

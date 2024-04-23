@@ -21,7 +21,7 @@ public class TestsXmlModelWords
 	private static final Set<String> testWords = Set.of("baroque", "Baroque", "bass", "row");
 
 	@BeforeClass
-	public static void init() throws IOException, ParserConfigurationException, SAXException
+	public static void init()
 	{
 		TestsXmlCommon.init();
 	}

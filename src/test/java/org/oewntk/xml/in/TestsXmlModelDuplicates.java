@@ -15,7 +15,7 @@ import java.io.IOException;
 public class TestsXmlModelDuplicates
 {
 	@BeforeClass
-	public static void init() throws IOException, ParserConfigurationException, SAXException
+	public static void init()
 	{
 		TestsXmlCommon.init();
 	}

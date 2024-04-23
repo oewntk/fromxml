@@ -21,7 +21,7 @@ public class TestsXmlCommon
 
 	static CoreModel model = null;
 
-	public static void init() throws IOException, ParserConfigurationException, SAXException
+	public static void init()
 	{
 		if (model == null)
 		{
@@ -41,6 +41,7 @@ public class TestsXmlCommon
 
 			model = new CoreFactory(file).get();
 		}
+		assert model != null;
 		ps.println(model.info());
 		ps.println(model.counts());
 	}
