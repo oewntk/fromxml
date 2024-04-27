@@ -1,46 +1,45 @@
 /*
  * Copyright (c) 2021. Bernard Bou.
  */
+package org.oewntk.xml.`in`
 
-package org.oewntk.xml.in;
+import org.junit.BeforeClass
+import org.junit.Test
+import org.oewntk.model.LibTestModelDuplicates.testDuplicatesForKeyIC
+import org.oewntk.model.LibTestModelDuplicates.testDuplicatesForKeyOEWN
+import org.oewntk.model.LibTestModelDuplicates.testDuplicatesForKeyPWN
+import org.oewntk.model.LibTestModelDuplicates.testDuplicatesForKeyPos
+import org.oewntk.xml.`in`.LibTestsXmlCommon.model
+import org.oewntk.xml.`in`.LibTestsXmlCommon.ps
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.oewntk.model.LibTestModelDuplicates;
-import org.xml.sax.SAXException;
+class TestsXmlModelDuplicates {
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
+	@Test
+	fun testKeyOEWN() {
+		testDuplicatesForKeyOEWN(model!!, ps)
+	}
 
-public class TestsXmlModelDuplicates
-{
-	@BeforeClass
-	public static void init()
-	{
-		TestsXmlCommon.init();
+	@Test(expected = AssertionError::class)
+	fun testKeyPos() {
+		testDuplicatesForKeyPos(model!!, ps)
 	}
 
 	@Test
-	public void testKeyOEWN()
-	{
-		LibTestModelDuplicates.testDuplicatesForKeyOEWN(TestsXmlCommon.model, TestsXmlCommon.ps);
-	}
-
-	@Test(expected = AssertionError.class)
-	public void testKeyPos()
-	{
-		LibTestModelDuplicates.testDuplicatesForKeyPos(TestsXmlCommon.model, TestsXmlCommon.ps);
+	fun testKeyIC() {
+		testDuplicatesForKeyIC(model!!, ps)
 	}
 
 	@Test
-	public void testKeyIC()
-	{
-		LibTestModelDuplicates.testDuplicatesForKeyIC(TestsXmlCommon.model, TestsXmlCommon.ps);
+	fun testKeyPWN() {
+		testDuplicatesForKeyPWN(model!!, ps)
 	}
 
-	@Test
-	public void testKeyPWN()
-	{
-		LibTestModelDuplicates.testDuplicatesForKeyPWN(TestsXmlCommon.model, TestsXmlCommon.ps);
+	companion object {
+		@JvmStatic
+		@BeforeClass
+		fun init() {
+			LibTestsXmlCommon.init()
+			checkNotNull(model)
+		}
 	}
 }

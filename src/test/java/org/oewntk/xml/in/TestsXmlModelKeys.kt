@@ -1,177 +1,174 @@
 /*
  * Copyright (c) 2021-2021. Bernard Bou.
  */
+package org.oewntk.xml.`in`
 
-package org.oewntk.xml.in;
+import junit.framework.TestCase.assertEquals
+import org.junit.BeforeClass
+import org.junit.Test
+import org.oewntk.model.LibTestModelKeys.testBaroqueMono
+import org.oewntk.model.LibTestModelKeys.testBaroqueMulti
+import org.oewntk.model.LibTestModelKeys.testBassDeep
+import org.oewntk.model.LibTestModelKeys.testBassShallow
+import org.oewntk.model.LibTestModelKeys.testCriticalMono
+import org.oewntk.model.LibTestModelKeys.testCriticalMulti
+import org.oewntk.model.LibTestModelKeys.testEarthMono
+import org.oewntk.model.LibTestModelKeys.testEarthMulti
+import org.oewntk.model.LibTestModelKeys.testMobile
+import org.oewntk.model.LibTestModelKeys.testMobileNoPronunciation
+import org.oewntk.model.LibTestModelKeys.testRowDeep
+import org.oewntk.model.LibTestModelKeys.testRowShallow
+import org.oewntk.xml.`in`.LibTestsXmlCommon.model
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.oewntk.model.LibTestModelKeys;
-import org.xml.sax.SAXException;
+class TestsXmlModelKeys {
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
-
-public class TestsXmlModelKeys
-{
-	@BeforeClass
-	public static void init()
-	{
-		TestsXmlCommon.init();
+	@Test
+	fun testMobile() {
+		val r = testMobile(model!!, LibTestsXmlCommon.ps)
+		assertEquals(1, r[0].toLong())
+		assertEquals(1, r[1].toLong())
+		assertEquals(1, r[2].toLong())
+		assertEquals(2, r[3].toLong())
+		assertEquals(2, r[4].toLong())
+		assertEquals(5, r.size.toLong())
 	}
 
 	@Test
-	public void testMobile()
-	{
-		int[] r = LibTestModelKeys.testMobile(TestsXmlCommon.model, TestsXmlCommon.ps);
-		assertEquals(1, r[0]);
-		assertEquals(1, r[1]);
-		assertEquals(1, r[2]);
-		assertEquals(2, r[3]);
-		assertEquals(2, r[4]);
-		assertEquals(5, r.length);
+	fun testMobileNoPronunciation() {
+		val r = testMobileNoPronunciation(model!!, LibTestsXmlCommon.ps)
+		assertEquals(1, r[0].toLong())
+		assertEquals(1, r[1].toLong())
+		assertEquals(2, r[2].toLong())
+		assertEquals(2, r[3].toLong())
+		assertEquals(4, r.size.toLong())
 	}
 
 	@Test
-	public void testMobileNoPronunciation()
-	{
-		int[] r = LibTestModelKeys.testMobileNoPronunciation(TestsXmlCommon.model, TestsXmlCommon.ps);
-		assertEquals(1, r[0]);
-		assertEquals(1, r[1]);
-		assertEquals(2, r[2]);
-		assertEquals(2, r[3]);
-		assertEquals(4, r.length);
+	fun testEarthMulti() {
+		val r = testEarthMulti(model!!, LibTestsXmlCommon.ps)
+		assertEquals(1, r[0].toLong())
+		assertEquals(1, r[1].toLong())
+		assertEquals(2, r[2].toLong())
+		assertEquals(2, r[3].toLong())
+		assertEquals(4, r.size.toLong())
 	}
 
 	@Test
-	public void testEarthMulti()
-	{
-		int[] r = LibTestModelKeys.testEarthMulti(TestsXmlCommon.model, TestsXmlCommon.ps);
-		assertEquals(1, r[0]);
-		assertEquals(1, r[1]);
-		assertEquals(2, r[2]);
-		assertEquals(2, r[3]);
-		assertEquals(4, r.length);
+	fun testEarthMono() {
+		val r = testEarthMono(model!!, LibTestsXmlCommon.ps)
+		assertEquals(1, r[0].toLong())
+		assertEquals(1, r[1].toLong())
+		assertEquals(1, r[2].toLong())
+		assertEquals(1, r[3].toLong())
+		assertEquals(4, r.size.toLong())
 	}
 
 	@Test
-	public void testEarthMono()
-	{
-		int[] r = LibTestModelKeys.testEarthMono(TestsXmlCommon.model, TestsXmlCommon.ps);
-		assertEquals(1, r[0]);
-		assertEquals(1, r[1]);
-		assertEquals(1, r[2]);
-		assertEquals(1, r[3]);
-		assertEquals(4, r.length);
+	fun testBaroqueMulti() {
+		val r = testBaroqueMulti(model!!, LibTestsXmlCommon.ps)
+		assertEquals(1, r[0].toLong())
+		assertEquals(1, r[1].toLong())
+		assertEquals(2, r[2].toLong())
+		assertEquals(2, r[3].toLong())
+		assertEquals(1, r[4].toLong())
+		assertEquals(1, r[5].toLong())
+		assertEquals(2, r[6].toLong())
+		assertEquals(2, r[7].toLong())
+		assertEquals(0, r[8].toLong())
+		assertEquals(0, r[9].toLong())
+		assertEquals(0, r[10].toLong())
+		assertEquals(0, r[11].toLong())
+		assertEquals(0, r[12].toLong())
+		assertEquals(0, r[13].toLong())
+		assertEquals(0, r[14].toLong())
+		assertEquals(0, r[14].toLong())
+		assertEquals(16, r.size.toLong())
 	}
 
 	@Test
-	public void testBaroqueMulti()
-	{
-		int[] r = LibTestModelKeys.testBaroqueMulti(TestsXmlCommon.model, TestsXmlCommon.ps);
-		assertEquals(1, r[0]);
-		assertEquals(1, r[1]);
-		assertEquals(2, r[2]);
-		assertEquals(2, r[3]);
-		assertEquals(1, r[4]);
-		assertEquals(1, r[5]);
-		assertEquals(2, r[6]);
-		assertEquals(2, r[7]);
-		assertEquals(0, r[8]);
-		assertEquals(0, r[9]);
-		assertEquals(0, r[10]);
-		assertEquals(0, r[11]);
-		assertEquals(0, r[12]);
-		assertEquals(0, r[13]);
-		assertEquals(0, r[14]);
-		assertEquals(0, r[14]);
-		assertEquals(16, r.length);
+	fun testBaroqueMono() {
+		val r = testBaroqueMono(model!!, LibTestsXmlCommon.ps)
+		assertEquals(1, r[0].toLong())
+		assertEquals(1, r[1].toLong())
+		assertEquals(1, r[2].toLong())
+		assertEquals(1, r[3].toLong())
+		assertEquals(1, r[4].toLong())
+		assertEquals(1, r[5].toLong())
+		assertEquals(1, r[6].toLong())
+		assertEquals(1, r[7].toLong())
+		assertEquals(0, r[8].toLong())
+		assertEquals(0, r[9].toLong())
+		assertEquals(0, r[10].toLong())
+		assertEquals(0, r[11].toLong())
+		assertEquals(0, r[12].toLong())
+		assertEquals(0, r[13].toLong())
+		assertEquals(0, r[14].toLong())
+		assertEquals(0, r[14].toLong())
+		assertEquals(16, r.size.toLong())
 	}
 
 	@Test
-	public void testBaroqueMono()
-	{
-		int[] r = LibTestModelKeys.testBaroqueMono(TestsXmlCommon.model, TestsXmlCommon.ps);
-		assertEquals(1, r[0]);
-		assertEquals(1, r[1]);
-		assertEquals(1, r[2]);
-		assertEquals(1, r[3]);
-		assertEquals(1, r[4]);
-		assertEquals(1, r[5]);
-		assertEquals(1, r[6]);
-		assertEquals(1, r[7]);
-		assertEquals(0, r[8]);
-		assertEquals(0, r[9]);
-		assertEquals(0, r[10]);
-		assertEquals(0, r[11]);
-		assertEquals(0, r[12]);
-		assertEquals(0, r[13]);
-		assertEquals(0, r[14]);
-		assertEquals(0, r[14]);
-		assertEquals(16, r.length);
+	fun testCriticalMulti() {
+		val r = testCriticalMulti(model!!, LibTestsXmlCommon.ps)
+		assertEquals(1, r[0].toLong())
+		assertEquals(1, r[1].toLong())
+		assertEquals(0, r[2].toLong())
+		assertEquals(0, r[3].toLong())
+		assertEquals(4, r.size.toLong())
 	}
 
 	@Test
-	public void testCriticalMulti()
-	{
-		int[] r = LibTestModelKeys.testCriticalMulti(TestsXmlCommon.model, TestsXmlCommon.ps);
-		assertEquals(1, r[0]);
-		assertEquals(1, r[1]);
-		assertEquals(0, r[2]);
-		assertEquals(0, r[3]);
-		assertEquals(4, r.length);
+	fun testCriticalMono() {
+		val r = testCriticalMono(model!!, LibTestsXmlCommon.ps)
+		assertEquals(1, r[0].toLong())
+		assertEquals(1, r[1].toLong())
+		assertEquals(0, r[2].toLong())
+		assertEquals(0, r[3].toLong())
+		assertEquals(4, r.size.toLong())
 	}
 
 	@Test
-	public void testCriticalMono()
-	{
-		int[] r = LibTestModelKeys.testCriticalMono(TestsXmlCommon.model, TestsXmlCommon.ps);
-		assertEquals(1, r[0]);
-		assertEquals(1, r[1]);
-		assertEquals(0, r[2]);
-		assertEquals(0, r[3]);
-		assertEquals(4, r.length);
+	fun testBassDeep() {
+		val r = testBassDeep(model, LibTestsXmlCommon.ps)
+		assertEquals(1, r[0].toLong())
+		assertEquals(1, r[1].toLong())
+		assertEquals(2, r[2].toLong())
+		assertEquals(3, r.size.toLong())
 	}
 
 	@Test
-	public void testBassDeep()
-	{
-		int[] r = LibTestModelKeys.testBassDeep(TestsXmlCommon.model, TestsXmlCommon.ps);
-		assertEquals(1, r[0]);
-		assertEquals(1, r[1]);
-		assertEquals(2, r[2]);
-		assertEquals(3, r.length);
+	fun testBassShallow() {
+		val r = testBassShallow(model, LibTestsXmlCommon.ps)
+		assertEquals(0, r[0].toLong())
+		assertEquals(0, r[1].toLong())
+		assertEquals(2, r[2].toLong())
+		assertEquals(3, r.size.toLong())
 	}
 
 	@Test
-	public void testBassShallow()
-	{
-		int[] r = LibTestModelKeys.testBassShallow(TestsXmlCommon.model, TestsXmlCommon.ps);
-		assertEquals(0, r[0]);
-		assertEquals(0, r[1]);
-		assertEquals(2, r[2]);
-		assertEquals(3, r.length);
+	fun testRowDeep() {
+		val r = testRowDeep(model, LibTestsXmlCommon.ps)
+		assertEquals(1, r[0].toLong())
+		assertEquals(1, r[1].toLong())
+		assertEquals(2, r[2].toLong())
+		assertEquals(3, r.size.toLong())
 	}
 
 	@Test
-	public void testRowDeep()
-	{
-		int[] r = LibTestModelKeys.testRowDeep(TestsXmlCommon.model, TestsXmlCommon.ps);
-		assertEquals(1, r[0]);
-		assertEquals(1, r[1]);
-		assertEquals(2, r[2]);
-		assertEquals(3, r.length);
+	fun testRowShallow() {
+		val r = testRowShallow(model, LibTestsXmlCommon.ps)
+		assertEquals(0, r[0].toLong())
+		assertEquals(0, r[1].toLong())
+		assertEquals(2, r[2].toLong())
+		assertEquals(3, r.size.toLong())
 	}
 
-	@Test
-	public void testRowShallow()
-	{
-		int[] r = LibTestModelKeys.testRowShallow(TestsXmlCommon.model, TestsXmlCommon.ps);
-		assertEquals(0, r[0]);
-		assertEquals(0, r[1]);
-		assertEquals(2, r[2]);
-		assertEquals(3, r.length);
+	companion object {
+		@JvmStatic
+		@BeforeClass
+		fun init() {
+			LibTestsXmlCommon.init()
+			checkNotNull(model)
+		}
 	}
 }

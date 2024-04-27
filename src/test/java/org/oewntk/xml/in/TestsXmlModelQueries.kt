@@ -1,83 +1,73 @@
 /*
  * Copyright (c) 2021-2021. Bernard Bou.
  */
+package org.oewntk.xml.`in`
 
-package org.oewntk.xml.in;
+import org.junit.BeforeClass
+import org.junit.Test
+import org.oewntk.model.LibTestModelQueries.testWordByType
+import org.oewntk.model.LibTestModelQueries.testWordByTypeAndPronunciation
+import org.oewntk.xml.`in`.LibTestsXmlCommon.model
+import org.oewntk.xml.`in`.LibTestsXmlCommon.ps
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.oewntk.model.LibTestModelQueries;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-
-public class TestsXmlModelQueries
-{
-	@BeforeClass
-	public static void init()
-	{
-		TestsXmlCommon.init();
+class TestsXmlModelQueries {
+	@Test
+	fun testRowByType() {
+		testWordByType(model!!, "row", ps)
 	}
 
 	@Test
-	public void testRowByType()
-	{
-		LibTestModelQueries.testWordByType(TestsXmlCommon.model, "row", TestsXmlCommon.ps);
+	fun testRowByPos() {
+		testWordByType(model!!, "row", ps)
 	}
 
 	@Test
-	public void testRowByPos()
-	{
-		LibTestModelQueries.testWordByType(TestsXmlCommon.model, "row", TestsXmlCommon.ps);
+	fun testRowByTypeAndPronunciation() {
+		testWordByTypeAndPronunciation(model!!, "row", ps)
 	}
 
 	@Test
-	public void testRowByTypeAndPronunciation()
-	{
-		LibTestModelQueries.testWordByTypeAndPronunciation(TestsXmlCommon.model, "row", TestsXmlCommon.ps);
-	}
-
-	@Test
-	public void testRowByPosAndPronunciation()
-	{
-		LibTestModelQueries.testWordByTypeAndPronunciation(TestsXmlCommon.model, "row", TestsXmlCommon.ps);
+	fun testRowByPosAndPronunciation() {
+		testWordByTypeAndPronunciation(model!!, "row", ps)
 	}
 
 
 	@Test
-	public void testCriticalByType()
-	{
-		LibTestModelQueries.testWordByType(TestsXmlCommon.model, "critical", TestsXmlCommon.ps);
+	fun testCriticalByType() {
+		testWordByType(model!!, "critical", ps)
 	}
 
 	@Test
-	public void testCriticalByPos()
-	{
-		LibTestModelQueries.testWordByType(TestsXmlCommon.model, "critical", TestsXmlCommon.ps);
+	fun testCriticalByPos() {
+		testWordByType(model!!, "critical", ps)
 	}
 
 	@Test
-	public void testBassByPos()
-	{
-		LibTestModelQueries.testWordByType(TestsXmlCommon.model, "bass", TestsXmlCommon.ps);
+	fun testBassByPos() {
+		testWordByType(model!!, "bass", ps)
 	}
 
 	@Test
-	public void testBaroqueByPos()
-	{
-		LibTestModelQueries.testWordByType(TestsXmlCommon.model, "baroque", TestsXmlCommon.ps);
+	fun testBaroqueByPos() {
+		testWordByType(model!!, "baroque", ps)
 	}
 
 	@Test
-	public void testBaroqueCSByPos()
-	{
-		LibTestModelQueries.testWordByType(TestsXmlCommon.model, "Baroque", TestsXmlCommon.ps);
+	fun testBaroqueCSByPos() {
+		testWordByType(model!!, "Baroque", ps)
 	}
 
 	@Test
-	public void testGaloreByPos()
-	{
-		LibTestModelQueries.testWordByType(TestsXmlCommon.model, "galore", TestsXmlCommon.ps);
+	fun testGaloreByPos() {
+		testWordByType(model!!, "galore", ps)
+	}
+
+	companion object {
+		@JvmStatic
+		@BeforeClass
+		fun init() {
+			LibTestsXmlCommon.init()
+			checkNotNull(model)
+		}
 	}
 }

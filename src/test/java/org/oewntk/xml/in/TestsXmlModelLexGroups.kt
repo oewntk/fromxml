@@ -1,94 +1,86 @@
 /*
  * Copyright (c) 2021-2021. Bernard Bou.
  */
+package org.oewntk.xml.`in`
 
-package org.oewntk.xml.in;
+import org.junit.BeforeClass
+import org.junit.Test
+import org.oewntk.model.LibTestModelLexGroups.testCICounts
+import org.oewntk.model.LibTestModelLexGroups.testCICountsFromMap
+import org.oewntk.model.LibTestModelLexGroups.testCIHypermap
+import org.oewntk.model.LibTestModelLexGroups.testCILemmas
+import org.oewntk.model.LibTestModelLexGroups.testCILexesFor
+import org.oewntk.model.LibTestModelLexGroups.testCILexesFor3
+import org.oewntk.model.LibTestModelLexGroups.testCIMultipleAll
+import org.oewntk.xml.`in`.LibTestsXmlCommon.model
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.oewntk.model.LibTestModelLexGroups;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-
-public class TestsXmlModelLexGroups
-{
-	@BeforeClass
-	public static void init()
-	{
-		TestsXmlCommon.init();
+class TestsXmlModelLexGroups {
+	@Test
+	fun testCIMultipleAll() {
+		testCIMultipleAll(model!!, LibTestsXmlCommon.ps)
 	}
 
 	@Test
-	public void testCIMultipleAll()
-	{
-		LibTestModelLexGroups.testCIMultipleAll(TestsXmlCommon.model, TestsXmlCommon.ps);
+	fun testCILemmas() {
+		testCILemmas(model!!, "battle of verdun", LibTestsXmlCommon.ps)
 	}
 
 	@Test
-	public void testCILemmas()
-	{
-		LibTestModelLexGroups.testCILemmas(TestsXmlCommon.model, "battle of verdun", TestsXmlCommon.ps);
+	fun testCICounts() {
+		testCICounts(model!!, "battle of verdun", LibTestsXmlCommon.ps)
 	}
 
 	@Test
-	public void testCICounts()
-	{
-		LibTestModelLexGroups.testCICounts(TestsXmlCommon.model, "battle of verdun", TestsXmlCommon.ps);
+	fun testCICountsFromMap() {
+		testCICountsFromMap(model!!, "battle of verdun", LibTestsXmlCommon.ps)
 	}
 
 	@Test
-	public void testCICountsFromMap()
-	{
-		LibTestModelLexGroups.testCICountsFromMap(TestsXmlCommon.model, "battle of verdun", TestsXmlCommon.ps);
+	fun testCIHypermapWest() {
+		testCIHypermap(model!!, "west", LibTestsXmlCommon.ps)
 	}
 
 	@Test
-	public void testCIHypermapWest()
-	{
-		LibTestModelLexGroups.testCIHypermap(TestsXmlCommon.model, "west", TestsXmlCommon.ps);
+	fun testCIHypermapBaroque() {
+		testCIHypermap(model!!, "baroque", LibTestsXmlCommon.ps)
 	}
 
 	@Test
-	public void testCIHypermapBaroque()
-	{
-		LibTestModelLexGroups.testCIHypermap(TestsXmlCommon.model, "baroque", TestsXmlCommon.ps);
+	fun testCIAi() {
+		testCILexesFor(model!!, "ai", LibTestsXmlCommon.ps)
 	}
 
 	@Test
-	public void testCIAi()
-	{
-		LibTestModelLexGroups.testCILexesFor(TestsXmlCommon.model, "ai", TestsXmlCommon.ps);
+	fun testCIBaroque() {
+		testCILexesFor(model!!, "baroque", LibTestsXmlCommon.ps)
 	}
 
 	@Test
-	public void testCIBaroque()
-	{
-		LibTestModelLexGroups.testCILexesFor(TestsXmlCommon.model, "baroque", TestsXmlCommon.ps);
+	fun testCIWest3() {
+		testCILexesFor3(model!!, "West", LibTestsXmlCommon.ps)
 	}
 
 	@Test
-	public void testCIWest3()
-	{
-		LibTestModelLexGroups.testCILexesFor3(TestsXmlCommon.model, "West", TestsXmlCommon.ps);
+	fun testCIBaroque3() {
+		testCILexesFor3(model!!, "Baroque", LibTestsXmlCommon.ps)
 	}
 
 	@Test
-	public void testCIBaroque3()
-	{
-		LibTestModelLexGroups.testCILexesFor3(TestsXmlCommon.model, "Baroque", TestsXmlCommon.ps);
+	fun testCIAi3() {
+		testCILexesFor3(model!!, "Ai", LibTestsXmlCommon.ps)
 	}
 
 	@Test
-	public void testCIAi3()
-	{
-		LibTestModelLexGroups.testCILexesFor3(TestsXmlCommon.model, "Ai", TestsXmlCommon.ps);
+	fun testCIAbsolute3() {
+		testCILexesFor3(model!!, "Absolute", LibTestsXmlCommon.ps)
 	}
 
-	@Test
-	public void testCIAbsolute3()
-	{
-		LibTestModelLexGroups.testCILexesFor3(TestsXmlCommon.model, "Absolute", TestsXmlCommon.ps);
+	companion object {
+		@JvmStatic
+		@BeforeClass
+		fun init() {
+			LibTestsXmlCommon.init()
+			checkNotNull(model)
+		}
 	}
 }

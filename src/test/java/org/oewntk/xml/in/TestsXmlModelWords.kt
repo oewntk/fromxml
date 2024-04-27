@@ -1,112 +1,102 @@
 /*
  * Copyright (c) 2021-2021. Bernard Bou.
  */
+package org.oewntk.xml.`in`
 
-package org.oewntk.xml.in;
+import org.junit.BeforeClass
+import org.junit.Test
+import org.oewntk.model.Key
+import org.oewntk.model.Lex
+import org.oewntk.model.LibTestModel.makeIndexMap
+import org.oewntk.model.LibTestModel.makeSortedIndexMap
+import org.oewntk.model.LibTestModel.testScanLexesForTestWords
+import org.oewntk.model.LibTestModel.testWord
+import org.oewntk.model.LibTestModel.testWords
+import org.oewntk.xml.`in`.LibTestsXmlCommon.model
+import org.oewntk.xml.`in`.LibTestsXmlCommon.ps
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.oewntk.model.Key;
-import org.oewntk.model.LibTestModel;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.util.Set;
-
-public class TestsXmlModelWords
-{
-	private static final boolean peekTestWords = false;
-
-	private static final Set<String> testWords = Set.of("baroque", "Baroque", "bass", "row");
-
-	@BeforeClass
-	public static void init()
-	{
-		TestsXmlCommon.init();
+class TestsXmlModelWords {
+	@Test
+	fun testScanLexesForTestWords() {
+		testScanLexesForTestWords(model!!, { lex: Lex -> Key.W_P_A.of_t(lex) }, { seq: Sequence<Key> -> makeIndexMap(seq) }, testWords, PRINT_TEST_WORDS, ps)
 	}
 
 	@Test
-	public void testScanLexesForTestWords()
-	{
-		LibTestModel.testScanLexesForTestWords(TestsXmlCommon.model, Key.W_P_A::of_t, LibTestModel::makeIndexMap, testWords, peekTestWords, TestsXmlCommon.ps);
+	fun testScanLexesForTestWordsSorted() {
+		testScanLexesForTestWords(model!!, { lex: Lex -> Key.W_P_A.of_t(lex) }, { seq: Sequence<Key> -> makeSortedIndexMap(seq) }, testWords, PRINT_TEST_WORDS, ps)
 	}
 
 	@Test
-	public void testScanLexesForTestWordsSorted()
-	{
-		LibTestModel.testScanLexesForTestWords(TestsXmlCommon.model, Key.W_P_A::of_t, LibTestModel::makeSortedIndexMap, testWords, peekTestWords, TestsXmlCommon.ps);
+	fun testBass() {
+		testWord("bass", model!!, ps)
 	}
 
 	@Test
-	public void testBass()
-	{
-		LibTestModel.testWord("bass", TestsXmlCommon.model, TestsXmlCommon.ps);
+	fun testRow() {
+		testWord("row", model!!, ps)
 	}
 
 	@Test
-	public void testRow()
-	{
-		LibTestModel.testWord("row", TestsXmlCommon.model, TestsXmlCommon.ps);
+	fun testBaroque() {
+		testWords(model!!, ps, "baroque", "Baroque")
 	}
 
 	@Test
-	public void testBaroque()
-	{
-		LibTestModel.testWords(TestsXmlCommon.model, TestsXmlCommon.ps, "baroque", "Baroque");
+	fun testEarth() {
+		testWords(model!!, ps, "earth", "Earth")
 	}
 
 	@Test
-	public void testEarth()
-	{
-		LibTestModel.testWords(TestsXmlCommon.model, TestsXmlCommon.ps, "earth", "Earth");
+	fun testCritical() {
+		testWord("critical", 'a', model!!, ps)
 	}
 
 	@Test
-	public void testCritical()
-	{
-		LibTestModel.testWord("critical", 'a', TestsXmlCommon.model, TestsXmlCommon.ps);
+	fun testHollywood() {
+		testWord("Hollywood", 'a', model!!, ps)
 	}
 
 	@Test
-	public void testHollywood()
-	{
-		LibTestModel.testWord("Hollywood", 'a', TestsXmlCommon.model, TestsXmlCommon.ps);
+	fun testVictorian() {
+		testWord("Victorian", 'a', model!!, ps)
 	}
 
 	@Test
-	public void testVictorian()
-	{
-		LibTestModel.testWord("Victorian", 'a', TestsXmlCommon.model, TestsXmlCommon.ps);
+	fun testAllied() {
+		testWord("allied", 'a', model!!, ps)
 	}
 
 	@Test
-	public void testAllied()
-	{
-		LibTestModel.testWord("allied", 'a', TestsXmlCommon.model, TestsXmlCommon.ps);
+	fun testAlliedUpper() {
+		testWord("Allied", 'a', model!!, ps)
 	}
 
 	@Test
-	public void testAlliedUpper()
-	{
-		LibTestModel.testWord("Allied", 'a', TestsXmlCommon.model, TestsXmlCommon.ps);
+	fun testAbsent() {
+		testWord("absent", 'a', model!!, ps)
 	}
 
 	@Test
-	public void testAbsent()
-	{
-		LibTestModel.testWord("absent", 'a', TestsXmlCommon.model, TestsXmlCommon.ps);
+	fun testApocryphal() {
+		testWord("apocryphal", 'a', model!!, ps)
 	}
 
 	@Test
-	public void testApocryphal()
-	{
-		LibTestModel.testWord("apocryphal", 'a', TestsXmlCommon.model, TestsXmlCommon.ps);
+	fun testUsed() {
+		testWord("used", 'a', model!!, ps)
 	}
 
-	@Test
-	public void testUsed()
-	{
-		LibTestModel.testWord("used", 'a', TestsXmlCommon.model, TestsXmlCommon.ps);
+	companion object {
+
+		private const val PRINT_TEST_WORDS = false
+
+		private val testWords = setOf("baroque", "Baroque", "bass", "row")
+
+		@JvmStatic
+		@BeforeClass
+		fun init() {
+			LibTestsXmlCommon.init()
+			checkNotNull(model)
+		}
 	}
 }
