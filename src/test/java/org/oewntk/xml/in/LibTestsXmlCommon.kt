@@ -22,7 +22,7 @@ object LibTestsXmlCommon {
 	fun init() {
 		if (model == null) {
 			if (source == null) {
-				Tracing.psErr.println("Define XML source file dir with -DSOURCE=path%n")
+				Tracing.psErr.println("Define XML source file dir with -DSOURCE=path")
 				Tracing.psErr.println("When running Maven tests, define the oewn.xml file in a xml directory that is child to the project directory.")
 				Assert.fail()
 			}
