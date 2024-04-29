@@ -32,7 +32,6 @@ internal object XmlUtils {
 	 * @throws ParserConfigurationException parser configuration
 	 * @throws IOException                  io
 	 */
-	@JvmStatic
 	@Throws(SAXException::class, ParserConfigurationException::class, IOException::class)
 	fun getDocument(file: File, withSchema: Boolean): Document {
 		val builderFactory = DocumentBuilderFactory.newInstance()
@@ -64,7 +63,6 @@ internal object XmlUtils {
 	 * @param tag     child tag
 	 * @return first child element having 'tag' tag
 	 */
-	@JvmStatic
 	fun getFirstChildElement(element: Element, tag: String): Element {
 		val nodeList = element.getElementsByTagName(tag)
 		if (nodeList.length >= 1) {
@@ -83,7 +81,6 @@ internal object XmlUtils {
 	 * @return first child element having 'tag' tag or null if there is none
 	 */
 	// @Nullable
-	@JvmStatic
 	fun getFirstOptionalChildElement(element: Element, tag: String?): Element? {
 		val nodeList = element.getElementsByTagName(tag)
 		if (nodeList.length >= 1) {
@@ -115,7 +112,6 @@ internal object XmlUtils {
 	 * @return node list satisfying XPath expression
 	 * @throws XPathExpressionException xpath
 	 */
-	@JvmStatic
 	@Throws(XPathExpressionException::class)
 	fun getXPathNodeList(expr: String, doc: Document): NodeList {
 		return XPathFactory.newInstance().newXPath().compile(expr).evaluate(doc, XPathConstants.NODESET) as NodeList
@@ -127,7 +123,6 @@ internal object XmlUtils {
 	 * @param nodeList node list
 	 * @return element iterable
 	 */
-	@JvmStatic
 	fun sequenceOf(nodeList: NodeList): Sequence<Element>? {
 		if (nodeList.length == 0) {
 			return null

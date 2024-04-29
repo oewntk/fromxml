@@ -164,6 +164,7 @@ class TestsXmlModelKeys {
 	}
 
 	companion object {
+
 		@JvmStatic
 		@BeforeClass
 		fun init() {

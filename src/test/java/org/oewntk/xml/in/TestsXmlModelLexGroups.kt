@@ -76,6 +76,7 @@ class TestsXmlModelLexGroups {
 	}
 
 	companion object {
+
 		@JvmStatic
 		@BeforeClass
 		fun init() {

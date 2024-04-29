@@ -123,7 +123,6 @@ object XmlExtractor {
 	 * @param id XML id
 	 * @return sensekey
 	 */
-	@JvmStatic
 	fun toSensekey(id: String): String {
 		val sk = if (id.startsWith(PREFIX)) id.substring(PREFIX_LENGTH) else id
 		val b = sk.indexOf("__")

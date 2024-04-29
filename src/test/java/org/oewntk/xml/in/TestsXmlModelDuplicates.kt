@@ -35,6 +35,7 @@ class TestsXmlModelDuplicates {
 	}
 
 	companion object {
+
 		@JvmStatic
 		@BeforeClass
 		fun init() {

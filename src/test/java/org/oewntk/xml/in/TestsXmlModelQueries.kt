@@ -63,6 +63,7 @@ class TestsXmlModelQueries {
 	}
 
 	companion object {
+
 		@JvmStatic
 		@BeforeClass
 		fun init() {
