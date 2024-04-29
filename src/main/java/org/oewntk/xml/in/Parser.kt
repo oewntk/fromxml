@@ -19,254 +19,256 @@ import javax.xml.xpath.XPathExpressionException
  * @property file file
  */
 open class Parser(
-	val file: File
+    val file: File,
 ) {
-	/**
-	 * W3C document
-	 */
-	private val doc = getDocument(file, false)
 
-	/**
-	 * Document file
-	 *
-	 * @return document file
-	 */
+    /**
+     * W3C document
+     */
+    private val doc = getDocument(file, false)
 
-	/**
-	 * Result lexes
-	 */
-	private val lexes: MutableCollection<Lex> = ArrayList()
+    /**
+     * Document file
+     *
+     * @return document file
+     */
 
-	/**
-	 * Result senses
-	 */
-	private val senses: MutableCollection<Sense> = ArrayList()
+    /**
+     * Result lexes
+     */
+    private val lexes: MutableCollection<Lex> = ArrayList()
 
-	/**
-	 * Result synsets
-	 */
-	private val synsets: MutableCollection<Synset> = ArrayList()
+    /**
+     * Result senses
+     */
+    private val senses: MutableCollection<Sense> = ArrayList()
 
-	/**
-	 * Intermediate lex id to lemma
-	 */
-	private val lexesById: MutableMap<String, Lex> = HashMap()
+    /**
+     * Result synsets
+     */
+    private val synsets: MutableCollection<Synset> = ArrayList()
 
-	@Throws(XPathExpressionException::class)
-	fun parseCoreModel(): CoreModel {
-		makeLexes()
-		makeSynsets()
-		return CoreModel(lexes, senses, synsets)
-	}
+    /**
+     * Intermediate lex id to lemma
+     */
+    private val lexesById: MutableMap<String, Lex> = HashMap()
 
-	/**
-	 * Make lexes
-	 */
-	@Throws(XPathExpressionException::class)
-	private fun makeLexes() {
-		val lexSeq = XmlUtils.sequenceOf(getXPathNodeList(LEX_XPATH, doc))!!
-		lexSeq
-			.forEach {
-				val lex = getLex(it)
-				val lexSenses = getSenses(it, lex).toMutableList()
-				lex.senses = lexSenses
-				lexes.add(lex)
-				senses.addAll(lexSenses)
-				val lexId = it.getAttribute(XmlNames.ID_ATTR)
-				lexesById[lexId] = lex
-			}
-	}
+    @Throws(XPathExpressionException::class)
+    fun parseCoreModel(): CoreModel {
+        makeLexes()
+        makeSynsets()
+        return CoreModel(lexes, senses, synsets)
+    }
 
-	/**
-	 * Make synsets
-	 */
-	@Throws(XPathExpressionException::class)
-	private fun makeSynsets() {
-		val synsetSeq = XmlUtils.sequenceOf(getXPathNodeList(SYNSET_XPATH, doc))!!
-		synsetSeq.forEach {
-			val synset = getSynset(it)
-			synsets.add(synset)
-		}
-	}
+    /**
+     * Make lexes
+     */
+    @Throws(XPathExpressionException::class)
+    private fun makeLexes() {
+        val lexSeq = XmlUtils.sequenceOf(getXPathNodeList(LEX_XPATH, doc))!!
+        lexSeq
+            .forEach {
+                val lex = getLex(it)
+                val lexSenses = getSenses(it, lex).toMutableList()
+                lex.senses = lexSenses
+                lexes.add(lex)
+                senses.addAll(lexSenses)
+                val lexId = it.getAttribute(XmlNames.ID_ATTR)
+                lexesById[lexId] = lex
+            }
+    }
 
-	/**
-	 * Make verb frames
-	 *
-	 * @return verb frames
-	 * @throws XPathExpressionException XPath expression exception
-	 */
-	@Throws(XPathExpressionException::class)
-	fun parseVerbFrames(): Collection<VerbFrame> {
-		val verbFramesSeq = XmlUtils.sequenceOf(getXPathNodeList(VERBFRAMES_XPATH, doc))!!
-		return verbFramesSeq
-			.map {
-				val id = it.getAttribute(XmlNames.ID_ATTR)
-				val frame = it.getAttribute(XmlNames.VERBFRAME_ATTR)
-				VerbFrame(id, frame)
-			}
-			.toList()
-	}
+    /**
+     * Make synsets
+     */
+    @Throws(XPathExpressionException::class)
+    private fun makeSynsets() {
+        val synsetSeq = XmlUtils.sequenceOf(getXPathNodeList(SYNSET_XPATH, doc))!!
+        synsetSeq.forEach {
+            val synset = getSynset(it)
+            synsets.add(synset)
+        }
+    }
 
-	/**
-	 * Build synset
-	 *
-	 * @param synsetElement synset element
-	 * @return synset
-	 */
-	private fun getSynset(synsetElement: Element): Synset {
-		// id
-		val synsetId = synsetElement.getAttribute(XmlNames.ID_ATTR)
+    /**
+     * Make verb frames
+     *
+     * @return verb frames
+     * @throws XPathExpressionException XPath expression exception
+     */
+    @Throws(XPathExpressionException::class)
+    fun parseVerbFrames(): Collection<VerbFrame> {
+        val verbFramesSeq = XmlUtils.sequenceOf(getXPathNodeList(VERBFRAMES_XPATH, doc))!!
+        return verbFramesSeq
+            .map {
+                val id = it.getAttribute(XmlNames.ID_ATTR)
+                val frame = it.getAttribute(XmlNames.VERBFRAME_ATTR)
+                VerbFrame(id, frame)
+            }
+            .toList()
+    }
 
-		// type
-		val type = synsetElement.getAttribute(XmlNames.POS_ATTR)[0]
+    /**
+     * Build synset
+     *
+     * @param synsetElement synset element
+     * @return synset
+     */
+    private fun getSynset(synsetElement: Element): Synset {
+        // id
+        val synsetId = synsetElement.getAttribute(XmlNames.ID_ATTR)
 
-		// members
-		val memberIds = synsetElement.getAttribute(XmlNames.MEMBERS_ATTR).split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-		val members: Array<String> = memberIds
-			.map { lexesById[it]!!.lemma }.toTypedArray()
+        // type
+        val type = synsetElement.getAttribute(XmlNames.POS_ATTR)[0]
 
-		// lexfile
-		// String domain = synsetElement.getAttributeNS(XmlNames.NS_DC, XmlNames.LEXFILE_ATTR).split("\\.")[1];
-		val domain = synsetElement.getAttribute(XmlNames.LEXFILE_ATTR).split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1]
+        // members
+        val memberIds = synsetElement.getAttribute(XmlNames.MEMBERS_ATTR).split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        val members: Array<String> = memberIds
+            .map { lexesById[it]!!.lemma }.toTypedArray()
 
-		// definitions
-		val definitionSeq = XmlUtils.sequenceOf(synsetElement.getElementsByTagName(XmlNames.DEFINITION_TAG))!!
-		val definitions = definitionSeq
-			.map { it.textContent!! }
-			.toList()
-			.toTypedArray()
+        // lexfile
+        // String domain = synsetElement.getAttributeNS(XmlNames.NS_DC, XmlNames.LEXFILE_ATTR).split("\\.")[1];
+        val domain = synsetElement.getAttribute(XmlNames.LEXFILE_ATTR).split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1]
 
-		// examples
-		val exampleSeq = XmlUtils.sequenceOf(synsetElement.getElementsByTagName(XmlNames.EXAMPLE_TAG))
-		val examples = exampleSeq
-			?.map { it.textContent as String }
-			?.toList()
-			?.toTypedArray()
+        // definitions
+        val definitionSeq = XmlUtils.sequenceOf(synsetElement.getElementsByTagName(XmlNames.DEFINITION_TAG))!!
+        val definitions = definitionSeq
+            .map { it.textContent!! }
+            .toList()
+            .toTypedArray()
 
-		// wikidata
-		val wikidataAttr = getFirstOptionalChildElement(synsetElement, XmlNames.WIKIDATA_TAG)
-		val wikidata = wikidataAttr?.textContent
+        // examples
+        val exampleSeq = XmlUtils.sequenceOf(synsetElement.getElementsByTagName(XmlNames.EXAMPLE_TAG))
+        val examples = exampleSeq
+            ?.map { it.textContent as String }
+            ?.toList()
+            ?.toTypedArray()
 
-		// synset relations
-		val relationSeq = XmlUtils.sequenceOf(synsetElement.getElementsByTagName(XmlNames.SYNSETRELATION_TAG))
-		val relations = relationSeq //
-			?.map { it.getAttribute(XmlNames.RELTYPE_ATTR) to it.getAttribute(XmlNames.TARGET_ATTR) }
-			?.groupBy { it.first }
-			?.mapValues { it.value.map { it2 -> it2.second }.toMutableSet() }
-			?.toMutableMap()
+        // wikidata
+        val wikidataAttr = getFirstOptionalChildElement(synsetElement, XmlNames.WIKIDATA_TAG)
+        val wikidata = wikidataAttr?.textContent
 
-		return Synset(synsetId, type, domain, members, definitions, examples, wikidata, relations)
-	}
+        // synset relations
+        val relationSeq = XmlUtils.sequenceOf(synsetElement.getElementsByTagName(XmlNames.SYNSETRELATION_TAG))
+        val relations = relationSeq //
+            ?.map { it.getAttribute(XmlNames.RELTYPE_ATTR) to it.getAttribute(XmlNames.TARGET_ATTR) }
+            ?.groupBy { it.first }
+            ?.mapValues { it.value.map { it2 -> it2.second }.toMutableSet() }
+            ?.toMutableMap()
 
-	/**
-	 * Build lex
-	 *
-	 * @param lexElement lex element
-	 * @return lex
-	 */
-	private fun getLex(lexElement: Element): Lex {
+        return Synset(synsetId, type, domain, members, definitions, examples, wikidata, relations)
+    }
 
-		val lemmaElement = getFirstChildElement(lexElement, XmlNames.LEMMA_TAG)
-		val lemma = lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR)
-		val code = lemmaElement.getAttribute(XmlNames.POS_ATTR)
+    /**
+     * Build lex
+     *
+     * @param lexElement lex element
+     * @return lex
+     */
+    private fun getLex(lexElement: Element): Lex {
 
-		// morphs
-		val morphSeq = XmlUtils.sequenceOf(lexElement.getElementsByTagName(XmlNames.FORM_TAG))
-		val morphs = morphSeq
-			?.map { it.getAttribute(XmlNames.WRITTENFORM_ATTR) }
-			?.toList()
-			?.toTypedArray()
+        val lemmaElement = getFirstChildElement(lexElement, XmlNames.LEMMA_TAG)
+        val lemma = lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR)
+        val code = lemmaElement.getAttribute(XmlNames.POS_ATTR)
 
-		// pronunciations
-		val pronunciationSeq = XmlUtils.sequenceOf(lexElement.getElementsByTagName(XmlNames.PRONUNCIATION_TAG))
-		val pronunciations = pronunciationSeq
-			?.map { Pronunciation(it.textContent, it.getAttribute(XmlNames.VARIETY_ATTR).ifEmpty { null }) }
-			?.toList()
-			?.toTypedArray()
+        // morphs
+        val morphSeq = XmlUtils.sequenceOf(lexElement.getElementsByTagName(XmlNames.FORM_TAG))
+        val morphs = morphSeq
+            ?.map { it.getAttribute(XmlNames.WRITTENFORM_ATTR) }
+            ?.toList()
+            ?.toTypedArray()
 
-		return Lex(lemma, code, null).apply {
-			this.pronunciations = pronunciations
-			this.forms = morphs
-		}
-	}
+        // pronunciations
+        val pronunciationSeq = XmlUtils.sequenceOf(lexElement.getElementsByTagName(XmlNames.PRONUNCIATION_TAG))
+        val pronunciations = pronunciationSeq
+            ?.map { Pronunciation(it.textContent, it.getAttribute(XmlNames.VARIETY_ATTR).ifEmpty { null }) }
+            ?.toList()
+            ?.toTypedArray()
 
-	/**
-	 * Build senses
-	 *
-	 * @param lexElement lex element
-	 * @param lex        lex
-	 * @return senses
-	 */
-	private fun getSenses(lexElement: Element, lex: Lex): List<Sense> {
-		val senseSeq = XmlUtils.sequenceOf(lexElement.getElementsByTagName(XmlNames.SENSE_TAG))!!
-		return senseSeq.withIndex() //
-			.map { getSense(it.value, lex, lex.type, it.index) }
-			.toList()
-	}
+        return Lex(lemma, code, null).apply {
+            this.pronunciations = pronunciations
+            this.forms = morphs
+        }
+    }
 
-	/**
-	 * Build sense
-	 *
-	 * @param senseElement sense element
-	 * @param lex          lex
-	 * @param type         synset type
-	 * @param index        index of sense in lex
-	 * @return sense
-	 */
-	private fun getSense(senseElement: Element, lex: Lex?, type: Char, index: Int): Sense {
-		// attributes
-		val id = senseElement.getAttribute(XmlNames.ID_ATTR)
-		val nAttr = senseElement.getAttribute(XmlNames.N_ATTR)
-		val synsetId = senseElement.getAttribute(XmlNames.SYNSET_ATTR)
-		val verbFramesAttr = senseElement.getAttribute(XmlNames.VERBFRAMES_ATTR)
-		val adjPositionAttr = senseElement.getAttribute(XmlNames.ADJPOSITION_ATTR)
+    /**
+     * Build senses
+     *
+     * @param lexElement lex element
+     * @param lex        lex
+     * @return senses
+     */
+    private fun getSenses(lexElement: Element, lex: Lex): List<Sense> {
+        val senseSeq = XmlUtils.sequenceOf(lexElement.getElementsByTagName(XmlNames.SENSE_TAG))!!
+        return senseSeq.withIndex() //
+            .map { getSense(it.value, lex, lex.type, it.index) }
+            .toList()
+    }
 
-		// sensekey
-		val sensekey = toSensekey(id)
+    /**
+     * Build sense
+     *
+     * @param senseElement sense element
+     * @param lex          lex
+     * @param type         synset type
+     * @param index        index of sense in lex
+     * @return sense
+     */
+    private fun getSense(senseElement: Element, lex: Lex?, type: Char, index: Int): Sense {
+        // attributes
+        val id = senseElement.getAttribute(XmlNames.ID_ATTR)
+        val nAttr = senseElement.getAttribute(XmlNames.N_ATTR)
+        val synsetId = senseElement.getAttribute(XmlNames.SYNSET_ATTR)
+        val verbFramesAttr = senseElement.getAttribute(XmlNames.VERBFRAMES_ATTR)
+        val adjPositionAttr = senseElement.getAttribute(XmlNames.ADJPOSITION_ATTR)
 
-		// n
-		val n = if (nAttr.isEmpty()) index else nAttr.toInt()
+        // sensekey
+        val sensekey = toSensekey(id)
 
-		// relations
-		val relationStream = XmlUtils.sequenceOf(senseElement.getElementsByTagName(XmlNames.SENSERELATION_TAG))
-		val relations = relationStream
-			?.map { it.getAttribute(XmlNames.RELTYPE_ATTR) to toSensekey(it.getAttribute(XmlNames.TARGET_ATTR)) }
-			?.groupBy { it.first }
-			?.mapValues { it.value.map { it2 -> it2.second }.toMutableSet() }
-			?.toMutableMap()
+        // n
+        val n = if (nAttr.isEmpty()) index else nAttr.toInt()
 
-		// verb frames
-		val verbFrames = if (verbFramesAttr.isEmpty()) null else verbFramesAttr.split("\\s".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        // relations
+        val relationStream = XmlUtils.sequenceOf(senseElement.getElementsByTagName(XmlNames.SENSERELATION_TAG))
+        val relations = relationStream
+            ?.map { it.getAttribute(XmlNames.RELTYPE_ATTR) to toSensekey(it.getAttribute(XmlNames.TARGET_ATTR)) }
+            ?.groupBy { it.first }
+            ?.mapValues { it.value.map { it2 -> it2.second }.toMutableSet() }
+            ?.toMutableMap()
 
-		// adj position
-		val adjPosition = adjPositionAttr.ifEmpty { null }
+        // verb frames
+        val verbFrames = if (verbFramesAttr.isEmpty()) null else verbFramesAttr.split("\\s".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
-		return Sense(sensekey, lex!!, type, n, synsetId, null, verbFrames, adjPosition, relations)
-	}
+        // adj position
+        val adjPosition = adjPositionAttr.ifEmpty { null }
 
-	companion object {
-		/**
-		 * XPath for lex elements
-		 */
-		protected val LEX_XPATH: String = String.format(
-			"/%s/%s/%s",  //
-			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.LEXICALENTRY_TAG
-		)
+        return Sense(sensekey, lex!!, type, n, synsetId, null, verbFrames, adjPosition, relations)
+    }
 
-		/**
-		 * XPath for synset elements
-		 */
-		protected val SYNSET_XPATH: String = String.format(
-			"/%s/%s/%s",  //
-			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.SYNSET_TAG
-		)
+    companion object {
 
-		/**
-		 * XPath for verb frame elements
-		 */
-		protected val VERBFRAMES_XPATH: String = String.format(
-			"/%s/%s/%s",  //
-			XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.SYNTACTICBEHAVIOUR_TAG
-		)
-	}
+        /**
+         * XPath for lex elements
+         */
+        protected val LEX_XPATH: String = String.format(
+            "/%s/%s/%s",  //
+            XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.LEXICALENTRY_TAG
+        )
+
+        /**
+         * XPath for synset elements
+         */
+        protected val SYNSET_XPATH: String = String.format(
+            "/%s/%s/%s",  //
+            XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.SYNSET_TAG
+        )
+
+        /**
+         * XPath for verb frame elements
+         */
+        protected val VERBFRAMES_XPATH: String = String.format(
+            "/%s/%s/%s",  //
+            XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.SYNTACTICBEHAVIOUR_TAG
+        )
+    }
 }

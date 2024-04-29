@@ -13,43 +13,44 @@ import javax.xml.xpath.XPathExpressionException
  * Verb template parser
  */
 class VerbTemplateParser
-	(file: File?) {
-	/**
-	 * W3C document
-	 */
-	private val doc = getDocument(file!!, false)
+    (file: File?) {
 
-	/**
-	 * Parse
-	 *
-	 * @return collection of verb templates
-	 * @throws XPathExpressionException xpath expression exception
-	 */
-	@Throws(XPathExpressionException::class)
-	fun parse(): Collection<VerbTemplate> {
-		val verbTemplatesSeq = XmlUtils.sequenceOf(getXPathNodeList(VERBTEMPLATES_XPATH, doc))!!
-		return verbTemplatesSeq
-			.map {
-				val idAttr = it.getAttribute(XmlNames.ID_ATTR)
-				val id = idAttr.toInt()
-				val template = it.textContent
-				VerbTemplate(id, template)
-			}
-			.toList()
-	}
+    /**
+     * W3C document
+     */
+    private val doc = getDocument(file!!, false)
 
-	companion object {
+    /**
+     * Parse
+     *
+     * @return collection of verb templates
+     * @throws XPathExpressionException xpath expression exception
+     */
+    @Throws(XPathExpressionException::class)
+    fun parse(): Collection<VerbTemplate> {
+        val verbTemplatesSeq = XmlUtils.sequenceOf(getXPathNodeList(VERBTEMPLATES_XPATH, doc))!!
+        return verbTemplatesSeq
+            .map {
+                val idAttr = it.getAttribute(XmlNames.ID_ATTR)
+                val id = idAttr.toInt()
+                val template = it.textContent
+                VerbTemplate(id, template)
+            }
+            .toList()
+    }
 
-		private const val VERB_TEMPLATES_TAG: String = "VerbTemplates"
+    companion object {
 
-		private const val VERB_TEMPLATE_TAG: String = "VerbTemplate"
+        private const val VERB_TEMPLATES_TAG: String = "VerbTemplates"
 
-		/**
-		 * XPath for verb template elements
-		 */
-		private val VERBTEMPLATES_XPATH = String.format(
-			"/%s/%s",  //
-			VERB_TEMPLATES_TAG, VERB_TEMPLATE_TAG
-		)
-	}
+        private const val VERB_TEMPLATE_TAG: String = "VerbTemplate"
+
+        /**
+         * XPath for verb template elements
+         */
+        private val VERBTEMPLATES_XPATH = String.format(
+            "/%s/%s",  //
+            VERB_TEMPLATES_TAG, VERB_TEMPLATE_TAG
+        )
+    }
 }

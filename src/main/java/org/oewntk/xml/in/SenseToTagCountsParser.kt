@@ -13,47 +13,48 @@ import javax.xml.xpath.XPathExpressionException
  * Sense-to-tag_count parser
  */
 class SenseToTagCountsParser
-	(file: File?) {
-	/**
-	 * W3C document
-	 */
-	private val doc = getDocument(file!!, false)
+    (file: File?) {
 
-	/**
-	 * Parse
-	 *
-	 * @return collection of sensekey-tag_count pairs
-	 * @throws XPathExpressionException xpath expression exception
-	 */
-	@Throws(XPathExpressionException::class)
-	fun parse(): Collection<Pair<String, TagCount>> {
-		val tagCountSeq = XmlUtils.sequenceOf(getXPathNodeList(SENSES_TAGCOUNTS_XPATH, doc))!!
-		return tagCountSeq
-			.map {
-				val sensekey = it.getAttribute(SENSEKEY_ATTR)
-				val senseNumAttr = it.getAttribute(SENSENUM_ATTR)
-				val tagCntAttr = it.getAttribute(TAGCOUNT_ATTR)
-				val tagCount = TagCount(senseNumAttr.toInt(), tagCntAttr.toInt())
-				Pair<String, TagCount>(sensekey, tagCount)
-			}
-			.toList()
-	}
+    /**
+     * W3C document
+     */
+    private val doc = getDocument(file!!, false)
 
-	companion object {
+    /**
+     * Parse
+     *
+     * @return collection of sensekey-tag_count pairs
+     * @throws XPathExpressionException xpath expression exception
+     */
+    @Throws(XPathExpressionException::class)
+    fun parse(): Collection<Pair<String, TagCount>> {
+        val tagCountSeq = XmlUtils.sequenceOf(getXPathNodeList(SENSES_TAGCOUNTS_XPATH, doc))!!
+        return tagCountSeq
+            .map {
+                val sensekey = it.getAttribute(SENSEKEY_ATTR)
+                val senseNumAttr = it.getAttribute(SENSENUM_ATTR)
+                val tagCntAttr = it.getAttribute(TAGCOUNT_ATTR)
+                val tagCount = TagCount(senseNumAttr.toInt(), tagCntAttr.toInt())
+                Pair<String, TagCount>(sensekey, tagCount)
+            }
+            .toList()
+    }
 
-		private const val SENSES_TAGCOUNTS_TAG = "maps"
+    companion object {
 
-		private const val SENSE_TAGCOUNT_TAG = "map"
+        private const val SENSES_TAGCOUNTS_TAG = "maps"
 
-		private const val SENSEKEY_ATTR = "sk"
+        private const val SENSE_TAGCOUNT_TAG = "map"
 
-		private const val TAGCOUNT_ATTR = "tagcount"
+        private const val SENSEKEY_ATTR = "sk"
 
-		private const val SENSENUM_ATTR = "sensenum"
+        private const val TAGCOUNT_ATTR = "tagcount"
 
-		/**
-		 * XPath for sense to verb template elements
-		 */
-		private val SENSES_TAGCOUNTS_XPATH = String.format("/%s/%s", SENSES_TAGCOUNTS_TAG, SENSE_TAGCOUNT_TAG)
-	}
+        private const val SENSENUM_ATTR = "sensenum"
+
+        /**
+         * XPath for sense to verb template elements
+         */
+        private val SENSES_TAGCOUNTS_XPATH = String.format("/%s/%s", SENSES_TAGCOUNTS_TAG, SENSE_TAGCOUNT_TAG)
+    }
 }

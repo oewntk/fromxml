@@ -14,33 +14,33 @@ import org.oewntk.xml.`in`.LibTestsXmlCommon.ps
 
 class TestsXmlModelDuplicates {
 
-	@Test
-	fun testKeyOEWN() {
-		testDuplicatesForKeyOEWN(model!!, ps)
-	}
+    @Test
+    fun testKeyOEWN() {
+        testDuplicatesForKeyOEWN(model!!, ps)
+    }
 
-	@Test
-	fun testKeyPos() {
-		testDuplicatesForKeyPos(model!!, ps)
-	}
+    @Test
+    fun testKeyPos() {
+        testDuplicatesForKeyPos(model!!, ps)
+    }
 
-	@Test
-	fun testKeyIC() {
-		testDuplicatesForKeyIC(model!!, ps)
-	}
+    @Test
+    fun testKeyIC() {
+        testDuplicatesForKeyIC(model!!, ps)
+    }
 
-	@Test
-	fun testKeyPWN() {
-		testDuplicatesForKeyPWN(model!!, ps)
-	}
+    @Test
+    fun testKeyPWN() {
+        testDuplicatesForKeyPWN(model!!, ps)
+    }
 
-	companion object {
+    companion object {
 
-		@JvmStatic
-		@BeforeClass
-		fun init() {
-			LibTestsXmlCommon.init()
-			checkNotNull(model)
-		}
-	}
+        @JvmStatic
+        @BeforeClass
+        fun init() {
+            LibTestsXmlCommon.init()
+            checkNotNull(model)
+        }
+    }
 }

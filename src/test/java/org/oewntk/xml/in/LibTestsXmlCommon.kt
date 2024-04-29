@@ -10,30 +10,30 @@ import java.io.PrintStream
 
 object LibTestsXmlCommon {
 
-	private val source: String? = System.getProperty("SOURCE")
+    private val source: String? = System.getProperty("SOURCE")
 
-	val ps: PrintStream = if (!System.getProperties().containsKey("SILENT")) Tracing.psInfo else Tracing.psNull
+    val ps: PrintStream = if (!System.getProperties().containsKey("SILENT")) Tracing.psInfo else Tracing.psNull
 
-	var model: CoreModel? = null
+    var model: CoreModel? = null
 
-	fun init() {
-		if (model == null) {
-			if (source == null) {
-				Tracing.psErr.println("Define XML source file dir with -DSOURCE=path")
-				Tracing.psErr.println("When running Maven tests, define the oewn.xml file in a xml directory that is child to the project directory.")
-				Assert.fail()
-			}
-			val file = File(source!!)
-			Tracing.psInfo.printf("source=%s%n", file.absolutePath)
-			if (!file.exists()) {
-				Tracing.psErr.println("Define XML source dir that exists")
-				Assert.fail()
-			}
+    fun init() {
+        if (model == null) {
+            if (source == null) {
+                Tracing.psErr.println("Define XML source file dir with -DSOURCE=path")
+                Tracing.psErr.println("When running Maven tests, define the oewn.xml file in a xml directory that is child to the project directory.")
+                Assert.fail()
+            }
+            val file = File(source!!)
+            Tracing.psInfo.printf("source=%s%n", file.absolutePath)
+            if (!file.exists()) {
+                Tracing.psErr.println("Define XML source dir that exists")
+                Assert.fail()
+            }
 
-			model = CoreFactory(file).get()
-		}
-		checkNotNull(model)
-		ps.println(model!!.info())
-		ps.println(model!!.counts())
-	}
+            model = CoreFactory(file).get()
+        }
+        checkNotNull(model)
+        ps.println(model!!.info())
+        ps.println(model!!.counts())
+    }
 }
