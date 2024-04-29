@@ -19,7 +19,7 @@ class TestsXmlModelDuplicates {
 		testDuplicatesForKeyOEWN(model!!, ps)
 	}
 
-	@Test(expected = AssertionError::class)
+	@Test
 	fun testKeyPos() {
 		testDuplicatesForKeyPos(model!!, ps)
 	}
