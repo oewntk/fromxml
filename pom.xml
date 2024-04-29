@@ -144,17 +144,9 @@
         <version>2.22.2</version>
         <configuration>
           <systemPropertyVariables>
-            <property>
-              <name>SOURCE</name>
-              <value>${project.basedir}/xml/oewn.xml</value>
-            </property>
-            <property>
-              <name>SOURCE2</name>
-              <value>${project.basedir}/xml2</value>
-            </property>
-            <property>
-              <name>SILENT</name>
-            </property>
+            <SOURCE>${project.basedir}/xml/oewn.xml</SOURCE>
+            <SOURCE2>${project.basedir}/xml2</SOURCE2>
+            <SILENT/>
           </systemPropertyVariables>
         </configuration>
       </plugin>
