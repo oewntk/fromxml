@@ -33,7 +33,12 @@ class Factory(
             // tag counts
             val senseToTagCounts = SenseToTagCountsParser(File(inDir2, "senseToTagCounts.xml")).parse()
 
-            return Model(coreModel, verbFrames, verbTemplates, senseToVerbTemplates, senseToTagCounts).setSources(file, inDir2)
+            return Model(coreModel, verbFrames, verbTemplates, senseToVerbTemplates, senseToTagCounts)
+                .apply {
+                    source = file
+                    source2 = inDir2
+                }
+
         } catch (e: IOException) {
             e.printStackTrace(Tracing.psErr)
             return null
