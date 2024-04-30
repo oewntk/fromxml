@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2024. Bernard Bou.
+ */
+
 package org.oewntk.xml.`in`
 
 import org.w3c.dom.Element
