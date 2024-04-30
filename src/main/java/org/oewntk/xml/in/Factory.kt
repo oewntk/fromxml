@@ -4,6 +4,7 @@
 package org.oewntk.xml.`in`
 
 import org.oewntk.model.Model
+import org.oewntk.model.ModelInfo
 import org.xml.sax.SAXException
 import java.io.File
 import java.io.IOException
@@ -76,7 +77,7 @@ class Factory(
         @JvmStatic
         fun main(args: Array<String>) {
             val model = makeModel(args)
-            Tracing.psInfo.printf("[Model] %s%n%s%n%s%n", model!!.sources.contentToString(), model.info(), model.counts())
+            Tracing.psInfo.printf("[Model] %s%n%s%n%s%n", model!!.sources.contentToString(), model.info(), ModelInfo.counts(model))
         }
     }
 }
