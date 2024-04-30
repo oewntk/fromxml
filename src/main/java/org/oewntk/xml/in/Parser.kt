@@ -150,7 +150,7 @@ open class Parser(
 
         // synset relations
         val relationSeq = XmlUtils.sequenceOf(synsetElement.getElementsByTagName(XmlNames.SYNSETRELATION_TAG))
-        val relations = relationSeq //
+        val relations = relationSeq 
             ?.map { it.getAttribute(XmlNames.RELTYPE_ATTR) to it.getAttribute(XmlNames.TARGET_ATTR) }
             ?.groupBy { it.first }
             ?.mapValues { it.value.map { it2 -> it2.second }.toMutableSet() }
@@ -200,7 +200,7 @@ open class Parser(
      */
     private fun getSenses(lexElement: Element, lex: Lex): List<Sense> {
         val senseSeq = XmlUtils.sequenceOf(lexElement.getElementsByTagName(XmlNames.SENSE_TAG))!!
-        return senseSeq.withIndex() //
+        return senseSeq.withIndex() 
             .map { getSense(it.value, lex, lex.type, it.index) }
             .toList()
     }
@@ -251,7 +251,7 @@ open class Parser(
          * XPath for lex elements
          */
         protected val LEX_XPATH: String = String.format(
-            "/%s/%s/%s",  //
+            "/%s/%s/%s",  
             XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.LEXICALENTRY_TAG
         )
 
@@ -259,7 +259,7 @@ open class Parser(
          * XPath for synset elements
          */
         protected val SYNSET_XPATH: String = String.format(
-            "/%s/%s/%s",  //
+            "/%s/%s/%s",  
             XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.SYNSET_TAG
         )
 
@@ -267,7 +267,7 @@ open class Parser(
          * XPath for verb frame elements
          */
         protected val VERBFRAMES_XPATH: String = String.format(
-            "/%s/%s/%s",  //
+            "/%s/%s/%s",  
             XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.SYNTACTICBEHAVIOUR_TAG
         )
     }

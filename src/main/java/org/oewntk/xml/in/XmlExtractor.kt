@@ -131,27 +131,27 @@ object XmlExtractor {
         val sk = if (id.startsWith(PREFIX)) id.substring(PREFIX_LENGTH) else id
         val b = sk.indexOf("__")
 
-        val lemma = sk.substring(0, b) //
-            .replace("-ap-", "'") //
-            .replace("-lb-", "(") //
-            .replace("-rb-", ")") //
-            .replace("-sl-", "/") //
-            .replace("-cm-", ",") //
-            .replace("-ex-", "!") //
-            .replace("-cl-", ":") //
-            .replace("-pl-", "+") //
+        val lemma = sk.substring(0, b) 
+            .replace("-ap-", "'") 
+            .replace("-lb-", "(") 
+            .replace("-rb-", ")") 
+            .replace("-sl-", "/") 
+            .replace("-cm-", ",") 
+            .replace("-ex-", "!") 
+            .replace("-cl-", ":") 
+            .replace("-pl-", "+") 
             .replace("-sp-", "_")
 
-        val tail = sk.substring(b + 2) //
-            .replace(".", ":") //
-            .replace("-ap-", "'") //
-            .replace("-lb-", "(") //
-            .replace("-rb-", ")") //
-            .replace("-sl-", "/") //
-            .replace("-cm-", ",") //
-            .replace("-ex-", "!") //
-            .replace("-cl-", ":") //
-            .replace("-pl-", "+") //
+        val tail = sk.substring(b + 2) 
+            .replace(".", ":") 
+            .replace("-ap-", "'") 
+            .replace("-lb-", "(") 
+            .replace("-rb-", ")") 
+            .replace("-sl-", "/") 
+            .replace("-cm-", ",") 
+            .replace("-ex-", "!") 
+            .replace("-cl-", ":") 
+            .replace("-pl-", "+") 
             .replace("-sp-", "_")
 
         return "$lemma%$tail"
