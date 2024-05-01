@@ -48,9 +48,6 @@ class VerbTemplateParser
         /**
          * XPath for verb template elements
          */
-        private val VERBTEMPLATES_XPATH = String.format(
-            "/%s/%s",  
-            VERB_TEMPLATES_TAG, VERB_TEMPLATE_TAG
-        )
+        private const val VERBTEMPLATES_XPATH = "/${VERB_TEMPLATES_TAG}/${VERB_TEMPLATE_TAG}"
     }
 }

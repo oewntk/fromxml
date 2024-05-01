@@ -5,6 +5,11 @@ package org.oewntk.xml.`in`
 
 import org.oewntk.model.*
 import org.oewntk.xml.`in`.XmlExtractor.toSensekey
+import org.oewntk.xml.`in`.XmlNames.LEXICALENTRY_TAG
+import org.oewntk.xml.`in`.XmlNames.LEXICALRESOURCE_TAG
+import org.oewntk.xml.`in`.XmlNames.LEXICON_TAG
+import org.oewntk.xml.`in`.XmlNames.SYNSET_TAG
+import org.oewntk.xml.`in`.XmlNames.SYNTACTICBEHAVIOUR_TAG
 import org.oewntk.xml.`in`.XmlUtils.getDocument
 import org.oewntk.xml.`in`.XmlUtils.getFirstChildElement
 import org.oewntk.xml.`in`.XmlUtils.getFirstOptionalChildElement
@@ -150,7 +155,7 @@ open class Parser(
 
         // synset relations
         val relationSeq = XmlUtils.sequenceOf(synsetElement.getElementsByTagName(XmlNames.SYNSETRELATION_TAG))
-        val relations = relationSeq 
+        val relations = relationSeq
             ?.map { it.getAttribute(XmlNames.RELTYPE_ATTR) to it.getAttribute(XmlNames.TARGET_ATTR) }
             ?.groupBy { it.first }
             ?.mapValues { it.value.map { it2 -> it2.second }.toMutableSet() }
@@ -200,7 +205,7 @@ open class Parser(
      */
     private fun getSenses(lexElement: Element, lex: Lex): List<Sense> {
         val senseSeq = XmlUtils.sequenceOf(lexElement.getElementsByTagName(XmlNames.SENSE_TAG))!!
-        return senseSeq.withIndex() 
+        return senseSeq.withIndex()
             .map { getSense(it.value, lex, lex.type, it.index) }
             .toList()
     }
@@ -250,25 +255,16 @@ open class Parser(
         /**
          * XPath for lex elements
          */
-        protected val LEX_XPATH: String = String.format(
-            "/%s/%s/%s",  
-            XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.LEXICALENTRY_TAG
-        )
+        protected const val LEX_XPATH = "/$LEXICALRESOURCE_TAG/$LEXICON_TAG/$LEXICALENTRY_TAG"
 
         /**
          * XPath for synset elements
          */
-        protected val SYNSET_XPATH: String = String.format(
-            "/%s/%s/%s",  
-            XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.SYNSET_TAG
-        )
+        protected const val SYNSET_XPATH = "/$LEXICALRESOURCE_TAG/$LEXICON_TAG/$SYNSET_TAG"
 
         /**
          * XPath for verb frame elements
          */
-        protected val VERBFRAMES_XPATH: String = String.format(
-            "/%s/%s/%s",  
-            XmlNames.LEXICALRESOURCE_TAG, XmlNames.LEXICON_TAG, XmlNames.SYNTACTICBEHAVIOUR_TAG
-        )
+        protected const val VERBFRAMES_XPATH = "/$LEXICALRESOURCE_TAG/$LEXICON_TAG/$SYNTACTICBEHAVIOUR_TAG"
     }
 }

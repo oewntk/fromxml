@@ -55,6 +55,6 @@ class SenseToTagCountsParser
         /**
          * XPath for sense to verb template elements
          */
-        private val SENSES_TAGCOUNTS_XPATH = String.format("/%s/%s", SENSES_TAGCOUNTS_TAG, SENSE_TAGCOUNT_TAG)
+        private const val SENSES_TAGCOUNTS_XPATH = "/${SENSES_TAGCOUNTS_TAG}/${SENSE_TAGCOUNT_TAG}"
     }
 }
