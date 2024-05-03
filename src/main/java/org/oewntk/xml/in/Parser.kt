@@ -181,14 +181,14 @@ open class Parser(
         val morphs = morphSeq
             ?.map { it.getAttribute(XmlNames.WRITTENFORM_ATTR) }
             ?.toList()
-            ?.toTypedArray()
+            ?.toSet() // preserves order (LinkedHashSet)
 
         // pronunciations
         val pronunciationSeq = XmlUtils.sequenceOf(lexElement.getElementsByTagName(XmlNames.PRONUNCIATION_TAG))
         val pronunciations = pronunciationSeq
             ?.map { Pronunciation(it.textContent, it.getAttribute(XmlNames.VARIETY_ATTR).ifEmpty { null }) }
             ?.toList()
-            ?.toSet()
+            ?.toSet() // preserves order (LinkedHashSet)
 
         return Lex(lemma, code, null).apply {
             this.pronunciations = pronunciations
