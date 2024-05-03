@@ -188,7 +188,7 @@ open class Parser(
         val pronunciations = pronunciationSeq
             ?.map { Pronunciation(it.textContent, it.getAttribute(XmlNames.VARIETY_ATTR).ifEmpty { null }) }
             ?.toList()
-            ?.toTypedArray()
+            ?.toSet()
 
         return Lex(lemma, code, null).apply {
             this.pronunciations = pronunciations
