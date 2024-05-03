@@ -85,7 +85,7 @@ internal object XmlUtils {
      * @return first child element having 'tag' tag or null if there is none
      */
     // @Nullable
-    fun getFirstOptionalChildElement(element: Element, tag: String?): Element? {
+    fun getFirstOptionalChildElement(element: Element, tag: String): Element? {
         val nodeList = element.getElementsByTagName(tag)
         if (nodeList.length >= 1) {
             val node = nodeList.item(0)

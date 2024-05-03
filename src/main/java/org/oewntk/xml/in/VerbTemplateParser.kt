@@ -12,13 +12,14 @@ import javax.xml.xpath.XPathExpressionException
 /**
  * Verb template parser
  */
-class VerbTemplateParser
-    (file: File?) {
+class VerbTemplateParser(
+    file: File,
+) {
 
     /**
      * W3C document
      */
-    private val doc = getDocument(file!!, false)
+    private val doc = getDocument(file, false)
 
     /**
      * Parse

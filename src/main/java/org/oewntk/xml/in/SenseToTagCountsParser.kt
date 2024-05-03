@@ -12,13 +12,14 @@ import javax.xml.xpath.XPathExpressionException
 /**
  * Sense-to-tag_count parser
  */
-class SenseToTagCountsParser
-    (file: File?) {
+class SenseToTagCountsParser(
+    file: File,
+) {
 
     /**
      * W3C document
      */
-    private val doc = getDocument(file!!, false)
+    private val doc = getDocument(file, false)
 
     /**
      * Parse

@@ -66,7 +66,7 @@ object XmlExtractor {
      * @param synsetsById  synsets mapped by id, for resolution
      * @return rank of this sense in synset
      */
-    fun getRank(senseElement: Element, synsetsById: Map<String?, Element?>): Int {
+    fun getRank(senseElement: Element, synsetsById: Map<String, Element>): Int {
         val lexElement = XmlUtils.getParentElement(senseElement)
         val lexId = lexElement.getAttribute(XmlNames.ID_ATTR)
         val synsetId = senseElement.getAttribute(XmlNames.SYNSET_ATTR)
@@ -88,10 +88,9 @@ object XmlExtractor {
      * @param tagCountsBySensekey tag counts mapped by sensekey
      * @return tag count
      */
-    fun getTagCount(senseElement: Element, tagCountsBySensekey: Map<String?, Int?>): Int {
+    fun getTagCount(senseElement: Element, tagCountsBySensekey: Map<String, Int>): Int {
         val sensekey = getSenseKey(senseElement)
-        val tagCount = tagCountsBySensekey[sensekey] ?: return 0
-        return tagCount
+        return tagCountsBySensekey[sensekey] ?: 0
     }
 
     /**
@@ -101,11 +100,9 @@ object XmlExtractor {
      * @param templateIdsBySensekey template ids by sensekey
      * @return verb template list string
      */
-    fun getVerbTemplates(senseElement: Element, templateIdsBySensekey: Map<String?, IntArray?>): String {
+    fun getVerbTemplates(senseElement: Element, templateIdsBySensekey: Map<String, IntArray>): String {
         val sensekey = getSenseKey(senseElement)
-        val templateIds = templateIdsBySensekey[sensekey] ?: return ""
-        return templateIds
-            .joinToString(" ")
+        return templateIdsBySensekey[sensekey]?.joinToString(" ") ?: ""
     }
 
     private const val PREFIX = "oewn-"
@@ -131,27 +128,27 @@ object XmlExtractor {
         val sk = if (id.startsWith(PREFIX)) id.substring(PREFIX_LENGTH) else id
         val b = sk.indexOf("__")
 
-        val lemma = sk.substring(0, b) 
-            .replace("-ap-", "'") 
-            .replace("-lb-", "(") 
-            .replace("-rb-", ")") 
-            .replace("-sl-", "/") 
-            .replace("-cm-", ",") 
-            .replace("-ex-", "!") 
-            .replace("-cl-", ":") 
-            .replace("-pl-", "+") 
+        val lemma = sk.substring(0, b)
+            .replace("-ap-", "'")
+            .replace("-lb-", "(")
+            .replace("-rb-", ")")
+            .replace("-sl-", "/")
+            .replace("-cm-", ",")
+            .replace("-ex-", "!")
+            .replace("-cl-", ":")
+            .replace("-pl-", "+")
             .replace("-sp-", "_")
 
-        val tail = sk.substring(b + 2) 
-            .replace(".", ":") 
-            .replace("-ap-", "'") 
-            .replace("-lb-", "(") 
-            .replace("-rb-", ")") 
-            .replace("-sl-", "/") 
-            .replace("-cm-", ",") 
-            .replace("-ex-", "!") 
-            .replace("-cl-", ":") 
-            .replace("-pl-", "+") 
+        val tail = sk.substring(b + 2)
+            .replace(".", ":")
+            .replace("-ap-", "'")
+            .replace("-lb-", "(")
+            .replace("-rb-", ")")
+            .replace("-sl-", "/")
+            .replace("-cm-", ",")
+            .replace("-ex-", "!")
+            .replace("-cl-", ":")
+            .replace("-pl-", "+")
             .replace("-sp-", "_")
 
         return "$lemma%$tail"
