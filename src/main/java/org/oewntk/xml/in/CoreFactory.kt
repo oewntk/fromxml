@@ -33,9 +33,9 @@ class CoreFactory(
 
     override fun get(): CoreModel? {
         try {
-            return parser 
-                .parseCoreModel() 
-                .generateInverseRelations() 
+            return parser
+                .parseCoreModel()
+                .generateInverseRelations()
                 .apply { source = parser.file }
         } catch (e: XPathExpressionException) {
             e.printStackTrace(Tracing.psErr)
