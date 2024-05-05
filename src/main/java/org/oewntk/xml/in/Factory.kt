@@ -36,8 +36,8 @@ class Factory(
 
             return Model(coreModel, verbFrames, verbTemplates, senseToVerbTemplates, senseToTagCounts)
                 .apply {
-                    source = file
-                    source2 = inDir2
+                    source = file.absolutePath
+                    source2 = inDir2.absolutePath
                 }
 
         } catch (e: IOException) {

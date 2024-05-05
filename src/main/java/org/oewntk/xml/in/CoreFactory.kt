@@ -36,7 +36,7 @@ class CoreFactory(
             return parser
                 .parseCoreModel()
                 .generateInverseRelations()
-                .apply { source = parser.file }
+                .apply { source = parser.file.absolutePath }
         } catch (e: XPathExpressionException) {
             e.printStackTrace(Tracing.psErr)
             return null
