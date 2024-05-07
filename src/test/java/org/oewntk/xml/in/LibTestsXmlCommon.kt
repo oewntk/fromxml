@@ -34,7 +34,5 @@ object LibTestsXmlCommon {
             model = CoreFactory(file).get()
         }
         checkNotNull(model)
-        ps.println(model!!.info())
-        ps.println(ModelInfo.counts(model!!))
     }
 }

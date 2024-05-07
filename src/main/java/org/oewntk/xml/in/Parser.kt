@@ -73,11 +73,9 @@ open class Parser(
         val lexSeq = XmlUtils.sequenceOf(getXPathNodeList(LEX_XPATH, doc))!!
         lexSeq
             .forEach {
+                // lex
                 val lex = getLex(it)
-                val lexSenses = getSenses(it, lex).toMutableList()
-                lex.senses = lexSenses
                 lexes.add(lex)
-                senses.addAll(lexSenses)
                 val lexId = it.getAttribute(XmlNames.ID_ATTR)
                 lexesById[lexId] = lex
             }
@@ -176,6 +174,12 @@ open class Parser(
         val lemma = lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR)
         val code = lemmaElement.getAttribute(XmlNames.POS_ATTR)
 
+        // sensekeys
+        val lexSensekeySeq = XmlUtils.sequenceOf(lexElement.getElementsByTagName(XmlNames.SENSE_TAG))!!
+        val lexSensekeys = lexSensekeySeq
+            .map { it.getAttribute(XmlNames.ID_ATTR) }
+            .toMutableList()
+
         // morphs
         val morphSeq = XmlUtils.sequenceOf(lexElement.getElementsByTagName(XmlNames.FORM_TAG))
         val morphs = morphSeq
@@ -190,10 +194,16 @@ open class Parser(
             ?.toList()
             ?.toSet() // preserves order (LinkedHashSet)
 
-        return Lex(lemma, code, null).apply {
-            this.pronunciations = pronunciations
-            this.forms = morphs
-        }
+        return Lex(lemma, code, null)
+            .apply {
+                this.senseKeys = lexSensekeys
+                this.pronunciations = pronunciations
+                this.forms = morphs
+
+                // make senses
+                val lexSenses = getSenses(lexElement, this)
+                senses.addAll(lexSenses)
+            }
     }
 
     /**
@@ -219,7 +229,7 @@ open class Parser(
      * @param index        index of sense in lex
      * @return sense
      */
-    private fun getSense(senseElement: Element, lex: Lex?, type: Char, index: Int): Sense {
+    private fun getSense(senseElement: Element, lex: Lex, type: Char, index: Int): Sense {
         // attributes
         val id = senseElement.getAttribute(XmlNames.ID_ATTR)
         val nAttr = senseElement.getAttribute(XmlNames.N_ATTR)
