@@ -159,7 +159,7 @@ open class Parser(
             ?.mapValues { it.value.map { it2 -> it2.second }.toMutableSet() }
             ?.toMutableMap()
 
-        return Synset(synsetId, type, domain, members, definitions, examples, wikidata, relations)
+        return Synset(synsetId, type, domain, members, definitions, examples, relations, wikidata)
     }
 
     /**
@@ -194,9 +194,8 @@ open class Parser(
             ?.toList()
             ?.toSet() // preserves order (LinkedHashSet)
 
-        return Lex(lemma, code, null)
+        return Lex(lemma, code, lexSensekeys)
             .apply {
-                this.senseKeys = lexSensekeys
                 this.pronunciations = pronunciations
                 this.forms = morphs
 
@@ -257,7 +256,7 @@ open class Parser(
         // adj position
         val adjPosition = adjPositionAttr.ifEmpty { null }
 
-        return Sense(sensekey, lex!!, type, n, synsetId, null, verbFrames, adjPosition, relations)
+        return Sense(sensekey, lex, type, n, synsetId, verbFrames, adjPosition, relations)
     }
 
     companion object {
