@@ -178,6 +178,7 @@ open class Parser(
         val lexSensekeySeq = XmlUtils.sequenceOf(lexElement.getElementsByTagName(XmlNames.SENSE_TAG))!!
         val lexSensekeys = lexSensekeySeq
             .map { it.getAttribute(XmlNames.ID_ATTR) }
+            .map { toSensekey(it) }
             .toMutableList()
 
         // morphs
