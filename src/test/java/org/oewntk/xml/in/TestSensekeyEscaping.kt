@@ -12,11 +12,13 @@ class TestSensekeyEscaping {
 
     @Test
     fun testKey() {
-        for ((i, id) in tested.withIndex()) {
-            val sk = toSensekey(id)
-            Assert.assertEquals(expected[i], sk)
-            ps.printf("%s -> %s%n", id, sk)
-        }
+        tested
+            .withIndex()
+            .forEach {
+                val sk = toSensekey(it.value)
+                Assert.assertEquals(expected[it.index], sk)
+                ps.printf("%s -> %s%n", it.value, sk)
+            }
     }
 
     companion object {
