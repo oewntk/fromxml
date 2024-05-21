@@ -76,16 +76,7 @@ object XmlExtractor {
         val found = members
             .withIndex()
             .firstOrNull { lexId == it.value } ?: throw RuntimeException("[E] member attr not found $lexId")
-        val rank2 = found.index
-
-        // TODO remove
-        for ((i, member) in members.withIndex()) {
-            if (lexId == member) {
-                assert (i == rank2)
-                return i
-            }
-        }
-        throw RuntimeException("[E] member attr not found $lexId")
+        return found.index
     }
 
     /**
