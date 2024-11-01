@@ -143,9 +143,22 @@ open class Parser(
         // examples
         val exampleSeq = XmlUtils.sequenceOf(synsetElement.getElementsByTagName(XmlNames.EXAMPLE_TAG))
         val examples = exampleSeq
+            ?.map {
+                val source = it.getAttribute(XmlNames.EXAMPLE_SOURCE_ATTR)
+                it.textContent as String to if (source.isEmpty()) null else source
+            }
+            ?.toList()
+            ?.toTypedArray()
+
+        // examples
+        val usageSeq = XmlUtils.sequenceOf(synsetElement.getElementsByTagName(XmlNames.USAGE_TAG))
+        val usages = usageSeq
             ?.map { it.textContent as String }
             ?.toList()
             ?.toTypedArray()
+
+        // ili
+        val ili = synsetElement.getAttribute(XmlNames.ILI_ATTR)
 
         // wikidata
         val wikidataAttr = getFirstOptionalChildElement(synsetElement, XmlNames.WIKIDATA_TAG)
@@ -159,7 +172,7 @@ open class Parser(
             ?.mapValues { it.value.map { it2 -> it2.second }.toMutableSet() }
             ?.toMutableMap()
 
-        return Synset(synsetId, type, domain, members, definitions, examples, relations, wikidata)
+        return Synset(synsetId, type, domain, members, definitions, examples, usages, relations, ili, wikidata)
     }
 
     /**
@@ -243,6 +256,16 @@ open class Parser(
         // n
         val n = if (nAttr.isEmpty()) index else nAttr.toInt()
 
+        // examples
+        val exampleSeq = XmlUtils.sequenceOf(senseElement.getElementsByTagName(XmlNames.EXAMPLE_TAG))
+        val examples = exampleSeq
+            ?.map {
+                val source = it.getAttribute(XmlNames.EXAMPLE_SOURCE_ATTR)
+                it.textContent as String to if (source.isEmpty()) null else source
+            }
+            ?.toList()
+            ?.toTypedArray()
+
         // relations
         val relationStream = XmlUtils.sequenceOf(senseElement.getElementsByTagName(XmlNames.SENSERELATION_TAG))
         val relations = relationStream
@@ -257,7 +280,7 @@ open class Parser(
         // adj position
         val adjPosition = adjPositionAttr.ifEmpty { null }
 
-        return Sense(sensekey, lex, type, n, synsetId, verbFrames, adjPosition, relations)
+        return Sense(sensekey, lex, type, n, synsetId, examples, verbFrames, adjPosition, relations)
     }
 
     companion object {

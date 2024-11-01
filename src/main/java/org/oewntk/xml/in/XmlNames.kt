@@ -31,6 +31,8 @@ object XmlNames {
 
     const val EXAMPLE_TAG: String = "Example"
 
+    const val USAGE_TAG: String = "Usage"
+
     const val SYNSETRELATION_TAG: String = "SynsetRelation"
 
     const val WIKIDATA_TAG: String = "WikiData"
@@ -73,4 +75,8 @@ object XmlNames {
     const val VERBFRAMES_ATTR: String = "subcat"
 
     const val VERBFRAME_ATTR: String = "subcategorizationFrame"
+
+    const val EXAMPLE_SOURCE_ATTR: String = "source"
+
+    const val ILI_ATTR: String = "ili"
 }
