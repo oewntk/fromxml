@@ -9,11 +9,13 @@ package org.oewntk.xml.`in`
  *
  * @author Bernard Bou
  */
+@Suppress("unused")
 object XmlNames {
 
     /**
      * DC XML namespace
      */
+    @Suppress("unused")
     internal const val NS_DC: String = "https://globalwordnet.github.io/schemas/dc/"
 
     // elements
