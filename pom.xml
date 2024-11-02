@@ -7,7 +7,7 @@
 
   <groupId>io.github.oewntk</groupId>
   <artifactId>fromxml</artifactId>
-  <version>2.2.1</version>
+  <version>2.2.2</version>
   <name>from_xml</name>
   <description>Parse WordNet XML file into model.</description>
   <url>https://github.com/oewntk/fromxml</url>
@@ -23,12 +23,12 @@
     <dependency>
       <groupId>io.github.oewntk</groupId>
       <artifactId>model</artifactId>
-      <version>2.2.1</version>
+      <version>2.2.2</version>
     </dependency>
     <dependency>
       <groupId>io.github.oewntk</groupId>
       <artifactId>model</artifactId>
-      <version>2.2.1</version>
+      <version>2.2.2</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
