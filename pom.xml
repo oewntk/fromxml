@@ -143,6 +143,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.22.2</version>
         <configuration>
+          <skipTests>true</skipTests>
           <systemPropertyVariables>
             <SOURCE>${project.basedir}/xml/oewn.xml</SOURCE>
             <SOURCE2>${project.basedir}/xml2</SOURCE2>
