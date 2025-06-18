@@ -12,7 +12,6 @@ import org.oewntk.xml.`in`.XmlNames.SYNSET_TAG
 import org.oewntk.xml.`in`.XmlNames.SYNTACTICBEHAVIOUR_TAG
 import org.oewntk.xml.`in`.XmlUtils.getDocument
 import org.oewntk.xml.`in`.XmlUtils.getFirstChildElement
-import org.oewntk.xml.`in`.XmlUtils.getFirstOptionalChildElement
 import org.oewntk.xml.`in`.XmlUtils.getXPathNodeList
 import org.w3c.dom.Element
 import java.io.File
@@ -161,8 +160,10 @@ open class Parser(
         val ili = synsetElement.getAttribute(XmlNames.ILI_ATTR)
 
         // wikidata
-        val wikidataAttr = getFirstOptionalChildElement(synsetElement, XmlNames.WIKIDATA_TAG)
-        val wikidata = wikidataAttr?.textContent
+        val wikidataSeq = XmlUtils.sequenceOf(synsetElement.getElementsByTagName(XmlNames.WIKIDATA_TAG))
+        val wikidata = wikidataSeq
+            ?.map { it.textContent as String }
+            ?.toList()
 
         // synset relations
         val relationSeq = XmlUtils.sequenceOf(synsetElement.getElementsByTagName(XmlNames.SYNSETRELATION_TAG))
