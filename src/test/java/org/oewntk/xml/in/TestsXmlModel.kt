@@ -13,8 +13,8 @@ class TestsXmlModel {
 
     @Test
     fun testModelInfo() {
-        val info = model!!.info()
-        val counts = ModelInfo.counts(model!!)
+        val info = model.info()
+        val counts = ModelInfo.counts(model)
         ps.println("$info\n$counts")
     }
 
@@ -23,8 +23,7 @@ class TestsXmlModel {
         @JvmStatic
         @BeforeClass
         fun init() {
-            LibTestsXmlCommon.init()
-            checkNotNull(model)
+            model
         }
     }
 }

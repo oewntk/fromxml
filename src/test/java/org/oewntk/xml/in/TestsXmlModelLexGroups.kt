@@ -18,56 +18,56 @@ import org.oewntk.xml.`in`.LibTestsXmlCommon.model
 
 class TestsXmlModelLexGroups {
 
-    private val lexHyperMap: Map<String, Map<String, Collection<Lex>>> by lazy { LexGroupings.hyperMapByLCLemmaByLemma(model!!) }
+    private val lexHyperMap: Map<String, Map<String, Collection<Lex>>> by lazy { LexGroupings.hyperMapByLCLemmaByLemma(model) }
 
     @Test
     fun testCIMultipleAll() {
-        testCIMultipleAll(model!!, LibTestsXmlCommon.ps)
+        testCIMultipleAll(model, LibTestsXmlCommon.ps)
     }
 
     @Test
     fun testCILemmas() {
-        testCILemmas(model!!, "battle of verdun", LibTestsXmlCommon.ps)
+        testCILemmas(model, "battle of verdun", LibTestsXmlCommon.ps)
     }
 
     @Test
     fun testCICounts() {
-        testCICounts(model!!, "battle of verdun", LibTestsXmlCommon.ps)
+        testCICounts(model, "battle of verdun", LibTestsXmlCommon.ps)
     }
 
     @Test
     fun testCICountsFromMap() {
-        testCICountsFromMap(model!!, "battle of verdun", LibTestsXmlCommon.ps)
+        testCICountsFromMap(model, "battle of verdun", LibTestsXmlCommon.ps)
     }
 
     @Test
     fun testCIAi() {
-        testCILexesFor(model!!, "ai", LibTestsXmlCommon.ps)
+        testCILexesFor(model, "ai", LibTestsXmlCommon.ps)
     }
 
     @Test
     fun testCIBaroque() {
-        testCILexesFor(model!!, "baroque", LibTestsXmlCommon.ps)
+        testCILexesFor(model, "baroque", LibTestsXmlCommon.ps)
     }
 
     @Test
     fun testCIWest3() {
-        testCILexesFor3(model!!, "West", LibTestsXmlCommon.ps)
+        testCILexesFor3(model, "West", LibTestsXmlCommon.ps)
     }
 
     @Test
     fun testCIBaroque3() {
-        testCILexesFor3(model!!, "Baroque", LibTestsXmlCommon.ps)
+        testCILexesFor3(model, "Baroque", LibTestsXmlCommon.ps)
     }
 
     @Test
     fun testCIAi3() {
-        testCILexesFor3(model!!, "Ai", LibTestsXmlCommon.ps)
+        testCILexesFor3(model, "Ai", LibTestsXmlCommon.ps)
     }
 
     @Test
     fun testCIAbsolute3() {
-        testCILexesFor3(model!!, "Absolute", LibTestsXmlCommon.ps)
+        testCILexesFor3(model, "Absolute", LibTestsXmlCommon.ps)
     }
 
     @Test
@@ -85,8 +85,7 @@ class TestsXmlModelLexGroups {
         @JvmStatic
         @BeforeClass
         fun init() {
-            LibTestsXmlCommon.init()
-            checkNotNull(model)
+            model
         }
     }
 }

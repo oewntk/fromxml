@@ -24,7 +24,7 @@ class TestsXmlModelKeys {
 
     @Test
     fun testMobile() {
-        val r = testMobile(model!!, LibTestsXmlCommon.ps)
+        val r = testMobile(model, LibTestsXmlCommon.ps)
         assertEquals(1, r[0].toLong())
         assertEquals(1, r[1].toLong())
         assertEquals(1, r[2].toLong())
@@ -35,7 +35,7 @@ class TestsXmlModelKeys {
 
     @Test
     fun testMobileNoPronunciation() {
-        val r = testMobileNoPronunciation(model!!, LibTestsXmlCommon.ps)
+        val r = testMobileNoPronunciation(model, LibTestsXmlCommon.ps)
         assertEquals(1, r[0].toLong())
         assertEquals(1, r[1].toLong())
         assertEquals(2, r[2].toLong())
@@ -45,7 +45,7 @@ class TestsXmlModelKeys {
 
     @Test
     fun testEarthMulti() {
-        val r = testEarthMulti(model!!, LibTestsXmlCommon.ps)
+        val r = testEarthMulti(model, LibTestsXmlCommon.ps)
         assertEquals(1, r[0].toLong())
         assertEquals(1, r[1].toLong())
         assertEquals(2, r[2].toLong())
@@ -55,7 +55,7 @@ class TestsXmlModelKeys {
 
     @Test
     fun testEarthMono() {
-        val r = testEarthMono(model!!, LibTestsXmlCommon.ps)
+        val r = testEarthMono(model, LibTestsXmlCommon.ps)
         assertEquals(1, r[0].toLong())
         assertEquals(1, r[1].toLong())
         assertEquals(1, r[2].toLong())
@@ -65,7 +65,7 @@ class TestsXmlModelKeys {
 
     @Test
     fun testBaroqueMulti() {
-        val r = testBaroqueMulti(model!!, LibTestsXmlCommon.ps)
+        val r = testBaroqueMulti(model, LibTestsXmlCommon.ps)
         assertEquals(1, r[0].toLong())
         assertEquals(1, r[1].toLong())
         assertEquals(2, r[2].toLong())
@@ -87,7 +87,7 @@ class TestsXmlModelKeys {
 
     @Test
     fun testBaroqueMono() {
-        val r = testBaroqueMono(model!!, LibTestsXmlCommon.ps)
+        val r = testBaroqueMono(model, LibTestsXmlCommon.ps)
         assertEquals(1, r[0].toLong())
         assertEquals(1, r[1].toLong())
         assertEquals(1, r[2].toLong())
@@ -109,7 +109,7 @@ class TestsXmlModelKeys {
 
     @Test
     fun testCriticalMulti() {
-        val r = testCriticalMulti(model!!, LibTestsXmlCommon.ps)
+        val r = testCriticalMulti(model, LibTestsXmlCommon.ps)
         assertEquals(1, r[0].toLong())
         assertEquals(1, r[1].toLong())
         assertEquals(0, r[2].toLong())
@@ -119,7 +119,7 @@ class TestsXmlModelKeys {
 
     @Test
     fun testCriticalMono() {
-        val r = testCriticalMono(model!!, LibTestsXmlCommon.ps)
+        val r = testCriticalMono(model, LibTestsXmlCommon.ps)
         assertEquals(1, r[0].toLong())
         assertEquals(1, r[1].toLong())
         assertEquals(0, r[2].toLong())
@@ -168,8 +168,7 @@ class TestsXmlModelKeys {
         @JvmStatic
         @BeforeClass
         fun init() {
-            LibTestsXmlCommon.init()
-            checkNotNull(model)
+            model
         }
     }
 }
