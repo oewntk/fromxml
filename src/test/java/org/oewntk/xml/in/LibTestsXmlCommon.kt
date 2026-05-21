@@ -14,24 +14,17 @@ object LibTestsXmlCommon {
 
     val ps: PrintStream = if (!System.getProperties().containsKey("SILENT")) Tracing.psInfo else Tracing.psNull
 
-    var model: CoreModel? = null
-
-    fun init() {
-        if (model == null) {
-            if (source == null) {
-                Tracing.psErr.println("Define XML source file dir with -DSOURCE=path")
-                Tracing.psErr.println("When running Maven tests, define the oewn.xml file in a xml directory that is child to the project directory.")
-                Assert.fail()
-            }
-            val file = File(source!!)
-            Tracing.psInfo.printf("source=%s%n", file.absolutePath)
-            if (!file.exists()) {
-                Tracing.psErr.println("Define XML source dir that exists")
-                Assert.fail()
-            }
-
-            model = CoreFactory(file).get()
+    val model: CoreModel by lazy {
+        if (source == null) {
+            Tracing.psErr.println("Define serialized source file dir with -DSOURCE=path")
+            throw AssertionError("SOURCE not defined")
         }
-        checkNotNull(model)
+        val inDir = File(source)
+        Tracing.psInfo.printf("source=%s%n", inDir.absolutePath)
+        if (!inDir.exists()) {
+            Tracing.psErr.println("Define YAML source dir that exists")
+            Assert.fail()
+        }
+        CoreFactory(inDir).get()!!
     }
 }
