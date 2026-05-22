@@ -21,6 +21,7 @@ import javax.xml.xpath.XPathExpressionException
 class Factory(
     private val file: File,
     private val inDir2: File,
+    val verbose: Boolean = false
 ) : Supplier<Model?> {
 
     override fun get(): Model? {
