@@ -173,7 +173,7 @@ open class Parser(
             ?.mapValues { it.value.map { it2 -> it2.second }.toMutableSet() }
             ?.toMutableMap()
 
-        return Synset(synsetId, type, domain, members, definitions, examples, usages, relations, ili, wikidata)
+        return Synset(synsetId, SynsetType.fromChar(type), domain, members, definitions, examples, usages, relations, ili, wikidata)
     }
 
     /**
@@ -230,7 +230,7 @@ open class Parser(
     private fun getSenses(lexElement: Element, lex: Lex): List<Sense> {
         val senseSeq = XmlUtils.sequenceOf(lexElement.getElementsByTagName(XmlNames.SENSE_TAG))!!
         return senseSeq.withIndex()
-            .map { getSense(it.value, lex, lex.type, it.index) }
+            .map { getSense(it.value, lex, lex.type.value, it.index) }
             .toList()
     }
 
@@ -281,7 +281,7 @@ open class Parser(
         // adj position
         val adjPosition = adjPositionAttr.ifEmpty { null }
 
-        return Sense(sensekey, lex, type, n, synsetId, examples, verbFrames, adjPosition, relations)
+        return Sense(sensekey, lex, SynsetType.fromChar(type), n, synsetId, examples, verbFrames, adjPosition, relations)
     }
 
     companion object {
