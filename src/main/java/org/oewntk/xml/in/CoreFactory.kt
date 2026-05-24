@@ -19,6 +19,7 @@ import javax.xml.xpath.XPathExpressionException
  */
 class CoreFactory(
     private val parser: Parser,
+    private val verbose: Boolean = false
 ) : Supplier<CoreModel?> {
 
     /**

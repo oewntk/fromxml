@@ -21,7 +21,7 @@ import javax.xml.xpath.XPathExpressionException
 class Factory(
     private val file: File,
     private val inDir2: File,
-    val verbose: Boolean = false
+    private val verbose: Boolean = false
 ) : Supplier<Model?> {
 
     override fun get(): Model? {
@@ -65,9 +65,15 @@ class Factory(
          * @return model
          */
         private fun makeModel(args: Array<String>): Model? {
-            val inDir = File(args[0])
-            val inDir2 = File(args[1])
-            return Factory(inDir, inDir2).get()
+            var iArg = 0
+            var verbose = false
+            if (args[iArg] == "-verbose") {
+                verbose = true
+                iArg++
+            }
+            val inDir = File(args[iArg])
+            val inDir2 = File(args[iArg + 1])
+            return Factory(inDir, inDir2, verbose = verbose).get()
         }
 
         /**
