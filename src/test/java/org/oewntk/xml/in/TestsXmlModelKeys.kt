@@ -19,33 +19,41 @@ import org.oewntk.model.LibTestModelKeys.testMobileNoPronunciation
 import org.oewntk.model.LibTestModelKeys.testRowDeep
 import org.oewntk.model.LibTestModelKeys.testRowShallow
 import org.oewntk.xml.`in`.LibTestsXmlCommon.model
+import org.oewntk.xml.`in`.LibTestsXmlCommon.ps
 
 class TestsXmlModelKeys {
 
+    val properNouns = false
+    val inc = if (properNouns) 1L else 0L
+
+    // The expected results of is tests depends on the inclusion of proper nouns.
+    // (Mobile, the town, is then included)
     @Test
     fun testMobile() {
-        val r = testMobile(model, LibTestsXmlCommon.ps)
-        assertEquals(1, r[0].toLong())
-        assertEquals(1, r[1].toLong())
+        val r = testMobile(model, ps)
+        assertEquals(0 + inc, r[0].toLong())
+        assertEquals(0 + inc, r[1].toLong())
         assertEquals(1, r[2].toLong())
-        assertEquals(2, r[3].toLong())
-        assertEquals(2, r[4].toLong())
+        assertEquals(1 + inc, r[3].toLong())
+        assertEquals(1 + inc, r[4].toLong())
         assertEquals(5, r.size.toLong())
     }
 
+    // The expected results of is tests depends on the inclusion of proper nouns.
+    // (Mobile, the town, is then included)
     @Test
     fun testMobileNoPronunciation() {
-        val r = testMobileNoPronunciation(model, LibTestsXmlCommon.ps)
-        assertEquals(1, r[0].toLong())
+        val r = testMobileNoPronunciation(model, ps)
+        assertEquals(0 + inc, r[0].toLong())
         assertEquals(1, r[1].toLong())
-        assertEquals(2, r[2].toLong())
-        assertEquals(2, r[3].toLong())
+        assertEquals(1 + inc, r[2].toLong())
+        assertEquals(1 + inc, r[3].toLong())
         assertEquals(4, r.size.toLong())
     }
 
     @Test
     fun testEarthMulti() {
-        val r = testEarthMulti(model, LibTestsXmlCommon.ps)
+        val r = testEarthMulti(model, ps)
         assertEquals(1, r[0].toLong())
         assertEquals(1, r[1].toLong())
         assertEquals(2, r[2].toLong())
@@ -55,7 +63,7 @@ class TestsXmlModelKeys {
 
     @Test
     fun testEarthMono() {
-        val r = testEarthMono(model, LibTestsXmlCommon.ps)
+        val r = testEarthMono(model, ps)
         assertEquals(1, r[0].toLong())
         assertEquals(1, r[1].toLong())
         assertEquals(1, r[2].toLong())
@@ -65,7 +73,7 @@ class TestsXmlModelKeys {
 
     @Test
     fun testBaroqueMulti() {
-        val r = testBaroqueMulti(model, LibTestsXmlCommon.ps)
+        val r = testBaroqueMulti(model, ps)
         assertEquals(1, r[0].toLong())
         assertEquals(1, r[1].toLong())
         assertEquals(2, r[2].toLong())
@@ -87,7 +95,7 @@ class TestsXmlModelKeys {
 
     @Test
     fun testBaroqueMono() {
-        val r = testBaroqueMono(model, LibTestsXmlCommon.ps)
+        val r = testBaroqueMono(model, ps)
         assertEquals(1, r[0].toLong())
         assertEquals(1, r[1].toLong())
         assertEquals(1, r[2].toLong())
@@ -109,7 +117,7 @@ class TestsXmlModelKeys {
 
     @Test
     fun testCriticalMulti() {
-        val r = testCriticalMulti(model, LibTestsXmlCommon.ps)
+        val r = testCriticalMulti(model, ps)
         assertEquals(1, r[0].toLong())
         assertEquals(1, r[1].toLong())
         assertEquals(0, r[2].toLong())
@@ -119,7 +127,7 @@ class TestsXmlModelKeys {
 
     @Test
     fun testCriticalMono() {
-        val r = testCriticalMono(model, LibTestsXmlCommon.ps)
+        val r = testCriticalMono(model, ps)
         assertEquals(1, r[0].toLong())
         assertEquals(1, r[1].toLong())
         assertEquals(0, r[2].toLong())
@@ -129,7 +137,7 @@ class TestsXmlModelKeys {
 
     @Test
     fun testBassDeep() {
-        val r = testBassDeep(model, LibTestsXmlCommon.ps)
+        val r = testBassDeep(model, ps)
         assertEquals(1, r[0].toLong())
         assertEquals(1, r[1].toLong())
         assertEquals(2, r[2].toLong())
@@ -138,7 +146,7 @@ class TestsXmlModelKeys {
 
     @Test
     fun testBassShallow() {
-        val r = testBassShallow(model, LibTestsXmlCommon.ps)
+        val r = testBassShallow(model, ps)
         assertEquals(0, r[0].toLong())
         assertEquals(0, r[1].toLong())
         assertEquals(2, r[2].toLong())
@@ -147,7 +155,7 @@ class TestsXmlModelKeys {
 
     @Test
     fun testRowDeep() {
-        val r = testRowDeep(model, LibTestsXmlCommon.ps)
+        val r = testRowDeep(model, ps)
         assertEquals(1, r[0].toLong())
         assertEquals(1, r[1].toLong())
         assertEquals(2, r[2].toLong())
@@ -156,7 +164,7 @@ class TestsXmlModelKeys {
 
     @Test
     fun testRowShallow() {
-        val r = testRowShallow(model, LibTestsXmlCommon.ps)
+        val r = testRowShallow(model, ps)
         assertEquals(0, r[0].toLong())
         assertEquals(0, r[1].toLong())
         assertEquals(2, r[2].toLong())
