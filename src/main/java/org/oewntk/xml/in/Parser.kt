@@ -281,7 +281,7 @@ open class Parser(
         // adj position
         val adjPosition = adjPositionAttr.ifEmpty { null }
 
-        return Sense(sensekey, lex.key, SynsetType.fromChar(type), n, synsetId, examples, verbFrames, adjPosition, relations)
+        return Sense(sensekey, lex.key, synsetId, SynsetType.fromChar(type), n, examples, verbFrames, adjPosition, relations)
     }
 
     companion object {
