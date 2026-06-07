@@ -29,7 +29,7 @@ class Factory(
             val parser = Parser(file)
             val coreModel = CoreFactory(parser).get() ?: return null
             val verbFrames = parser.parseVerbFrames()
-            val verbTemplates = VerbTemplateParser(File(inDir2, "verbTemplates.xml")).parse()
+            val verbTemplates = VerbTemplateParser(File(inDir2, "templates.xml")).parse()
             val senseToVerbTemplates = SenseToVerbTemplatesParser(File(inDir2, "senseToVerbTemplates.xml")).parse()
 
             // tag counts
