@@ -67,7 +67,7 @@ class Factory(
         private fun makeModel(args: Array<String>): Model? {
             var iArg = 0
             var verbose = false
-            if (args[iArg] == "-verbose") {
+            if (args[iArg] == "--verbose") {
                 verbose = true
                 iArg++
             }
