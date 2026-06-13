@@ -125,8 +125,8 @@ open class Parser(
 
         // members
         val memberIds = synsetElement.getAttribute(XmlNames.MEMBERS_ATTR).split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        val members: Array<String> = memberIds
-            .map { lexesById[it]!!.lemma }.toTypedArray()
+        val members: Set<String> = memberIds
+            .map { lexesById[it]!!.lemma }.toSet()
 
         // lexfile
         // String domain = synsetElement.getAttributeNS(XmlNames.NS_DC, XmlNames.LEXFILE_ATTR).split("\\.")[1];
@@ -137,7 +137,6 @@ open class Parser(
         val definitions = definitionSeq
             .map { it.textContent!! }
             .toList()
-            .toTypedArray()
 
         // examples
         val exampleSeq = XmlUtils.sequenceOf(synsetElement.getElementsByTagName(XmlNames.EXAMPLE_TAG))
@@ -147,14 +146,12 @@ open class Parser(
                 it.textContent as String to source.ifEmpty { null }
             }
             ?.toList()
-            ?.toTypedArray()
 
         // examples
         val usageSeq = XmlUtils.sequenceOf(synsetElement.getElementsByTagName(XmlNames.USAGE_TAG))
         val usages = usageSeq
             ?.map { it.textContent as String }
             ?.toList()
-            ?.toTypedArray()
 
         // ili
         val ili = synsetElement.getAttribute(XmlNames.ILI_ATTR)
@@ -230,7 +227,7 @@ open class Parser(
     private fun getSenses(lexElement: Element, lex: Lex): List<Sense> {
         val senseSeq = XmlUtils.sequenceOf(lexElement.getElementsByTagName(XmlNames.SENSE_TAG))!!
         return senseSeq.withIndex()
-            .map { getSense(it.value, lex, lex.type.value, it.index) }
+            .map { getSense(it.value, lex, it.index) }
             .toList()
     }
 
@@ -239,11 +236,10 @@ open class Parser(
      *
      * @param senseElement sense element
      * @param lex          lex
-     * @param type         synset type
      * @param index        index of sense in lex
      * @return sense
      */
-    private fun getSense(senseElement: Element, lex: Lex, type: Char, index: Int): Sense {
+    private fun getSense(senseElement: Element, lex: Lex, index: Int): Sense {
         // attributes
         val id = senseElement.getAttribute(XmlNames.ID_ATTR)
         val nAttr = senseElement.getAttribute(XmlNames.N_ATTR)
@@ -265,7 +261,6 @@ open class Parser(
                 it.textContent as String to source.ifEmpty { null }
             }
             ?.toList()
-            ?.toTypedArray()
 
         // relations
         val relationStream = XmlUtils.sequenceOf(senseElement.getElementsByTagName(XmlNames.SENSERELATION_TAG))
@@ -276,7 +271,7 @@ open class Parser(
             ?.toMutableMap()
 
         // verb frames
-        val verbFrames = if (verbFramesAttr.isEmpty()) null else verbFramesAttr.split("\\s".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        val verbFrames = if (verbFramesAttr.isEmpty()) null else verbFramesAttr.split("\\s".toRegex()).dropLastWhile { it.isEmpty() }.toList()
 
         // adj position
         val adjPosition = adjPositionAttr.ifEmpty { null }

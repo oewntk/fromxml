@@ -28,15 +28,15 @@ class SenseToVerbTemplatesParser(
      * @throws XPathExpressionException xpath expression exception
      */
     @Throws(XPathExpressionException::class)
-    fun parse(): Collection<Pair<String, Array<Int>>> {
+    fun parse(): Collection<Pair<String, List<Int>>> {
         val verbTemplatesSeq = XmlUtils.sequenceOf(XmlUtils.getXPathNodeList(SENSES_VERBTEMPLATES_XPATH, doc))!!
         return verbTemplatesSeq
             .map {
                 val sensekey = it.getAttribute(SENSEKEY_ATTR)
                 val idAttrs = it.getAttribute(VERB_TEMPLATES_ATTR).split(",".toRegex()).dropLastWhile { it2 -> it2.isEmpty() }.toTypedArray()
                 val ids = idAttrs
-                    .map { it2 -> it2.toInt() }
-                    .toTypedArray()
+                    .map(String::toInt)
+                    .toList()
                 Pair(sensekey, ids)
             }
             .toList()
