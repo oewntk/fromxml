@@ -40,17 +40,17 @@ open class Parser(
     /**
      * Result lexes
      */
-    private val lexes: MutableCollection<Lex> = ArrayList()
+    private val lexes: MutableSet<Lex> = LinkedHashSet()
 
     /**
      * Result senses
      */
-    private val senses: MutableCollection<Sense> = ArrayList()
+    private val senses: MutableSet<Sense> = LinkedHashSet()
 
     /**
      * Result synsets
      */
-    private val synsets: MutableCollection<Synset> = ArrayList()
+    private val synsets: MutableSet<Synset> = LinkedHashSet()
 
     /**
      * Intermediate lex id to lemma
@@ -99,7 +99,7 @@ open class Parser(
      * @throws XPathExpressionException XPath expression exception
      */
     @Throws(XPathExpressionException::class)
-    fun parseVerbFrames(): Collection<VerbFrame> {
+    fun parseVerbFrames(): Set<VerbFrame> {
         val verbFramesSeq = XmlUtils.sequenceOf(getXPathNodeList(VERBFRAMES_XPATH, doc))!!
         return verbFramesSeq
             .map {
@@ -107,7 +107,7 @@ open class Parser(
                 val frame = it.getAttribute(XmlNames.VERBFRAME_ATTR)
                 VerbFrame(id, frame)
             }
-            .toList()
+            .toSet()
     }
 
     /**
