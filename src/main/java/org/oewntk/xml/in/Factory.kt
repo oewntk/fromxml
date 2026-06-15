@@ -20,14 +20,14 @@ import javax.xml.xpath.XPathExpressionException
  */
 class Factory(
     private val file: File,
-    private val inDir2: File,
+    private val inDir2: File?,
     private val verbose: Boolean = false
 ) : Supplier<Model?> {
 
     override fun get(): Model? {
         try {
             val parser = Parser(file)
-            val coreModel = CoreFactory(parser).get() ?: return null
+            val coreModel = CoreFactory(parser, verbose = verbose).get() ?: return null
             val verbFrames = parser.parseVerbFrames()
             val verbTemplates = VerbTemplateParser(File(inDir2, "templates.xml")).parse()
             val senseToVerbTemplates = SenseToVerbTemplatesParser(File(inDir2, "senseToVerbTemplates.xml")).parse()
@@ -38,7 +38,7 @@ class Factory(
             return Model(coreModel, verbFrames, verbTemplates, senseToVerbTemplates, senseToTagCounts)
                 .apply {
                     source = file.absolutePath
-                    source2 = inDir2.absolutePath
+                    source2 = inDir2?.absolutePath
                 }
 
         } catch (e: IOException) {
@@ -72,7 +72,8 @@ class Factory(
                 iArg++
             }
             val inDir = File(args[iArg])
-            val inDir2 = File(args[iArg + 1])
+            iArg++
+            val inDir2 = if (iArg < args.size) File(args[iArg]) else null
             return Factory(inDir, inDir2, verbose = verbose).get()
         }
 
