@@ -28,7 +28,7 @@ class VerbTemplateParser(
      * @throws XPathExpressionException xpath expression exception
      */
     @Throws(XPathExpressionException::class)
-    fun parse(): Set<VerbTemplate> {
+    fun parse(): List<VerbTemplate> {
         val verbTemplatesSeq = XmlUtils.sequenceOf(getXPathNodeList(VERBTEMPLATES_XPATH, doc))!!
         return verbTemplatesSeq
             .map {
@@ -37,7 +37,7 @@ class VerbTemplateParser(
                 val template = it.textContent
                 VerbTemplate(id, template)
             }
-            .toSet()
+            .toList()
     }
 
     companion object {
