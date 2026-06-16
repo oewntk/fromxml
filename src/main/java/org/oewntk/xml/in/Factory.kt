@@ -3,6 +3,7 @@
  */
 package org.oewntk.xml.`in`
 
+import org.oewntk.model.Injector
 import org.oewntk.model.Model
 import org.oewntk.model.ModelInfo
 import org.xml.sax.SAXException
@@ -35,7 +36,7 @@ class Factory(
             // tag counts
             val senseToTagCounts = SenseToTagCountsParser(File(inDir2, "senseToTagCounts.xml")).parse()
 
-            return Model(coreModel, verbFrames, verbTemplates, senseToVerbTemplates, senseToTagCounts)
+            return Model(coreModel, verbFrames, verbTemplates, Injector(senseToVerbTemplates, senseToTagCounts))
                 .apply {
                     source = file.absolutePath
                     source2 = inDir2?.absolutePath
@@ -66,15 +67,10 @@ class Factory(
          */
         private fun makeModel(args: Array<String>): Model? {
             var iArg = 0
-            var verbose = false
-            if (args[iArg] == "--verbose") {
-                verbose = true
-                iArg++
-            }
             val inDir = File(args[iArg])
             iArg++
             val inDir2 = if (iArg < args.size) File(args[iArg]) else null
-            return Factory(inDir, inDir2, verbose = verbose).get()
+            return Factory(inDir, inDir2).get()
         }
 
         /**
