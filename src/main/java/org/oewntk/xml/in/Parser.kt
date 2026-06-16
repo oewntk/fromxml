@@ -280,7 +280,7 @@ open class Parser(
             sensekey, lex.key, synsetId,
             indexInLex = n,
             examples = examples,
-            verbFrames = verbFrames,
+            verbFrames = verbFrames?.toSet(),
             adjPosition = adjPosition,
             relations = relations
         )
