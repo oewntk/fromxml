@@ -43,8 +43,8 @@ internal object XmlUtils {
         builderFactory.isNamespaceAware = true
 
         // for DTD-based
-        builderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false)
-        builderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
+        builderFactory.setFeature("https://apache.org/xml/features/nonvalidating/load-dtd-grammar", false)
+        builderFactory.setFeature("https://apache.org/xml/features/nonvalidating/load-external-dtd", false)
 
         builderFactory.isValidating = withSchema
         if (withSchema) {
