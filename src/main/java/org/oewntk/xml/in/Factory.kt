@@ -67,10 +67,15 @@ class Factory(
          */
         private fun makeModel(args: Array<String>): Model? {
             var iArg = 0
+            var verbose = false
+            if (args[iArg] == "--verbose") {
+                verbose = true
+                iArg++
+            }
             val inDir = File(args[iArg])
             iArg++
             val inDir2 = if (iArg < args.size) File(args[iArg]) else null
-            return Factory(inDir, inDir2).get()
+            return Factory(inDir, inDir2, verbose = verbose).get()
         }
 
         /**
