@@ -143,7 +143,7 @@ open class Parser(
         val examples = exampleSeq
             ?.map {
                 val source = it.getAttribute(XmlNames.EXAMPLE_SOURCE_ATTR)
-                it.textContent as String to source.ifEmpty { null }
+                Example(it.textContent as String, source.ifEmpty { null })
             }
             ?.toList()
 
@@ -258,7 +258,7 @@ open class Parser(
         val examples = exampleSeq
             ?.map {
                 val source = it.getAttribute(XmlNames.EXAMPLE_SOURCE_ATTR)
-                it.textContent as String to source.ifEmpty { null }
+                Example(it.textContent as String, source.ifEmpty { null })
             }
             ?.toList()
 
