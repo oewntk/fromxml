@@ -3,6 +3,7 @@
  */
 package org.oewntk.xml.`in`
 
+import org.oewntk.model.SenseKey
 import org.w3c.dom.Document
 import java.io.File
 import javax.xml.xpath.XPathExpressionException
@@ -28,16 +29,16 @@ class SenseToVerbTemplatesParser(
      * @throws XPathExpressionException xpath expression exception
      */
     @Throws(XPathExpressionException::class)
-    fun parse(): Collection<Pair<String, List<Int>>> {
+    fun parse(): Collection<Pair<SenseKey, List<Int>>> {
         val verbTemplatesSeq = XmlUtils.sequenceOf(XmlUtils.getXPathNodeList(SENSES_VERBTEMPLATES_XPATH, doc))!!
         return verbTemplatesSeq
             .map {
-                val sensekey = it.getAttribute(SENSEKEY_ATTR)
+                val senseKey = SenseKey(it.getAttribute(SENSEKEY_ATTR))
                 val idAttrs = it.getAttribute(VERB_TEMPLATES_ATTR).split(",".toRegex()).dropLastWhile { it2 -> it2.isEmpty() }.toTypedArray()
                 val ids = idAttrs
                     .map(String::toInt)
                     .toList()
-                Pair(sensekey, ids)
+                Pair(senseKey, ids)
             }
             .toList()
     }

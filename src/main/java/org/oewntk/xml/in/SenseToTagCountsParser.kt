@@ -3,6 +3,7 @@
  */
 package org.oewntk.xml.`in`
 
+import org.oewntk.model.SenseKey
 import org.oewntk.model.TagCount
 import org.oewntk.xml.`in`.XmlUtils.getDocument
 import org.oewntk.xml.`in`.XmlUtils.getXPathNodeList
@@ -28,15 +29,15 @@ class SenseToTagCountsParser(
      * @throws XPathExpressionException xpath expression exception
      */
     @Throws(XPathExpressionException::class)
-    fun parse(): Collection<Pair<String, TagCount>> {
+    fun parse(): Collection<Pair<SenseKey, TagCount>> {
         val tagCountSeq = XmlUtils.sequenceOf(getXPathNodeList(SENSES_TAGCOUNTS_XPATH, doc))!!
         return tagCountSeq
             .map {
-                val sensekey = it.getAttribute(SENSEKEY_ATTR)
+                val senseKey = SenseKey(it.getAttribute(SENSEKEY_ATTR))
                 val senseNumAttr = it.getAttribute(SENSENUM_ATTR)
                 val tagCntAttr = it.getAttribute(TAGCOUNT_ATTR)
                 val tagCount = TagCount(senseNumAttr.toInt(), tagCntAttr.toInt())
-                Pair<String, TagCount>(sensekey, tagCount)
+                Pair<SenseKey, TagCount>(senseKey, tagCount)
             }
             .toList()
     }

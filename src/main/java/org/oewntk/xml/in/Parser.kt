@@ -118,7 +118,7 @@ open class Parser(
      */
     private fun getSynset(synsetElement: Element): Synset {
         // id
-        val synsetId = synsetElement.getAttribute(XmlNames.ID_ATTR)
+        val synsetId = SynsetId(synsetElement.getAttribute(XmlNames.ID_ATTR))
 
         // type
         val type = synsetElement.getAttribute(XmlNames.POS_ATTR)[0]
@@ -167,7 +167,7 @@ open class Parser(
         val relations = relationSeq
             ?.map { it.getAttribute(XmlNames.RELTYPE_ATTR) to it.getAttribute(XmlNames.TARGET_ATTR) }
             ?.groupBy { it.first }
-            ?.mapValues { it.value.map { it2 -> it2.second }.toMutableSet() }
+            ?.mapValues { it.value.map { it2 -> SynsetId(it2.second) }.toMutableSet() }
             ?.toMutableMap()
 
         return Synset(synsetId, SynsetType.fromChar(type), domain, members, definitions, examples, usages, relations, ili, wikidata)
@@ -189,7 +189,7 @@ open class Parser(
         val lexSensekeySeq = XmlUtils.sequenceOf(lexElement.getElementsByTagName(XmlNames.SENSE_TAG))!!
         val lexSensekeys = lexSensekeySeq
             .map { it.getAttribute(XmlNames.ID_ATTR) }
-            .map { toSensekey(it) }
+            .map { SenseKey(toSensekey(it)) }
             .toMutableList()
 
         // morphs
@@ -248,7 +248,7 @@ open class Parser(
         val adjPositionAttr = senseElement.getAttribute(XmlNames.ADJPOSITION_ATTR)
 
         // sensekey
-        val sensekey = toSensekey(id)
+        val sensekey = SenseKey(toSensekey(id))
 
         // n
         val n = if (nAttr.isEmpty()) index else nAttr.toInt()
@@ -267,7 +267,7 @@ open class Parser(
         val relations = relationStream
             ?.map { it.getAttribute(XmlNames.RELTYPE_ATTR) to toSensekey(it.getAttribute(XmlNames.TARGET_ATTR)) }
             ?.groupBy { it.first }
-            ?.mapValues { it.value.map { it2 -> it2.second }.toMutableSet() }
+            ?.mapValues { it.value.map { it2 -> SenseKey(it2.second) }.toMutableSet() }
             ?.toMutableMap()
 
         // verb frames
@@ -277,7 +277,7 @@ open class Parser(
         val adjPosition = adjPositionAttr.ifEmpty { null }
 
         return Sense(
-            sensekey, lex.key, synsetId,
+            sensekey, lex.key, SynsetId(synsetId),
             indexInLex = n,
             examples = examples,
             verbFrames = verbFrames?.toSet(),
