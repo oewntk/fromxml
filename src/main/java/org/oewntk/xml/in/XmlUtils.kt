@@ -43,8 +43,10 @@ internal object XmlUtils {
         builderFactory.isNamespaceAware = true
 
         // for DTD-based
-        builderFactory.setFeature("https://apache.org/xml/features/nonvalidating/load-dtd-grammar", false)
-        builderFactory.setFeature("https://apache.org/xml/features/nonvalidating/load-external-dtd", false)
+        builderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false)
+        builderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
+        // completely disables DOCTYPE declarations (blocks XXE universally)
+        // builderFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
 
         builderFactory.isValidating = withSchema
         if (withSchema) {
