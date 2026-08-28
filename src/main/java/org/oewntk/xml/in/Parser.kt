@@ -241,9 +241,9 @@ open class Parser(
      */
     private fun getSense(senseElement: Element, lex: Lex, index: Int): Sense {
         // attributes
-        val id = senseElement.getAttribute(XmlNames.ID_ATTR)
+        val id = senseElement.getAttribute(XmlNames.ID_ATTR).removePrefix(ID_PREFIX)
         val nAttr = senseElement.getAttribute(XmlNames.N_ATTR)
-        val synsetId = senseElement.getAttribute(XmlNames.SYNSET_ATTR)
+        val synsetId = senseElement.getAttribute(XmlNames.SYNSET_ATTR).removePrefix(ID_PREFIX)
         val verbFramesAttr = senseElement.getAttribute(XmlNames.VERBFRAMES_ATTR)
         val adjPositionAttr = senseElement.getAttribute(XmlNames.ADJPOSITION_ATTR)
 
@@ -287,6 +287,8 @@ open class Parser(
     }
 
     companion object {
+
+        const val ID_PREFIX = "oewn-"
 
         /**
          * XPath for lex elements
