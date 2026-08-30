@@ -167,7 +167,8 @@ open class Parser(
         val relations = relationSeq
             ?.map { it.getAttribute(XmlNames.RELTYPE_ATTR) to it.getAttribute(XmlNames.TARGET_ATTR) }
             ?.groupBy { it.first }
-            ?.mapValues { it.value.map { it2 -> SynsetId(it2.second) }.toMutableSet() }
+            ?.mapKeys { (rel, _) -> Relation(rel) }
+            ?.mapValues { (_, targetIds) -> targetIds.map { SynsetId(it.second) }.toMutableSet() }
             ?.toMutableMap()
 
         return Synset(synsetId, SynsetType.fromChar(type), domain, members, definitions, examples, usages, relations, ili, wikidata)
@@ -267,7 +268,8 @@ open class Parser(
         val relations = relationStream
             ?.map { it.getAttribute(XmlNames.RELTYPE_ATTR) to toSensekey(it.getAttribute(XmlNames.TARGET_ATTR)) }
             ?.groupBy { it.first }
-            ?.mapValues { it.value.map { it2 -> SenseKey(it2.second) }.toMutableSet() }
+            ?.mapKeys { (rel, _) -> Relation(rel) }
+            ?.mapValues { (_, targetIds) -> targetIds.map { SenseKey(it.second) }.toMutableSet() }
             ?.toMutableMap()
 
         // verb frames
