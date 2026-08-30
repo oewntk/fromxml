@@ -202,7 +202,7 @@ open class Parser(
         // pronunciations
         val pronunciationSeq = XmlUtils.sequenceOf(lexElement.getElementsByTagName(XmlNames.PRONUNCIATION_TAG))
         val pronunciations = pronunciationSeq
-            ?.map { Pronunciation(it.textContent, it.getAttribute(XmlNames.VARIETY_ATTR).ifEmpty { null }) }
+            ?.map { Pronunciation(PronunciationValue(it.textContent), it.getAttribute(XmlNames.VARIETY_ATTR).ifEmpty { null }) }
             ?.toList()
             ?.toSet() // preserves order (LinkedHashSet)
 
