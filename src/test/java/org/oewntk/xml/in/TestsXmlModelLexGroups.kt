@@ -5,6 +5,7 @@ package org.oewntk.xml.`in`
 
 import org.junit.BeforeClass
 import org.junit.Test
+import org.oewntk.model.Key2
 import org.oewntk.model.Lemma
 import org.oewntk.model.Lex
 import org.oewntk.model.Lex.Groups.groupByLCLemmaThenByKey2
@@ -27,59 +28,59 @@ class TestsXmlModelLexGroups {
 
     @Test
     fun testCILemmas() {
-        testCILemmas(model, "battle of verdun", LibTestsXmlCommon.ps)
+        testCILemmas(model, Lemma("battle of verdun"), LibTestsXmlCommon.ps)
     }
 
     @Test
     fun testCICounts() {
-        testCICounts(model, "battle of verdun", LibTestsXmlCommon.ps)
+        testCICounts(model, Lemma("battle of verdun"), LibTestsXmlCommon.ps)
     }
 
     @Test
     fun testCICountsFromMap() {
-        testCICountsFromMap(model, "battle of verdun", LibTestsXmlCommon.ps)
+        testCICountsFromMap(model, Lemma("battle of verdun"), LibTestsXmlCommon.ps)
     }
 
     @Test
     fun testCIAi() {
-        testCILexesFor(model, "ai", LibTestsXmlCommon.ps)
+        testCILexesFor(model, Lemma("ai"), LibTestsXmlCommon.ps)
     }
 
     @Test
     fun testCIBaroque() {
-        testCILexesFor(model, "baroque", LibTestsXmlCommon.ps)
+        testCILexesFor(model, Lemma("baroque"), LibTestsXmlCommon.ps)
     }
 
     @Test
     fun testCIWest3() {
-        testCILexesFor3(model, "West", LibTestsXmlCommon.ps)
+        testCILexesFor3(model, Lemma("West"), LibTestsXmlCommon.ps)
     }
 
     @Test
     fun testCIBaroque3() {
-        testCILexesFor3(model, "Baroque", LibTestsXmlCommon.ps)
+        testCILexesFor3(model, Lemma("Baroque"), LibTestsXmlCommon.ps)
     }
 
     @Test
     fun testCIAi3() {
-        testCILexesFor3(model, "Ai", LibTestsXmlCommon.ps)
+        testCILexesFor3(model, Lemma("Ai"), LibTestsXmlCommon.ps)
     }
 
     @Test
     fun testCIAbsolute3() {
-        testCILexesFor3(model, "Absolute", LibTestsXmlCommon.ps)
+        testCILexesFor3(model, Lemma("Absolute"), LibTestsXmlCommon.ps)
     }
 
-    private val lexLCHyperMap: Map<LowerCasedLemma, Map<Lemma, Collection<Lex>>> by lazy { model.lexes.asSequence().groupByLCLemmaThenByKey2() }
+    private val lexLCHyperMap: Map<Lemma, Map<Key2, Collection<Lex>>> by lazy { model.lexes.asSequence().groupByLCLemmaThenByKey2() }
 
     @Test
     fun testCIHypermapWest() {
-        testCIHypermap(lexLCHyperMap, "west", LibTestsXmlCommon.ps)
+        testCIHypermap(lexLCHyperMap, Lemma("west"), LibTestsXmlCommon.ps)
     }
 
     @Test
     fun testCIHypermapBaroque() {
-        testCIHypermap(lexLCHyperMap, "baroque", LibTestsXmlCommon.ps)
+        testCIHypermap(lexLCHyperMap, Lemma("baroque"), LibTestsXmlCommon.ps)
     }
 
     companion object {

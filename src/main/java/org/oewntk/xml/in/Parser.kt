@@ -125,8 +125,8 @@ open class Parser(
 
         // members
         val memberIds = synsetElement.getAttribute(XmlNames.MEMBERS_ATTR).split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        val members: Set<String> = memberIds
-            .map { lexesById[it]!!.lemma }.toSet()
+        val members: Set<Lemma> = memberIds
+            .map { Lemma(lexesById[it]!!.lemma.form) }.toSet()
 
         // lexfile
         // String domain = synsetElement.getAttributeNS(XmlNames.NS_DC, XmlNames.LEXFILE_ATTR).split("\\.")[1];
@@ -183,7 +183,7 @@ open class Parser(
     private fun getLex(lexElement: Element): Lex {
 
         val lemmaElement = getFirstChildElement(lexElement, XmlNames.LEMMA_TAG)
-        val lemma = lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR)
+        val lemma = Lemma(lemmaElement.getAttribute(XmlNames.WRITTENFORM_ATTR))
         val code = lemmaElement.getAttribute(XmlNames.POS_ATTR)
 
         // sensekeys
