@@ -37,7 +37,7 @@ class SenseToTagCountsParser(
                 val senseNumAttr = it.getAttribute(SENSENUM_ATTR)
                 val tagCntAttr = it.getAttribute(TAGCOUNT_ATTR)
                 val tagCount = TagCount(senseNumAttr.toInt(), tagCntAttr.toInt())
-                Pair<SenseKey, TagCount>(senseKey, tagCount)
+                Pair(senseKey, tagCount)
             }
             .toList()
     }
