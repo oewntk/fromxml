@@ -36,7 +36,7 @@ class Factory(
             // tag counts
             val senseToTagCounts = SenseToTagCountsParser(File(inDir2, "senseToTagCounts.xml")).parse()
 
-            return Model(coreModel, verbFrames, verbTemplates, Injector(senseToVerbTemplates, senseToTagCounts))
+            return Model(coreModel, verbFrames, verbTemplates, Injector(senseToVerbTemplates, senseToTagCounts), generatedInverses = coreModel.generatedInverses)
                 .apply {
                     source = file.absolutePath
                     source2 = inDir2?.absolutePath
